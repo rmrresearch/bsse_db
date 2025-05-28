@@ -1,4 +1,4 @@
-from utils import geometry, dimer_input
+from utils import geometry, dimer_input, monomer_input
 import os
 
 def test_geometry():
@@ -22,14 +22,14 @@ def test_dimer_input(tmp_path):
     output = f.read()
     expected_output = f_expected.read()
     assert output == expected_output
-def monomer_input(tmp_path):
+def test_monomer_input(tmp_path):
   geometry = [
     ['H 0.0 0.0 -1', 
     'F 0.0 0.0 0.0'],
     ['F 0.0 0.0 4',
     "H 0.0 0.0 5"]
   ]
-  dimer_input(geometry, os.path.join(tmp_path,"input_A.txt"), E_B_input = os.path.join(tmp_path,"input_B.txt"))
+  monomer_input(geometry, os.path.join(tmp_path,"input_A.txt"), os.path.join(tmp_path,"input_B.txt"))
   for monomer in ["A", "B"]:
     with open(os.path.join(tmp_path,f"input_{monomer}.txt"), "r") as f, open(f"test_assets/input_{monomer}.txt", "r") as f_expected:
       output = f.read()

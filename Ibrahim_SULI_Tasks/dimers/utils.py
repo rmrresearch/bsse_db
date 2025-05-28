@@ -24,7 +24,7 @@ def monomer_input(geometry, input_A, input_B):
     f.write("molecule HF {\n")
     for i, molecule in enumerate(geometry):
       for line in molecule:
-        f.write(f"  {line}\n" if i == 0 else f"  @{line}")
+        f.write(f"  {line}\n" if i == 0 else f"  @{line}\n")
       if i != len(geometry) - 1:
         f.write("  --\n")
     f.write("}\n")
@@ -37,12 +37,11 @@ def monomer_input(geometry, input_A, input_B):
     f.write("molecule HF {\n")
     for i, molecule in enumerate(geometry):
       for line in molecule:
-        f.write(f"  {line}\n" if i == 1 else f"  @{line}")
+        f.write(f"  {line}\n" if i == 1 else f"  @{line}\n")
       if i != len(geometry) - 1:
         f.write("  --\n")
     f.write("}\n")
     f.write("\n")
     f.write("set basis aug-cc-pVDZ\n")
     f.write("energy('ccsd(t)')\n")
-
     
