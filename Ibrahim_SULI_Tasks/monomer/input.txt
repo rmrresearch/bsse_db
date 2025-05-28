@@ -1,0 +1,9 @@
+memory 600 mb
+
+molecule HF {
+  H 
+  F 1 2
+}
+
+set basis aug-cc-pVDZ
+optimize('ccsd(t)')
