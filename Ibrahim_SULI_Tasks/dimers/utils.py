@@ -44,4 +44,11 @@ def monomer_input(geometry, input_A, input_B):
     f.write("\n")
     f.write("set basis aug-cc-pVDZ\n")
     f.write("energy('ccsd(t)')\n")
+def read_total_energy(file_path):
+  with open(file_path, "r") as f:
+    for line in f:
+      if "Total Energy =" in line:
+        return float(line.split()[-1])
+    raise ValueError(f"Total energy not found in {file_path}")
+
     
