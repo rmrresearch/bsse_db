@@ -50,5 +50,15 @@ def read_total_energy(file_path):
       if "Total Energy =" in line:
         return float(line.split()[-1])
     raise ValueError(f"Total energy not found in {file_path}")
-
-    
+def get_optimized_monomer_energy(geometry, input_file_path):
+  monomer = geometry[0]
+  with open(input_file_path, "w") as f:
+    f.write("memory 600 mb\n")
+    f.write("\n")
+    f.write("molecule HF {\n")
+    for line in monomer:
+      f.write(f"  {line}\n")
+    f.write("}\n")
+    f.write("\n")
+    f.write("set basis aug-cc-pVDZ\n")
+    f.write("energy('ccsd(t)')\n")

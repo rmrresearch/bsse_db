@@ -1,4 +1,4 @@
-from utils import geometry, dimer_input, monomer_input, read_total_energy
+from utils import geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy
 import os
 from pytest import approx
 
@@ -32,11 +32,22 @@ def test_monomer_input(tmp_path):
   ]
   monomer_input(geometry, os.path.join(tmp_path,"input_A.txt"), os.path.join(tmp_path,"input_B.txt"))
   for monomer in ["A", "B"]:
-    with open(os.path.join(tmp_path,f"input_{monomer}.txt"), "r") as f, open(f"test_assets/input_{monomer}.txt", "r") as f_expected:
+    with open(os.path.join(tmp_path,f"input_{monomer}.txt"), "r") as f, open(f"test_assets/input_{monomer}_AB.txt", "r") as f_expected:
       output = f.read()
       expected_output = f_expected.read()
       assert output == expected_output
 def test_read_total_energy():
   output = read_total_energy("test_assets/sample_output.txt")
   assert output == approx(-200.04640230404723, rel=1e-5)
-def test_gen
+def test_get_optimized_monomer_energy(tmp_path):
+  geometry = [
+    ['H 0.0 0.0 -1', 
+    'F 0.0 0.0 0.0'],
+    ['F 0.0 0.0 4',
+    "H 0.0 0.0 5"]
+  ]
+  get_optimized_monomer_energy(geometry, os.path.join(tmp_path,"input_monomer.txt"))
+  with open(os.path.join(tmp_path,f"input_monomer.txt"), "r") as f, open(f"test_assets/input_monomer.txt", "r") as f_expected:
+      output = f.read()
+      expected_output = f_expected.read()
+      assert output == expected_output
