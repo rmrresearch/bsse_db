@@ -1,11 +1,11 @@
-from utils import geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy
+from utils import get_geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy
 import os
 from pytest import approx
 
-def test_geometry():
+def test_get_geometry():
   HF_bond_length = 1
   FF_distance = 4
-  output = geometry(HF_bond_length, FF_distance)
+  output = get_geometry(HF_bond_length, FF_distance)
   expected_output = [['H 0.0 0.0 -1', 'F 0.0 0.0 0.0'],
                      ['F 0.0 0.0 4', "H 0.0 0.0 5"]
   ]
@@ -41,7 +41,7 @@ def test_read_total_energy():
   assert output == approx(-200.04640230404723, rel=1e-5)
 def test_get_optimized_monomer_energy(tmp_path):
   geometry = [
-    ['H 0.0 0.0 -1', 
+    ['H 0.0 0.0 -1',
     'F 0.0 0.0 0.0'],
     ['F 0.0 0.0 4',
     "H 0.0 0.0 5"]
