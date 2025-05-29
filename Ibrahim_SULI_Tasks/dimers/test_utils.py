@@ -1,4 +1,4 @@
-from utils import get_geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy
+from utils import get_geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy, get_bsse
 import os
 from pytest import approx
 
@@ -51,3 +51,11 @@ def test_get_optimized_monomer_energy(tmp_path):
       output = f.read()
       expected_output = f_expected.read()
       assert output == expected_output
+def test_calculate_bsse(tmp_path):
+  geometry = [['H 0.0 0.0 -0.92', 'F 0.0 0.0 0.0'],
+               ['F 0.0 0.0 2', 'H 0.0 0.0 2.92']]
+  output = get_bsse(geometry, tmp_path)
+  print(output)
+  assert output["BSSE_A"] == approx(0.0004733027579248983, rel=1e-5)
+  assert output["BSSE_B"] == approx(0.0004733027579248983, rel=1e-5)
+  assert output["Delta_E_AB_AB"] == approx(0.023323579176050657, rel=1e-5)

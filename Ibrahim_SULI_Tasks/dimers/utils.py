@@ -1,3 +1,5 @@
+import subprocess
+import os
 def get_geometry(HF_bond_length, FF_distance):
   return [
     [f'H 0.0 0.0 -{HF_bond_length}', 'F 0.0 0.0 0.0'],
@@ -62,3 +64,31 @@ def get_optimized_monomer_energy(geometry, input_file_path):
     f.write("\n")
     f.write("set basis aug-cc-pVDZ\n")
     f.write("energy('ccsd(t)')\n")
+def get_bsse(geometry, scripts_dir =  "scripts") -> dict:
+  """
+  Returns a dictonary of the form
+  {
+    "Delta_E_AB_AB": float,
+    "BSSE_A": float,
+    "BSSE_B": float
+  }"""
+  prev_dir = os.getcwd()
+  os.makedirs(scripts_dir, exist_ok=True)
+  os.chdir(scripts_dir)
+  dimer_input(geometry, "input_dimer.txt")
+  monomer_input(geometry, "input_A_AB.txt", "input_B_AB.txt")
+  get_optimized_monomer_energy(geometry, "input_monomer.txt")
+  subprocess.run(["psi4", "input_dimer.txt", "output_dimer.txt"])
+  subprocess.run(["psi4", "input_A_AB.txt", "output_A_AB.txt"])
+  subprocess.run(["psi4", "input_B_AB.txt", "output_B_AB.txt"])
+  subprocess.run(["psi4", "input_monomer.txt", "output_monomer.txt"])
+  total_energy = read_total_energy("output_dimer.txt")
+  E_A_AB = read_total_energy("output_A_AB.txt")
+  E_B_AB = read_total_energy("output_B_AB.txt")
+  E_monomer = read_total_energy("output_monomer.txt")
+  os.chdir(prev_dir)
+  return {
+    "Delta_E_AB_AB": total_energy - E_A_AB - E_B_AB,
+    "BSSE_A": E_monomer - E_A_AB,
+    "BSSE_B": E_monomer - E_B_AB
+  }
