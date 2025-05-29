@@ -1,5 +1,6 @@
-from utils import geometry, dimer_input, monomer_input
+from utils import geometry, dimer_input, monomer_input, read_total_energy
 import os
+from pytest import approx
 
 def test_geometry():
   HF_bond_length = 1
@@ -35,3 +36,7 @@ def test_monomer_input(tmp_path):
       output = f.read()
       expected_output = f_expected.read()
       assert output == expected_output
+def test_read_total_energy():
+  output = read_total_energy("test_assets/sample_output.txt")
+  assert output == approx(-200.04640230404723, rel=1e-5)
+def test_gen
