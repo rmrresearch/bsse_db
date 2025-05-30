@@ -1,4 +1,4 @@
-from utils import get_geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy, get_bsse, make_diagram
+from utils import get_geometry, dimer_input, monomer_input, read_energies, get_optimized_monomer_energy, get_bsse, make_diagram
 import os, subprocess
 from pytest import approx
 import logging
@@ -37,9 +37,12 @@ def test_monomer_input(tmp_path):
       output = f.read()
       expected_output = f_expected.read()
       assert output == expected_output
-def test_read_total_energy():
-  output = read_total_energy("test_assets/sample_output.txt")
-  assert output == approx(-200.04640230404723, rel=1e-5)
+def test_read_energies():
+  output = read_energies("test_assets/sample_output.txt")
+  assert output["Total_energy"] == approx(-200.04640230404723, rel=1e-5)
+  assert output["MP2_correlation_energy"] == approx(-0.4590394865732152, rel=1e-5)
+  assert output["CCSD(T)_correlation_energy"] == approx(-0.0151125494 , rel=1e-5)
+  assert output["SCF_energy"] == approx(-200.04640230404723, rel=1e-5)
 def test_get_optimized_monomer_energy(tmp_path):
   geometry = [
     ['H 0.0 0.0 -1',

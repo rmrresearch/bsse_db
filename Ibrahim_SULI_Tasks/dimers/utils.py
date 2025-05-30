@@ -63,15 +63,32 @@ def monomer_input(geometry, input_A, input_B):
     f.write("\n")
     f.write("set basis aug-cc-pVDZ\n")
     f.write("energy('ccsd(t)')\n")
-def read_total_energy(file_path):
+def read_energies(file_path):
   """
-  Returns total energy from psi4 output file
+  Returns a dictionary of the form
+  {
+    "Total_energy": float,
+    "MP2_correlation_energy": float,
+    "CCSD(T)_correlation_energy": float
+  }
+  output
   """
   with open(file_path, "r") as f:
     for line in f:
       if "Total Energy =" in line:
-        return float(line.split()[-1])
-    raise ValueError(f"Total energy not found in {file_path}")
+        total_energy = float(line.split()[-1])
+      if "MP2 correlation energy" in line:
+        mp2_correlation_energy =  float(line.split()[-1])
+      if "CCSD(T) total energy" in line:
+        ccsd_total_energy = float(line.split()[-1])
+      if "SCF energy" in line:
+        scf_energy = float(line.split()[-1])
+    return {
+      "Total_energy": total_energy,
+      "MP2_correlation_energy": mp2_correlation_energy,
+      "CCSD(T)_correlation_energy": ccsd_total_energy - scf_energy - mp2_correlation_energy,
+      "SCF_energy": scf_energy
+    }
 def get_optimized_monomer_energy(geometry, input_file_path):
   """
   Creates psi4 input file for geometry to calculate E(A, A)
