@@ -63,4 +63,4 @@ dependencies:
   - xz=5.6.4=h80987f9_1
   - yaml=0.2.5=h1a28f6b_0
   - zlib=1.2.13=hfb2fe0b_6
-prefix: /opt/homebrew/Caskroom/mambaforge/base/envs/ghostfrag
+prefix: /opt/homebrew/Caskroom/mambaforge/base/envs/suli_demo_tasks
