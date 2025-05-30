@@ -3,11 +3,23 @@ import os
 from rdkit import Chem
 import py3Dmol
 def get_geometry(HF_bond_length, FF_distance):
+  """
+  Returns geometry of dimer in format:
+  [
+    ['H 0.0 0.0 -1', 'F 0.0 0.0 0.0'],
+    ['F 0.0 0.0 4', "H 0.0 0.0 5"]
+  ]
+  where the first list is monomer A and the second list is monomer B
+  each string is of the form "element x y z"
+  """
   return [
     [f'H 0.0 0.0 -{HF_bond_length}', 'F 0.0 0.0 0.0'],
     [f'F 0.0 0.0 {FF_distance}', f"H 0.0 0.0 {FF_distance + HF_bond_length}"]
   ]
 def dimer_input(geometry, input_file_path):
+  """
+  Creates psi4 input file for geometry to calculate E(AB, AB)
+  """
   with open(input_file_path, "w") as f:
     f.write("memory 600 mb\n")
     f.write("\n")
@@ -22,6 +34,9 @@ def dimer_input(geometry, input_file_path):
     f.write("set basis aug-cc-pVDZ\n")
     f.write("energy('ccsd(t)')\n")
 def monomer_input(geometry, input_A, input_B):
+  """
+  Creates psi4 input files for geometry to calculate E(A, AB) and E(B, AB)
+  """
   with open(input_A, "w") as f:
     f.write("memory 600 mb\n")
     f.write("\n")
@@ -49,12 +64,18 @@ def monomer_input(geometry, input_A, input_B):
     f.write("set basis aug-cc-pVDZ\n")
     f.write("energy('ccsd(t)')\n")
 def read_total_energy(file_path):
+  """
+  Returns total energy from psi4 output file
+  """
   with open(file_path, "r") as f:
     for line in f:
       if "Total Energy =" in line:
         return float(line.split()[-1])
     raise ValueError(f"Total energy not found in {file_path}")
 def get_optimized_monomer_energy(geometry, input_file_path):
+  """
+  Creates psi4 input file for geometry to calculate E(A, A)
+  """
   monomer = geometry[0]
   with open(input_file_path, "w") as f:
     f.write("memory 600 mb\n")
@@ -68,12 +89,15 @@ def get_optimized_monomer_energy(geometry, input_file_path):
     f.write("energy('ccsd(t)')\n")
 def get_bsse(geometry, scripts_dir =  "scripts") -> dict:
   """
+  Calculates BSSE for geometry (of dimer)
   Returns a dictonary of the form
   {
     "Delta_E_AB_AB": float,
     "BSSE_A": float,
     "BSSE_B": float
-  }"""
+  }
+  where Delta_E_AB_AB = ΔE(AB, AB) and BSSE_A = ε(A, AB) and BSSE_B = ε(B, AB)
+  """
   prev_dir = os.getcwd()
   os.makedirs(scripts_dir, exist_ok=True)
   os.chdir(scripts_dir)
@@ -95,6 +119,9 @@ def get_bsse(geometry, scripts_dir =  "scripts") -> dict:
     "BSSE_B": E_monomer - E_B_AB
   }
 def make_diagram(geometry, output_path):
+  """
+  Creates 3D diagram of geometry saved as html file
+  """
   bonds = [
     (0, 1, Chem.BondType.SINGLE),
     (2, 3, Chem.BondType.SINGLE),
