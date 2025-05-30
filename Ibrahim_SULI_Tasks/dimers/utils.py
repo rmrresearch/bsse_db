@@ -125,10 +125,10 @@ def get_bsse(geometry, scripts_dir =  "scripts") -> dict:
   subprocess.run(["psi4", "input_A_AB.txt", "output_A_AB.txt"])
   subprocess.run(["psi4", "input_B_AB.txt", "output_B_AB.txt"])
   subprocess.run(["psi4", "input_monomer.txt", "output_monomer.txt"])
-  total_energy = read_total_energy("output_dimer.txt")
-  E_A_AB = read_total_energy("output_A_AB.txt")
-  E_B_AB = read_total_energy("output_B_AB.txt")
-  E_monomer = read_total_energy("output_monomer.txt")
+  total_energy = read_energies("output_dimer.txt")["Total_energy"]
+  E_A_AB = read_energies("output_A_AB.txt")["Total_energy"]
+  E_B_AB = read_energies("output_B_AB.txt")["Total_energy"]
+  E_monomer = read_energies("output_monomer.txt")["Total_energy"]
   os.chdir(prev_dir)
   return {
     "Delta_E_AB_AB": total_energy - E_A_AB - E_B_AB,
