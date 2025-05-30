@@ -1,4 +1,4 @@
-name: ghostfrag
+name: suli_demo_tasks
 channels:
   - defaults
   - conda-forge
