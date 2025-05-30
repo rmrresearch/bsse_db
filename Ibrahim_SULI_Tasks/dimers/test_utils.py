@@ -1,6 +1,7 @@
-from utils import get_geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy, get_bsse
-import os
+from utils import get_geometry, dimer_input, monomer_input, read_total_energy, get_optimized_monomer_energy, get_bsse, make_diagram
+import os, subprocess
 from pytest import approx
+import logging
 
 def test_get_geometry():
   HF_bond_length = 1
@@ -59,3 +60,10 @@ def test_calculate_bsse(tmp_path):
   assert output["BSSE_A"] == approx(0.0004733027579248983, rel=1e-5)
   assert output["BSSE_B"] == approx(0.0004733027579248983, rel=1e-5)
   assert output["Delta_E_AB_AB"] == approx(0.023323579176050657, rel=1e-5)
+def test_make_diagram(tmp_path):
+  geometry = [['H 0.0 0.0 -0.92', 'F 0.0 0.0 0.0'],
+               ['F 0.0 0.0 2', 'H 0.0 0.0 2.92']]
+  make_diagram(geometry, os.path.join(tmp_path, "diagram.html"))
+  logging.info(os.environ.get("OPEN_IMAGES") == "1")
+  if os.environ.get("OPEN_IMAGES") == 1:
+    subprocess.run(["open", os.path.join(tmp_path, "diagram.html")])

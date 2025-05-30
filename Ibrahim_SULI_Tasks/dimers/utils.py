@@ -1,5 +1,7 @@
 import subprocess
 import os
+from rdkit import Chem
+import py3Dmol
 def get_geometry(HF_bond_length, FF_distance):
   return [
     [f'H 0.0 0.0 -{HF_bond_length}', 'F 0.0 0.0 0.0'],
@@ -92,3 +94,31 @@ def get_bsse(geometry, scripts_dir =  "scripts") -> dict:
     "BSSE_A": E_monomer - E_A_AB,
     "BSSE_B": E_monomer - E_B_AB
   }
+def make_diagram(geometry, output_path):
+  bonds = [
+    (0, 1, Chem.BondType.SINGLE),
+    (2, 3, Chem.BondType.SINGLE),
+  ]
+  mol = Chem.RWMol()
+  for row in [*geometry[0], *geometry[1]]:
+      atom_symbol = row.split()[0]
+      mol.AddAtom(Chem.Atom(atom_symbol))
+  for i, j, bond_type in bonds:
+      mol.AddBond(i, j, bond_type)
+
+  # Add conformer with coordinates
+  conf = Chem.Conformer(mol.GetNumAtoms())
+  for i, row in enumerate([*geometry[0], *geometry[1]]):
+      _, x, y, z = row.split()
+      conf.SetAtomPosition(i, Chem.rdGeometry.Point3D(float(x), float(y), float(z)))
+  mol.AddConformer(conf)
+
+  mol_block = Chem.MolToMolBlock(mol)
+
+  view = py3Dmol.view(width=400, height=400)
+  view.addModel(mol_block, 'mol')
+  view.setStyle({'stick': {}, 'sphere': {'scale': 0.3}})
+  view.zoomTo()
+  html_str = view._make_html()
+  with open(output_path, "w") as f:
+    f.write(html_str)
