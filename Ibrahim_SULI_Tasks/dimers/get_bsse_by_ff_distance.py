@@ -4,7 +4,7 @@ import os
 if __name__ == "__main__":
     BSSE_As = []
     BSSE_Bs = []
-    FF_distances = [3, 4, 5, 6]
+    FF_distances = [3, 5, 6]
     for FF_distance in FF_distances:
         geometry = get_geometry(0.924, FF_distance)
         output = get_bsse(geometry, f"FF_distance_{FF_distance}")

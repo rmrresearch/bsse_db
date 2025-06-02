@@ -1,11 +1,11 @@
 memory 600 mb
 
 molecule HF {
-  H 0.0 0.0 -0.92
+  H 0.0 0.0 -1
   F 0.0 0.0 0.0
   --
-  @F 0.0 0.0 4
-  @H 0.0 0.0 4.92
+  F 0.0 0.0 4
+  H 0.0 0.0 5
 }
 
 set basis aug-cc-pVDZ
