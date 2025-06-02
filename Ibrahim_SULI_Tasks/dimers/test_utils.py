@@ -79,7 +79,7 @@ def test_monomer_input(tmp_path):
 def test_get_bsse(tmp_path):
     geometry = [["H 0.0 0.0 -1", "F 0.0 0.0 0.0"], ["F 0.0 0.0 4", "H 0.0 0.0 5"]]
     with patch("utils.run_psi4", lambda x: assets_dir):
-        output = get_bsse(geometry, scripts_dir="scripts")
+        output = get_bsse(geometry, tmp_path)
         expected_output = {
             "Delta_E_AB_AB": 0.0010827957681129874,
             "BSSE_A": 0.00016099410720471496,
