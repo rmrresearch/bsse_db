@@ -1,9 +1,0 @@
-memory 600 mb
-
-molecule HF {
-  H 0 0 -0.924
-  F 0 0 0
-}
-
-set basis aug-cc-pVDZ
-energy('ccsd(t)')

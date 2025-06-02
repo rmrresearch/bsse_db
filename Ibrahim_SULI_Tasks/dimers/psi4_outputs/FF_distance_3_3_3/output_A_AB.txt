@@ -31,9 +31,9 @@
     -----------------------------------------------------------------------
 
 
-    Psi4 started on: Monday, 02 June 2025 02:02PM
+    Psi4 started on: Monday, 02 June 2025 04:04PM
 
-    Process ID: 48533
+    Process ID: 63499
     Host:       visitor-wireless1-147-155-221-221.ameslab.gov
     PSIDATADIR: /opt/homebrew/Caskroom/mambaforge/base/share/psi4
     Memory:     500.0 MiB
@@ -45,11 +45,11 @@
 memory 600 mb
 
 molecule HF {
-  H 0.0 0.0 -0.924
-  F 0.0 0.0 0.0
+  H 0 0 -0.924
+  F 0 0 0
   --
-  @F 3.0 3.0 3.0
-  @H 3.0 3.0 3.9
+  @F 3 3 3
+  @H 3 3 3.924
 }
 
 set basis aug-cc-pVDZ
@@ -67,7 +67,7 @@ Scratch directory: /tmp/
     Solid Harmonics ordering:            Gaussian
 
 *** tstart() called on visitor-wireless1-147-155-221-221.ameslab.gov
-*** at Mon Jun  2 14:02:10 2025
+*** at Mon Jun  2 16:04:30 2025
 
    => Loading Basis Set <=
 
@@ -95,15 +95,15 @@ Scratch directory: /tmp/
 
        Center              X                  Y                   Z               Mass       
     ------------   -----------------  -----------------  -----------------  -----------------
-         H           -2.121320343560     2.423395493230     0.000000000000     1.007825032230
-         F           -2.121320343560     1.499395493230     0.000000000000    18.998403162730
-      Gh(F)           2.121320343560    -1.500604506770     0.000000000000    18.998403162730
-      Gh(H)           2.121320343560    -2.400604506770     0.000000000000     1.007825032230
+         H           -2.121320343560     2.424000000000     0.000000000000     1.007825032230
+         F           -2.121320343560     1.500000000000     0.000000000000    18.998403162730
+      Gh(F)           2.121320343560    -1.500000000000     0.000000000000    18.998403162730
+      Gh(H)           2.121320343560    -2.424000000000     0.000000000000     1.007825032230
 
   Running in cs symmetry.
 
-  Rotational constants: A =     16.24202  B =      0.06103  C =      0.06080 [cm^-1]
-  Rotational constants: A = 486923.42115  B =   1829.50722  C =   1822.65898 [MHz]
+  Rotational constants: A =     15.83077  B =      0.06101  C =      0.06077 [cm^-1]
+  Rotational constants: A = 474594.42977  B =   1828.91311  C =   1821.89221 [MHz]
   Nuclear repulsion =    5.154323480551948
 
   Charge       = 0
@@ -148,7 +148,7 @@ Scratch directory: /tmp/
 
   Performing in-core PK
   Using 4328480 doubles for integral storage.
-  We computed 57839 shell quartets total.
+  We computed 57790 shell quartets total.
   Whereas there are 82621 unique shell quartets.
 
   ==> DiskJK: Disk-Based J/K Matrices <==
@@ -161,8 +161,8 @@ Scratch directory: /tmp/
 
     OpenMP threads:              1
 
-  Minimum eigenvalue in the overlap matrix is 1.9520304326E-03.
-  Reciprocal condition number of the overlap matrix is 4.8685485305E-04.
+  Minimum eigenvalue in the overlap matrix is 2.0583197025E-03.
+  Reciprocal condition number of the overlap matrix is 5.1430415259E-04.
     Using symmetric orthogonalization.
 
   ==> Pre-Iterations <==
@@ -182,16 +182,16 @@ Scratch directory: /tmp/
 
                         Total Energy        Delta E     RMS |[F,P]|
 
-   @RHF iter SAD:   -99.59231567023738   -9.95923e+01   0.00000e+00 
-   @RHF iter   1:   -99.99312303890096   -4.00807e-01   6.59212e-03 ADIIS/DIIS
-   @RHF iter   2:  -100.02085634874607   -2.77333e-02   4.14053e-03 ADIIS/DIIS
-   @RHF iter   3:  -100.03291934486832   -1.20630e-02   3.49522e-04 ADIIS/DIIS
-   @RHF iter   4:  -100.03311561260507   -1.96268e-04   9.10019e-05 DIIS
-   @RHF iter   5:  -100.03313370401418   -1.80914e-05   2.15508e-05 DIIS
-   @RHF iter   6:  -100.03313516613244   -1.46212e-06   2.93004e-06 DIIS
-   @RHF iter   7:  -100.03313519276946   -2.66370e-08   2.73516e-07 DIIS
-   @RHF iter   8:  -100.03313519292971   -1.60242e-10   3.21789e-08 DIIS
-   @RHF iter   9:  -100.03313519293170   -1.98952e-12   2.89153e-09 DIIS
+   @RHF iter SAD:   -99.59231567023747   -9.95923e+01   0.00000e+00 
+   @RHF iter   1:   -99.99312294730984   -4.00807e-01   6.59212e-03 DIIS/ADIIS
+   @RHF iter   2:  -100.02085626400637   -2.77333e-02   4.14052e-03 DIIS/ADIIS
+   @RHF iter   3:  -100.03291926436097   -1.20630e-02   3.49523e-04 DIIS/ADIIS
+   @RHF iter   4:  -100.03311553226030   -1.96268e-04   9.10019e-05 DIIS
+   @RHF iter   5:  -100.03313362366816   -1.80914e-05   2.15508e-05 DIIS
+   @RHF iter   6:  -100.03313508579042   -1.46212e-06   2.93004e-06 DIIS
+   @RHF iter   7:  -100.03313511242750   -2.66371e-08   2.73515e-07 DIIS
+   @RHF iter   8:  -100.03313511258767   -1.60171e-10   3.21788e-08 DIIS
+   @RHF iter   9:  -100.03313511258955   -1.87583e-12   2.89149e-09 DIIS
   Energy and wave function converged.
 
 
@@ -202,31 +202,31 @@ Scratch directory: /tmp/
 
     Doubly Occupied:                                                      
 
-       1Ap   -26.311055     2Ap    -1.605089     3Ap    -0.768525  
+       1Ap   -26.311055     2Ap    -1.605088     3Ap    -0.768525  
        1App   -0.650060     4Ap    -0.650057  
 
     Virtual:                                                              
 
-       5Ap     0.033269     6Ap     0.045759     7Ap     0.174558  
-       8Ap     0.188429     9Ap     0.199425     2App    0.200279  
-      10Ap     0.208294     3App    0.245839    11Ap     0.254807  
-      12Ap     0.281880    13Ap     0.357203    14Ap     0.400958  
-       4App    0.401631    15Ap     0.406463     5App    0.459584  
-      16Ap     0.482230    17Ap     0.566542    18Ap     0.660922  
-      19Ap     0.940689    20Ap     0.956333     6App    1.070084  
-      21Ap     1.074605    22Ap     1.298060     7App    1.346809  
-      23Ap     1.347258     8App    1.431566    24Ap     1.437887  
-       9App    1.568034    25Ap     1.568379    26Ap     1.607928  
-      27Ap     1.626725    10App    1.669778    28Ap     1.673349  
-      11App    1.758634    29Ap     1.765305    30Ap     2.065955  
-      12App    2.157325    31Ap     2.159330    32Ap     2.376990  
-      13App    2.523415    33Ap     2.525979    34Ap     2.653919  
-      35Ap     3.593189    36Ap     3.777657    14App    4.852946  
-      37Ap     4.853034    15App    4.926225    38Ap     4.928607  
-      39Ap     4.984374    40Ap     5.141964    16App    6.654003  
-      41Ap     6.654133    17App    6.757295    42Ap     6.760906  
-      43Ap     6.852386    18App    7.113180    44Ap     7.115594  
-      45Ap     8.175241    46Ap    42.902726  
+       5Ap     0.033289     6Ap     0.045788     7Ap     0.174410  
+       8Ap     0.188447     9Ap     0.200352     2App    0.200709  
+      10Ap     0.208410     3App    0.245839    11Ap     0.254788  
+      12Ap     0.281812    13Ap     0.356928    14Ap     0.398924  
+       4App    0.401617    15Ap     0.405796     5App    0.457525  
+      16Ap     0.479969    17Ap     0.568238    18Ap     0.660905  
+      19Ap     0.940667    20Ap     0.951085     6App    1.068355  
+      21Ap     1.073092    22Ap     1.297805     7App    1.346809  
+      23Ap     1.347243     8App    1.431564    24Ap     1.437834  
+       9App    1.568034    25Ap     1.568377    26Ap     1.596031  
+      27Ap     1.625916    10App    1.669777    28Ap     1.673211  
+      11App    1.754739    29Ap     1.761208    30Ap     2.065925  
+      12App    2.157324    31Ap     2.159297    32Ap     2.359414  
+      13App    2.505114    33Ap     2.507660    34Ap     2.653906  
+      35Ap     3.593190    36Ap     3.724721    14App    4.852946  
+      37Ap     4.853026    15App    4.926224    38Ap     4.928597  
+      39Ap     4.966894    40Ap     5.141951    16App    6.654003  
+      41Ap     6.654132    17App    6.756958    42Ap     6.760332  
+      43Ap     6.852525    18App    7.110390    44Ap     7.113167  
+      45Ap     8.021630    46Ap    42.898098  
 
     Final Occupation by Irrep:
              Ap   App 
@@ -234,14 +234,14 @@ Scratch directory: /tmp/
     NA   [     4,    1 ]
     NB   [     4,    1 ]
 
-  @RHF Final Energy:  -100.03313519293170
+  @RHF Final Energy:  -100.03313511258955
 
    => Energetics <=
 
     Nuclear Repulsion Energy =              5.1543234805519482
-    One-Electron Energy =                -150.4053443787286710
-    Two-Electron Energy =                  45.2178857052450383
-    Total Energy =                       -100.0331351929316952
+    One-Electron Energy =                -150.4053450271121903
+    Two-Electron Energy =                  45.2178864339706905
+    Total Energy =                       -100.0331351125895623
 
 Computation Completed
 
@@ -258,20 +258,20 @@ Properties computed using the SCF density matrix
  ------------------------------------------------------------------------------------
 
  L = 1.  Multiply by 2.5417464519 to convert [e a0] to [Debye]
- Dipole X            :         40.0872863          -40.0871447            0.0001415
- Dipole Y            :        -29.3153433           30.0805753            0.7652320
+ Dipole X            :         40.0872854          -40.0871447            0.0001406
+ Dipole Y            :        -29.3267680           30.0919988            0.7652308
  Dipole Z            :          0.0000000            0.0000000            0.0000000
- Magnitude           :                                                    0.7652320
+ Magnitude           :                                                    0.7652308
 
  ------------------------------------------------------------------------------------
 
-*** tstop() called on visitor-wireless1-147-155-221-221.ameslab.gov at Mon Jun  2 14:02:10 2025
+*** tstop() called on visitor-wireless1-147-155-221-221.ameslab.gov at Mon Jun  2 16:04:30 2025
 Module time:
-	user time   =       0.36 seconds =       0.01 minutes
+	user time   =       0.34 seconds =       0.01 minutes
 	system time =       0.05 seconds =       0.00 minutes
 	total time  =          0 seconds =       0.00 minutes
 Total time:
-	user time   =       0.36 seconds =       0.01 minutes
+	user time   =       0.34 seconds =       0.01 minutes
 	system time =       0.05 seconds =       0.00 minutes
 	total time  =          0 seconds =       0.00 minutes
  MINTS: Wrapper to libmints.
@@ -294,12 +294,12 @@ Total time:
          stored in file 35.
 
       Computing two-electron integrals...done
-      Computed 600626 non-zero two-electron integrals.
+      Computed 600138 non-zero two-electron integrals.
         Stored in file 33.
 
 
 *** tstart() called on visitor-wireless1-147-155-221-221.ameslab.gov
-*** at Mon Jun  2 14:02:10 2025
+*** at Mon Jun  2 16:04:31 2025
 
 
 	Wfn Parameters:
@@ -373,19 +373,19 @@ Total time:
 	Total:                                     0.046 (MW) /      0.371 (MB)
 
 	Nuclear Rep. energy          =      5.15432348055195
-	SCF energy                   =   -100.03313519293170
-	One-electron energy          =   -150.40534478810713
-	Two-electron energy          =     45.21788611462357
-	Reference energy             =   -100.03313519293161
+	SCF energy                   =   -100.03313511258955
+	One-electron energy          =   -150.40534543648658
+	Two-electron energy          =     45.21788684334511
+	Reference energy             =   -100.03313511258952
 
-*** tstop() called on visitor-wireless1-147-155-221-221.ameslab.gov at Mon Jun  2 14:02:11 2025
+*** tstop() called on visitor-wireless1-147-155-221-221.ameslab.gov at Mon Jun  2 16:04:31 2025
 Module time:
 	user time   =       0.18 seconds =       0.00 minutes
-	system time =       0.33 seconds =       0.01 minutes
-	total time  =          1 seconds =       0.02 minutes
+	system time =       0.31 seconds =       0.01 minutes
+	total time  =          0 seconds =       0.00 minutes
 Total time:
-	user time   =       0.67 seconds =       0.01 minutes
-	system time =       0.40 seconds =       0.01 minutes
+	user time   =       0.65 seconds =       0.01 minutes
+	system time =       0.39 seconds =       0.01 minutes
 	total time  =          1 seconds =       0.02 minutes
             **************************
             *                        *
@@ -394,8 +394,8 @@ Total time:
             **************************
 
     Nuclear Rep. energy (wfn)     =    5.154323480551948
-    SCF energy          (wfn)     = -100.033135192931695
-    Reference energy    (file100) = -100.033135192931610
+    SCF energy          (wfn)     = -100.033135112589548
+    Reference energy    (file100) = -100.033135112589520
 
     Input parameters:
     -----------------
@@ -423,66 +423,66 @@ Total time:
     SCSN-MP2        =     False
     SCS-CCSD        =     False
 
-MP2 correlation energy -0.2249753275888720
+MP2 correlation energy -0.2249752435601553
                 Solving CC Amplitude Equations
                 ------------------------------
   Iter             Energy              RMS        T1Diag      D1Diag    New D1Diag    D2Diag
   ----     ---------------------    ---------   ----------  ----------  ----------   --------
-     0        -0.224975327588872    0.000e+00    0.000000    0.000000    0.000000    0.109450
-     1        -0.223473499825581    3.750e-02    0.009979    0.019434    0.019434    0.112272
-     2        -0.227345457434909    1.203e-02    0.009493    0.018509    0.018509    0.116849
-     3        -0.228503366450094    4.864e-03    0.011013    0.021640    0.021640    0.119230
-     4        -0.228416449416564    6.818e-04    0.011162    0.021982    0.021982    0.119372
-     5        -0.228409591133041    1.953e-04    0.011193    0.022070    0.022070    0.119388
-     6        -0.228412341702544    5.212e-05    0.011204    0.022102    0.022102    0.119388
-     7        -0.228411613233418    1.485e-05    0.011205    0.022109    0.022109    0.119384
-     8        -0.228411324226884    4.127e-06    0.011206    0.022111    0.022111    0.119382
-     9        -0.228411362480363    1.205e-06    0.011206    0.022111    0.022111    0.119382
-    10        -0.228411337231167    4.253e-07    0.011206    0.022111    0.022111    0.119382
-    11        -0.228411332507730    1.392e-07    0.011206    0.022111    0.022111    0.119382
-    12        -0.228411330119728    5.085e-08    0.011206    0.022111    0.022111    0.119382
+     0        -0.224975243560155    0.000e+00    0.000000    0.000000    0.000000    0.109450
+     1        -0.223473421156063    3.750e-02    0.009979    0.019434    0.019434    0.112272
+     2        -0.227345375494325    1.203e-02    0.009493    0.018509    0.018509    0.116849
+     3        -0.228503289880645    4.864e-03    0.011013    0.021640    0.021640    0.119231
+     4        -0.228416368713929    6.818e-04    0.011162    0.021982    0.021982    0.119372
+     5        -0.228409512352183    1.952e-04    0.011193    0.022070    0.022070    0.119388
+     6        -0.228412262508258    5.211e-05    0.011204    0.022102    0.022102    0.119388
+     7        -0.228411533595009    1.485e-05    0.011206    0.022109    0.022109    0.119384
+     8        -0.228411244826183    4.124e-06    0.011206    0.022111    0.022111    0.119382
+     9        -0.228411283123933    1.204e-06    0.011206    0.022111    0.022111    0.119382
+    10        -0.228411257852849    4.248e-07    0.011206    0.022111    0.022111    0.119382
+    11        -0.228411253148361    1.391e-07    0.011206    0.022111    0.022111    0.119382
+    12        -0.228411250761621    5.083e-08    0.011206    0.022111    0.022111    0.119382
 
     Iterations converged.
 
 
     Largest TIA Amplitudes:
-              4  43         0.0193131755
-              3   7         0.0136955358
-              3   6        -0.0105062734
-              4  44        -0.0098249268
-              3   5         0.0079675338
-              2   8         0.0073700710
-              2   5         0.0069540696
-              3  10         0.0068882057
-              3   2        -0.0057854558
-              3   9        -0.0054163056
+              4  43         0.0193098485
+              3   7         0.0136796328
+              3   6        -0.0104949117
+              4  44        -0.0098238951
+              3   5         0.0080116768
+              3  10         0.0076589258
+              2   8         0.0073258933
+              2   5         0.0069085398
+              3   2        -0.0057638106
+              2  29        -0.0053532412
 
     Largest TIjAb Amplitudes:
-      4   4  50  50        -0.0359359235
-      3   3  23  23        -0.0350130766
-      3   4  23  50         0.0249496091
-      4   3  50  23         0.0249496091
-      2   2  14  14        -0.0237572882
-      4   4  43  50        -0.0191941168
-      4   4  50  43        -0.0191941168
-      2   2  13  13        -0.0190458857
-      2   2  13  14        -0.0164639192
-      2   2  14  13        -0.0164639192
+      4   4  50  50        -0.0359345288
+      3   3  23  23        -0.0351216943
+      3   4  23  50         0.0249881061
+      4   3  50  23         0.0249881061
+      2   2  14  14        -0.0237396717
+      4   4  43  50        -0.0191904537
+      4   4  50  43        -0.0191904537
+      2   2  13  13        -0.0190497319
+      2   2  13  14        -0.0164582046
+      2   2  14  13        -0.0164582046
 
-    SCF energy       (wfn)                    = -100.033135192931695
-    Reference energy (file100)                = -100.033135192931610
+    SCF energy       (wfn)                    = -100.033135112589548
+    Reference energy (file100)                = -100.033135112589520
 
-    Opposite-spin MP2 correlation energy      =   -0.164610870251146
-    Same-spin MP2 correlation energy          =   -0.060364457337726
+    Opposite-spin MP2 correlation energy      =   -0.164610803810355
+    Same-spin MP2 correlation energy          =   -0.060364439749800
     Singles MP2 correlation energy            =   -0.000000000000000
-    MP2 correlation energy                    =   -0.224975327588872
-      * MP2 total energy                      = -100.258110520520475
+    MP2 correlation energy                    =   -0.224975243560155
+      * MP2 total energy                      = -100.258110356149672
 
-    Opposite-spin CCSD correlation energy     =   -0.174757854434640
-    Same-spin CCSD correlation energy         =   -0.053653475685088
+    Opposite-spin CCSD correlation energy     =   -0.174757788877631
+    Same-spin CCSD correlation energy         =   -0.053653461883989
     Singles CCSD correlation energy           =    0.000000000000000
-    CCSD correlation energy                   =   -0.228411330119728
-      * CCSD total energy                     = -100.261546523051337
+    CCSD correlation energy                   =   -0.228411250761621
+      * CCSD total energy                     = -100.261546363351144
 
             **************************
             *                        *
@@ -495,21 +495,21 @@ MP2 correlation energy -0.2249753275888720
     Reference wfn   =      RHF
 
     Nuclear Rep. energy (wfn)                =    5.154323480551948
-    SCF energy          (wfn)                = -100.033135192931695
-    Reference energy    (file100)            = -100.033135192931610
-    CCSD energy         (file100)            =   -0.228411330119728
-    Total CCSD energy   (file100)            = -100.261546523051337
+    SCF energy          (wfn)                = -100.033135112589548
+    Reference energy    (file100)            = -100.033135112589520
+    CCSD energy         (file100)            =   -0.228411250761621
+    Total CCSD energy   (file100)            = -100.261546363351144
 
     Number of ijk index combinations:               35
     Memory available in words               :        75000000
     Approx. words needed per explicit thread:          296352
     Number of threads for explicit ijk threading:    1
 
-    (T) energy                                =   -0.004189172461766
-      * CCSD(T) total energy                  = -100.265735695513101
+    (T) energy                                =   -0.004189158226251
+      * CCSD(T) total energy                  = -100.265735521577398
 
 
-    Psi4 stopped on: Monday, 02 June 2025 02:02PM
-    Psi4 wall time for execution: 0:00:02.24
+    Psi4 stopped on: Monday, 02 June 2025 04:04PM
+    Psi4 wall time for execution: 0:00:02.06
 
 *** Psi4 exiting successfully. Buy a developer a beer!
