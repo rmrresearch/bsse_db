@@ -4,3 +4,4 @@ ruff==v0.0.260
 coverage-badge~=1.1.0
 rdkit
 py3Dmol
+pandas

@@ -127,7 +127,7 @@ def run_psi4(input_files):
     )  # this is done so we can mock the method to return the test asserts folder for testing
 
 
-def get_bsse(geometry, scripts_dir="scripts") -> dict:
+def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     """
     Calculates BSSE for geometry (of dimer)
     Returns a dictonary of the form
@@ -144,9 +144,33 @@ def get_bsse(geometry, scripts_dir="scripts") -> dict:
     dimer_input(geometry, "input_dimer.txt")
     bsse_corrected_monomer_input(geometry, "input_A_AB.txt", "input_B_AB.txt")
     monomer_input(geometry, "input_monomer.txt")
-    output_path = run_psi4(
-        ["input_dimer.txt", "input_A_AB.txt", "input_B_AB.txt", "input_monomer.txt"]
-    )
+    if force_rerun:
+        output_path = run_psi4(
+            ["input_dimer.txt", "input_A_AB.txt", "input_B_AB.txt", "input_monomer.txt"]
+        )
+    else:
+        needed_files = [
+            os.path.join(scripts_dir, file)
+            for file in [
+                "output_dimer.txt",
+                "output_A_AB.txt",
+                "output_B_AB.txt",
+                "output_monomer.txt",
+            ]
+        ]
+        if os.path.isdir(scripts_dir) and set(needed_files).issubset(
+            os.listdir(scripts_dir)
+        ):
+            output_path = scripts_dir
+        else:
+            output_path = run_psi4(
+                [
+                    "input_dimer.txt",
+                    "input_A_AB.txt",
+                    "input_B_AB.txt",
+                    "input_monomer.txt",
+                ]
+            )
     total_energy = read_energies(os.path.join(output_path, "output_dimer.txt"))[
         "Total_energy"
     ]
