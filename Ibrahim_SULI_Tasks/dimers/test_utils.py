@@ -2,11 +2,12 @@ from utils import (
     get_geometry,
     dimer_input,
     monomer_input,
-    read_total_energy,
+    read_energies,
     bsse_corrected_monomer_input,
     get_bsse,
+    make_diagram,
 )
-import os
+import os, subprocess
 from pytest import approx
 from unittest.mock import patch
 
@@ -61,8 +62,11 @@ def test_bsse_corrected_monomer_input(tmp_path):
 
 
 def test_read_total_energy():
-    output = read_total_energy(os.path.join(assets_dir, "sample_output.txt"))
-    assert output == approx(-200.04640230404723, rel=1e-5)
+    output = read_energies(os.path.join(assets_dir, "sample_output.txt"))
+    assert output["Total_energy"] == approx(-200.04640230404723, rel=1e-5)
+    assert output["MP2_correlation_energy"] == approx(-0.4590394865732152, rel=1e-5)
+    assert output["CCSD(T)_correlation_energy"] == approx(-0.0151125494, rel=1e-5)
+    assert output["SCF_energy"] == approx(-200.04640230404723, rel=1e-5)
 
 
 def test_monomer_input(tmp_path):
@@ -87,3 +91,10 @@ def test_get_bsse(tmp_path):
         }
         for key in expected_output:
             assert output[key] == approx(expected_output[key], rel=1e-5)
+
+
+def test_make_diagram(tmp_path):
+    geometry = [["H 0.0 0.0 -0.92", "F 0.0 0.0 0.0"], ["F 0.0 0.0 2", "H 0.0 0.0 2.92"]]
+    make_diagram(geometry, os.path.join(tmp_path, "diagram.html"))
+    if os.environ.get("OPEN_IMAGES"):
+        subprocess.run(["open", os.path.join(tmp_path, "diagram.html")])
