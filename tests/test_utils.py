@@ -1,11 +1,13 @@
 from bsse_calculator.utils import (
+    read_energies,
+    get_bsse,
+    make_diagram,
+)
+from bsse_calculator.generate_inputs import (
     get_geometry,
     dimer_input,
     monomer_input,
-    read_energies,
     bsse_corrected_monomer_input,
-    get_bsse,
-    make_diagram,
 )
 import os, subprocess, shutil
 from pytest import approx
