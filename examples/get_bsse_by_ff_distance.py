@@ -1,4 +1,4 @@
-from utils import get_bsse, get_geometry
+from bsse_calculator.utils import get_bsse, get_geometry
 import itertools
 from tqdm import tqdm
 import os

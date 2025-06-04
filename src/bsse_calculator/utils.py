@@ -116,15 +116,28 @@ def monomer_input(geometry, input_file_path):
     prepare_input(monomer_geometry_str(geometry), input_file_path)
 
 
-def run_psi4(input_files):
+def run_psi4(input_files, force_run=True):
     """
     Runs psi4 on the input files.
+
+    Args:
+        input_files (list): list of input files
+        force_run (bool): whether to run psi4 or not if output files already exist
     Returns the directory of the output path"""
-    for input_file in input_files:
-        subprocess.run(["psi4", input_file, input_file.replace("input", "output")])
-    return (
-        os.getcwd()
-    )  # this is done so we can mock the method to return the test asserts folder for testing
+    if not force_run:
+        needed_files = [
+            "output_dimer.txt",
+            "output_A_AB.txt",
+            "output_B_AB.txt",
+            "output_monomer.txt",
+        ]
+        if set(needed_files).issubset(os.listdir(os.getcwd())):
+            return
+        else:
+            for input_file in input_files:
+                subprocess.run(
+                    ["psi4", input_file, input_file.replace("input", "output")]
+                )
 
 
 def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
@@ -174,9 +187,9 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     total_energy = read_energies(os.path.join(output_path, "output_dimer.txt"))[
         "Total_energy"
     ]
-    E_A_AB = read_energies(os.path.join(output_path, "output_A_AB.txt"))["Total_energy"]
-    E_B_AB = read_energies(os.path.join(output_path, "output_B_AB.txt"))["Total_energy"]
-    E_monomer = read_energies(os.path.join(output_path, "output_monomer.txt"))[
+    E_A_AB = read_energies(os.path.join(scripts_dir, "output_A_AB.txt"))["Total_energy"]
+    E_B_AB = read_energies(os.path.join(scripts_dir, "output_B_AB.txt"))["Total_energy"]
+    E_monomer = read_energies(os.path.join(scripts_dir, "output_monomer.txt"))[
         "Total_energy"
     ]
     os.chdir(prev_dir)
