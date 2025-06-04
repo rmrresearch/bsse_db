@@ -98,7 +98,7 @@ def test_get_bsse(tmp_path):
         src = os.path.join(assets_dir, filename)
         dst = os.path.join(tmp_path, filename)
         shutil.copyfile(src, dst)
-    output = get_bsse(geometry, tmp_path, force_run=False)
+    output = get_bsse(geometry, tmp_path, force_rerun=False)
     expected_output = {
         "Delta_E_AB_AB": 0.0010827957681129874,
         "BSSE_A": 0.00016099410720471496,

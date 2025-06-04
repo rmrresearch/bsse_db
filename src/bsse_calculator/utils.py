@@ -81,7 +81,7 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     bsse_corrected_monomer_input(geometry, "input_A_AB.txt", "input_B_AB.txt")
     monomer_input(geometry, "input_monomer.txt")
     if force_rerun:
-        output_path = run_psi4(
+        run_psi4(
             ["input_dimer.txt", "input_A_AB.txt", "input_B_AB.txt", "input_monomer.txt"]
         )
     else:
@@ -99,7 +99,7 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
         ):
             output_path = scripts_dir
         else:
-            output_path = run_psi4(
+            run_psi4(
                 [
                     "input_dimer.txt",
                     "input_A_AB.txt",
@@ -107,7 +107,7 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
                     "input_monomer.txt",
                 ]
             )
-    total_energy = read_energies(os.path.join(output_path, "output_dimer.txt"))[
+    total_energy = read_energies(os.path.join(scripts_dir, "output_dimer.txt"))[
         "Total_energy"
     ]
     E_A_AB = read_energies(os.path.join(scripts_dir, "output_A_AB.txt"))["Total_energy"]
