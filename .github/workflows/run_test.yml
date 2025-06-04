@@ -23,11 +23,7 @@ jobs:
           python -m pip install .
       - name: Test with pytest
         run: |
-          coverage run -m pytest -v -s
-
-      - name: Generate Coverage Report
-        run: |
-          coverage report -m
+          pytest -v -s
 
   Run-Windows-Tests:
     runs-on: windows-latest
@@ -48,4 +44,4 @@ jobs:
           python -m pip install .
       - name: Test with pytest
         run: |
-          coverage run -m pytest -v -s
+          pytest -v -s
