@@ -1,0 +1,15 @@
+[project]
+name = "bsse_calculator"
+version = "0.0.1"
+description = "Basis Set Superposition Error calculator"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Your Name", email = "you@example.com" }
+]
+dependencies = [
+    "pytest",
+    "rdkit",
+    "py3Dmol"
+]
