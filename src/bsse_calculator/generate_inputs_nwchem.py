@@ -28,28 +28,28 @@ def get_geometry(HF_bond_length, **kwargs):
 
 def dimer_input(geometry, input_file_path):
     """
-    Creates psi4 input file for geometry to calculate E(AB, AB)
+    Creates nwchem input file for geometry to calculate E(AB, AB)
     """
     prepare_input(dimer_geometry_str(geometry), input_file_path)
 
 
 def bsse_corrected_monomer_input(geometry, input_A, input_B):
     """
-    Creates psi4 input files for geometry to calculate E(A, AB) and E(B, AB)
+    Creates nwchem input files for geometry to calculate E(A, AB) and E(B, AB)
     """
     prepare_input(bsse_corrected_monomer_geometry_str(geometry, 0), input_A)
     prepare_input(bsse_corrected_monomer_geometry_str(geometry, 1), input_B)
 
 
 def monomer_input(geometry, input_file_path):
-    """Creates psi4 input file for geometry to calculate E(A, A)"""
+    """Creates nwchem input file for geometry to calculate E(A, A)"""
     prepare_input(monomer_geometry_str(geometry), input_file_path)
 
 
 def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     """
     Calculates BSSE for geometry (of dimer)
-    Returns a dictonary of the form
+    Returns a dictionary of the form
     {
     "Delta_E_AB_AB": float,
     "BSSE_A": float,
