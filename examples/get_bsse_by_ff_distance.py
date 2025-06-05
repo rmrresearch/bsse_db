@@ -1,4 +1,5 @@
-from bsse_calculator.utils import get_bsse, get_geometry
+from bsse_calculator.utils import get_bsse
+from bsse_calculator.generate_inputs_nwchem import get_geometry, get_bsse
 import itertools
 from tqdm import tqdm
 import os
