@@ -1,9 +1,0 @@
-geometry
-  H 0.0 0.0 -1
-  F 0.0 0.0 0.0
-end
-basis spherical
-  F library aug-cc-pvdz
-  H library aug-cc-pvdz
-end
-task ccsd(t) energy

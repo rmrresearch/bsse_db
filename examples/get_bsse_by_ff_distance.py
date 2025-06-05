@@ -1,12 +1,12 @@
 from bsse_calculator.utils import get_bsse
-from bsse_calculator.generate_inputs_psi4 import GenerateInputsPsi4
+from bsse_calculator.generate_inputs_nwchem import GenerateInputsNwchem
 import itertools
 from tqdm import tqdm
 import os
 import pandas as pd
 import numpy as np
 
-input_generator = GenerateInputsPsi4()
+input_generator = GenerateInputsNwchem()
 if __name__ == "__main__":
     bsse_data = pd.read_csv(os.path.join("data", "BSSE_by_FF_distance.csv"))
     files_needed = set(
