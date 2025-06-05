@@ -1,4 +1,6 @@
 import os
+
+
 class GenerateInputs:
     def __init__(self):
         pass
