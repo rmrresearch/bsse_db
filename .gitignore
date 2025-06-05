@@ -12,6 +12,7 @@ __pycache__
 **/*.db
 **/*.zmat
 **/*.p
+**/*.b^-1
 input.txt
 scratch.ipynb
 examples/example.py
