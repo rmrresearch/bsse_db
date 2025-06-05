@@ -2,10 +2,8 @@ import subprocess
 import os
 from rdkit import Chem
 import py3Dmol
-from bsse_calculator.generate_inputs import (
-    dimer_input,
-    monomer_input,
-    bsse_corrected_monomer_input,
+from bsse_calculator.generate_inputs_psi4 import (
+    GenerateInputsPsi4,
 )
 
 
@@ -77,9 +75,12 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     prev_dir = os.getcwd()
     os.makedirs(scripts_dir, exist_ok=True)
     os.chdir(scripts_dir)
-    dimer_input(geometry, "input_dimer.txt")
-    bsse_corrected_monomer_input(geometry, "input_A_AB.txt", "input_B_AB.txt")
-    monomer_input(geometry, "input_monomer.txt")
+    input_generator = GenerateInputsPsi4()
+    input_generator.dimer_input(geometry, "input_dimer.txt")
+    input_generator.bsse_corrected_monomer_input(
+        geometry, "input_A_AB.txt", "input_B_AB.txt"
+    )
+    input_generator.monomer_input(geometry, "input_monomer.txt")
     if force_rerun:
         run_psi4(
             ["input_dimer.txt", "input_A_AB.txt", "input_B_AB.txt", "input_monomer.txt"]

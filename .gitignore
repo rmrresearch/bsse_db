@@ -3,5 +3,15 @@ __pycache__
 **/*.dat
 **/*.log
 **/*.egg-info/
+**/*.ccsdints.0
+**/*.cfock
+**/*.movecs
+**/*.t2
+**/*.b
+**/*.c
+**/*.db
+**/*.zmat
+**/*.p
 input.txt
 scratch.ipynb
+examples/example.py
