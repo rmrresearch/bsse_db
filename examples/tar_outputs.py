@@ -7,7 +7,7 @@ parent_folder = os.path.dirname(
 
 paths = [
     os.path.join(parent_folder, "examples", "data", "nwchem"),
-    os.path.join(parent_folder, "examples", "data", "psi4")
+    os.path.join(parent_folder, "examples", "data", "psi4"),
 ]
 for path in paths:
   files = glob.glob("output_*.txt", root_dir=path)
