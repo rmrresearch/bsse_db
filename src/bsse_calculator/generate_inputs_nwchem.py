@@ -28,21 +28,21 @@ def get_geometry(HF_bond_length, **kwargs):
 
 def dimer_input(geometry, input_file_path):
     """
-    Creates nwchem input file for geometry to calculate E(AB, AB)
+    Creates NWChem input file for geometry to calculate E(AB, AB)
     """
     prepare_input(dimer_geometry_str(geometry), input_file_path)
 
 
 def bsse_corrected_monomer_input(geometry, input_A, input_B):
     """
-    Creates nwchem input files for geometry to calculate E(A, AB) and E(B, AB)
+    Creates NWChem input files for geometry to calculate E(A, AB) and E(B, AB)
     """
     prepare_input(bsse_corrected_monomer_geometry_str(geometry, 0), input_A)
     prepare_input(bsse_corrected_monomer_geometry_str(geometry, 1), input_B)
 
 
 def monomer_input(geometry, input_file_path):
-    """Creates nwchem input file for geometry to calculate E(A, A)"""
+    """Creates NWChem input file for geometry to calculate E(A, A)"""
     prepare_input(monomer_geometry_str(geometry), input_file_path)
 
 
@@ -178,11 +178,11 @@ def monomer_geometry_str(geometry):
 
 def run_software(input_files, force_run=True):
     """
-    Runs nwchem on the input files.
+    Runs NWChem on the input files.
 
     Args:
         input_files (list): list of input files
-        force_run (bool): whether to run nwchem or not if output files already exist
+        force_run (bool): whether to run NWChem or not if output files already exist
     Returns the directory of the output path"""
     if force_run:
         for input_file in input_files:
