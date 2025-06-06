@@ -5,7 +5,7 @@ geometry
   H 0 0 5
 end
 basis spherical
-  F library aug-cc-pvdz
   H library aug-cc-pvdz
+  F library aug-cc-pvdz
 end
 task ccsd(t) energy

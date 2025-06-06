@@ -76,10 +76,10 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
         )
     else:
         needed_files = [
-            os.path.join(scripts_dir, "input_dimer.txt"),
-            os.path.join(scripts_dir, "input_A_AB.txt"),
+            os.path.join(scripts_dir, "output_dimer.txt"),
+            os.path.join(scripts_dir, "output_A_AB.txt"),
             os.path.join(scripts_dir, "input_B_AB.txt"),
-            os.path.join(scripts_dir, "input_monomer.txt"),
+            os.path.join(scripts_dir, "output_monomer.txt"),
         ]
         if os.path.isdir(scripts_dir) and set(needed_files).issubset(
             [os.path.join(scripts_dir, file) for file in os.listdir(scripts_dir)]
@@ -115,8 +115,18 @@ def prepare_input(geometry_str, input_file_path):
         f.write(geometry_str)
         f.write("end\n")
         f.write("basis spherical\n")
-        f.write("  F library aug-cc-pvdz\n")
-        f.write("  H library aug-cc-pvdz\n")
+        unique_atoms = set()
+        for line in geometry_str.strip().split("\n"):
+            atom = line.split()[0]
+            if atom in unique_atoms:
+                continue
+            unique_atoms.add(atom)
+            ghost = "bq" in atom
+            if ghost:
+                atom = atom.replace("bq", "")
+                f.write(f"  bq{atom} library {atom} aug-cc-pvdz\n")
+            else:
+                f.write(f"  {atom} library aug-cc-pvdz\n")
         f.write("end\n")
         f.write("task ccsd(t) energy\n")
 
@@ -184,25 +194,10 @@ def run_software(input_files, force_run=True):
         input_files (list): list of input files
         force_run (bool): whether to run NWChem or not if output files already exist
     Returns the directory of the output path"""
-    if force_run:
-        for input_file in input_files:
-            output_file = input_file.replace("input", "output")
-            with open(output_file, "w") as out:
-                subprocess.run(["nwchem", input_file], stdout=out)
-    else:
-        needed_files = [
-            "output_dimer.txt",
-            "output_A_AB.txt",
-            "output_B_AB.txt",
-            "output_monomer.txt",
-        ]
-        if set(needed_files).issubset(os.listdir(os.getcwd())):
-            return
-        else:
-            for input_file in input_files:
-                output_file = input_file.replace("input", "output")
-                with open(output_file, "w") as out:
-                    subprocess.run(["nwchem", input_file], stdout=out)
+    for input_file in input_files:
+        output_file = input_file.replace("input", "output")
+        with open(output_file, "w") as out:
+            subprocess.run(["nwchem", input_file], stdout=out)
 
 
 def make_diagram(geometry, output_path):

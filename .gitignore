@@ -13,6 +13,7 @@ __pycache__
 **/*.zmat
 **/*.p
 **/*.b^-1
+**/*.DS_Store
 input.txt
-scratch.ipynb
+**/scratch.ipynb
 examples/example.py
