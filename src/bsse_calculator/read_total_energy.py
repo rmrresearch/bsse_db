@@ -20,6 +20,9 @@ def read_energies(file_path):
                 mp2_correlation_energy = float(line.split()[-1])
             if "Total SCF energy" in line:
                 scf_energy = float(line.split()[-1])
+
+        if total_energy > 0:
+            raise Exception("The total energy is positive, something went wrong")
         return {
             "Total_energy": total_energy,
             "MP2_correlation_energy": mp2_correlation_energy,
