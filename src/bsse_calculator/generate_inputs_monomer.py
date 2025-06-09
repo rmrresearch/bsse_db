@@ -11,4 +11,4 @@ def monomer_geometry_str(geometry):
 
 def monomer_input(geometry, input_file_path):
     """Creates NWChem input file for geometry to calculate E(A, A)"""
-    prepare_input(monomer_geometry_str(geometry), input_file_path)
+    prepare_input(monomer_geometry_str(geometry), input_file_path, "energy")
