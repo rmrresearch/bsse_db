@@ -15,11 +15,3 @@ def bsse_corrected_monomer_input(geometry, input_A, input_B):
     """
     prepare_input(bsse_corrected_monomer_geometry_str(geometry, 0), input_A)
     prepare_input(bsse_corrected_monomer_geometry_str(geometry, 1), input_B)
-
-
-def bsse_corrected_monomer_geometry_str(geometry, ghost_monomer):
-    ret = ""
-    for i, molecule in enumerate(geometry):
-        for line in molecule:
-            ret += f"  {line}\n" if i == ghost_monomer else f"  bq{line}\n"
-    return ret
