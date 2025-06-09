@@ -11,8 +11,10 @@ __pycache__
 **/*.c
 **/*.db
 **/*.zmat
+**/*.t2.numg
 **/*.p
 **/*.b^-1
+**/*.drv.hess
 **/*.DS_Store
 input.txt
 **/scratch.ipynb

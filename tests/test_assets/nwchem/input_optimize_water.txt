@@ -1,0 +1,10 @@
+geometry
+  O 0 0 -0.5
+  H 0 0 -2
+  H 0 0 0
+end
+basis spherical
+  O library aug-cc-pvdz
+  H library aug-cc-pvdz
+end
+task ccsd(t) optimize

@@ -13,4 +13,4 @@ def dimer_input(geometry, input_file_path):
     """
     Creates NWChem input file for geometry to calculate E(AB, AB)
     """
-    prepare_input(dimer_geometry_str(geometry), input_file_path)
+    prepare_input(dimer_geometry_str(geometry), input_file_path, "energy")
