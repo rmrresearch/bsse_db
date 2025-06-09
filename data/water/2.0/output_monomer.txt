@@ -1,4 +1,4 @@
- argument  1 = scripts/input_monomer.txt
+ argument  1 = data/water/2.0/input_monomer.txt
                                          
                                          
 
@@ -38,7 +38,7 @@
 
     hostname        = ibrahims-air-8.misc.iastate.edu
     program         = nwchem
-    date            = Mon Jun  9 14:26:15 2025
+    date            = Mon Jun  9 14:33:15 2025
 
     compiled        = Thu_Dec_26_16:03:44_2024
     source          = /private/tmp/nwchem-20241226-24280-orrtsi/nwchem-7.2.3
@@ -46,7 +46,7 @@
     nwchem revision = d690e065
     ga revision     = 5.8.0
     use scalapack   = T
-    input           = scripts/input_monomer.txt
+    input           = data/water/2.0/input_monomer.txt
     prefix          = input_monomer.
     data base       = ./input_monomer.db
     status          = restart
@@ -88,7 +88,7 @@
 
        Name                              Natoms  Last Modified
        --------------------------------  ------  ------------------------
-    1  geometry                               3  Mon Jun  9 14:25:33 2025  
+    1  geometry                               3  Mon Jun  9 14:32:24 2025  
 
   The geometry named "geometry" is the default for restart
 
@@ -99,7 +99,7 @@
 
        Name                              Natoms  Last Modified
         --------------------------------  ------  ------------------------
-    1  ao basis                               2  Mon Jun  9 14:25:33 2025  
+    1  ao basis                               2  Mon Jun  9 14:32:24 2025  
 
   The basis set named "ao basis" is the default AO basis for restart
 
@@ -397,8 +397,8 @@
              energy      energy      error      ampl     ampl      Block
                                                 time     time      time
 -------------------------------------------------------------------------
-   1     -0.2300897421 -2.301D-01  1.314D-11     0.23     0.00     0.23
-   2     -0.2300897421 -3.680D-14  9.958D-12     0.02     0.00     0.02
+   1     -0.2300897421 -2.301D-01  1.494D-12     0.24     0.00     0.23
+   2     -0.2300897421 -3.192D-15  1.151D-12     0.03     0.00     0.02
                   *************converged*************
 -------------------------------------------------------------------------
 
@@ -406,19 +406,19 @@
  CCSD Energy
  -----------
  Reference energy:             -76.040761203698978
- CCSD corr. energy:             -0.230089742055794
- Total CCSD energy:            -76.270850945754773
+ CCSD corr. energy:             -0.230089742055840
+ Total CCSD energy:            -76.270850945754816
 
 
  --------------------------------
  Spin Component Scaled (SCS) CCSD
  --------------------------------
- Same spin contribution:                 -0.050225532265621
+ Same spin contribution:                 -0.050225532265616
  Same spin scaling factor:                1.130000000000000
- Opposite spin contribution:             -0.179864209790173
+ Opposite spin contribution:             -0.179864209790225
  Opposite spin scaling fact.:             1.270000000000000
- SCS-CCSD correlation energy:            -0.285182397893672
- Total SCS-CCSD energy:                 -76.325943601592655
+ SCS-CCSD correlation energy:            -0.285182397893731
+ Total SCS-CCSD energy:                 -76.325943601592698
  memory             52425068
 
 
@@ -432,7 +432,7 @@ nkpass=    1; nvpass=    1; memdrv=          41292; memtrn=         639075; mema
  number of occupied per triples pass      5
  number of triples passes                 1
 
- commencing integral evaluation        1 at           0.41
+ commencing integral evaluation        1 at           0.39
   symmetry use  T
 task         2 out of       190 done   1%  at       0.0 secs
 task        10 out of       190 done   5%  at       0.0 secs
@@ -493,31 +493,31 @@ task       190 out of       190 done 100%  at       0.1 secs
  Time for integral evaluation pass     1        0.10
  Time for triples evaluation pass      1        0.10
 
- pseudo-e(mp4)  -0.57103846776141E-02
- pseudo-e(mp5)   0.40906782386211E-03
-        e(t)    -0.53013168537520E-02
+ pseudo-e(mp4)  -0.57103846776588E-02
+ pseudo-e(mp5)   0.40906782387066E-03
+        e(t)    -0.53013168537882E-02
 
  --------------
  CCSD(T) Energy
  --------------
  Reference energy:                     -76.040761203698978
 
- CCSD corr. energy:                     -0.230089742055794
- T(CCSD) corr. energy:                  -0.005710384677614
- Total CCSD+T(CCSD) energy:            -76.276561330432386
+ CCSD corr. energy:                     -0.230089742055840
+ T(CCSD) corr. energy:                  -0.005710384677659
+ Total CCSD+T(CCSD) energy:            -76.276561330432472
 
- CCSD corr. energy:                     -0.230089742055794
- (T) corr. energy:                      -0.005301316853752
- Total CCSD(T) energy:                 -76.276152262608520
+ CCSD corr. energy:                     -0.230089742055840
+ (T) corr. energy:                      -0.005301316853788
+ Total CCSD(T) energy:                 -76.276152262608605
 
  routine      calls  cpu(0)   cpu-min  cpu-ave  cpu-max   i/o 
  aoccsd          1     0.00     0.00     0.00     0.00    0.00
- iterdrv         1     0.05     0.05     0.05     0.05    0.00
+ iterdrv         1     0.02     0.02     0.02     0.02    0.00
  pampt           2     0.00     0.00     0.00     0.00    0.00
  t2pm            2     0.00     0.00     0.00     0.00    0.00
  sxy             2     0.00     0.00     0.00     0.00    0.00
  ints        36100     0.12     0.12     0.12     0.12    0.00
- f_write       380     0.08     0.08     0.08     0.08    0.00
+ f_write       380     0.09     0.09     0.09     0.09    0.00
  t2eri         380     0.03     0.03     0.03     0.03    0.00
  idx2          380     0.01     0.01     0.01     0.01    0.00
  idx34           2     0.00     0.00     0.00     0.00    0.00
@@ -532,7 +532,7 @@ task       190 out of       190 done 100%  at       0.1 secs
  dovvv        5400     0.05     0.05     0.05     0.05    0.00
  doooo        5400     0.01     0.01     0.01     0.01    0.00
  tengy        4500     0.02     0.02     0.02     0.02    0.00
- Total                 0.50     0.50     0.50     0.50    0.00
+ Total                 0.48     0.48     0.48     0.48    0.00
 
  Task  times  cpu:        0.6s     wall:        0.6s
  Summary of allocated global arrays
