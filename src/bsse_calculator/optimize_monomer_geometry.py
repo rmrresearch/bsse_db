@@ -4,6 +4,7 @@ from bsse_calculator.prepare_input import prepare_input
 
 
 def get_geometry(molecule_smile):
+    """Given a molecule smiles, return the geometry as a list of strings"""
     mol = Chem.MolFromSmiles(molecule_smile)
     mol = Chem.AddHs(mol)
     AllChem.EmbedMolecule(mol, useRandomCoords=True)  # optimize with NwChem not rdkit
@@ -24,5 +25,6 @@ def geometry_to_string(geometry):
 
 
 def optimize_monomer_geometry(molecule_smile, input_file_path):
+    """Given a molecule smiles, create a nwchem input file" to optimize the geometry"""
     geometry = get_geometry(molecule_smile)
     prepare_input(geometry_to_string(geometry), input_file_path, "optimize")

@@ -15,6 +15,7 @@ def find_last_line_number(filepath):
 
 
 def read_geometry_optimization_output(filename):
+    """Reads the geometry optimization output file and returns the geometry as a list of strings"""
     start = find_last_line_number(filename)
     with open(filename, "r") as f:
         lines = f.readlines()[start + 1 :]
