@@ -21,6 +21,8 @@ def test_generate_dimer_geometry():
         ],
     ]
     assert output_geo == generate_dimer_geometry(input_geo, 4)
+
+
 def test_generate_dimer_geometry_with_multiple_translations():
     input_geo = [
         "O -0.15218561 -0.00116398 0.00000000",
@@ -40,4 +42,3 @@ def test_generate_dimer_geometry_with_multiple_translations():
         ],
     ]
     compare_geometry(output_geo, generate_dimer_geometry(input_geo, 2, 1, 3))
-

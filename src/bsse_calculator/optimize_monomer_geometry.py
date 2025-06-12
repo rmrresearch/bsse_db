@@ -11,7 +11,6 @@ def get_geometry(molecule_smile):
     conf = mol.GetConformer()
     geo = []
     for atom in mol.GetAtoms():
-        print(atom.GetSymbol())
         pos = conf.GetAtomPosition(atom.GetIdx())
         geo.append(f"{atom.GetSymbol()} {pos.x:.2f} {pos.y:.2f} {pos.z:.2f}")
     return geo

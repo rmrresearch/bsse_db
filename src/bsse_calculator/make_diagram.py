@@ -3,14 +3,11 @@ from rdkit import Chem
 import py3Dmol
 
 
-def make_diagram(geometry, output_path):
+def make_diagram(geometry, bonds, output_path):
     """
     Creates 3D diagram of geometry saved as html file
     """
-    bonds = [
-        (0, 1, Chem.BondType.SINGLE),
-        (2, 3, Chem.BondType.SINGLE),
-    ]
+    bonds = [(bond[0], bond[1], Chem.BondType.SINGLE) for bond in bonds]
     mol = Chem.RWMol()
     for row in [*geometry[0], *geometry[1]]:
         atom_symbol = row.split()[0]
