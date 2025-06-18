@@ -1,0 +1,197 @@
+geometry
+  bq/
+  U
+  bqs
+  bqe
+  bqr
+  bqs
+  bq/
+  bqi
+  bqb
+  bqr
+  bqa
+  bqh
+  bqi
+  bqm
+  bqs
+  bq/
+  bqD
+  bqo
+  bqc
+  bqu
+  bqm
+  bqe
+  bqn
+  bqt
+  bqs
+  bq/
+  bqP
+  bqr
+  bqo
+  bqg
+  bqr
+  bqa
+  bqm
+  bqm
+  bqi
+  bqn
+  bqg
+  bq/
+  bqu
+  bqn
+  bqd
+  bqe
+  bqr
+  bqg
+  bqr
+  bqa
+  bqd
+  bq_
+  bqr
+  bqe
+  bqa
+  bqs
+  bqe
+  bqa
+  bqr
+  bqc
+  bqh
+  bq/
+  bqa
+  bqm
+  bqe
+  bqs
+  bq_
+  bqr
+  bqe
+  bqs
+  bqe
+  bqa
+  bqr
+  bqc
+  bqh
+  bq_
+  bqs
+  bqu
+  bqm
+  bqm
+  bqe
+  bqr
+  bq_
+  bq2
+  bq0
+  bq2
+  bq5
+  bq/
+  bqp
+  bqs
+  bqi
+  bq4
+  bq/
+  bqd
+  bqo
+  bqc
+  bqs
+  bqt
+  bqr
+  bqi
+  bqn
+  bqg
+  bq_
+  bqs
+  bqt
+  bqu
+  bqf
+  bqf
+  bq/
+  bqd
+  bqa
+  bqt
+  bqa
+  bq/
+  bqw
+  bqa
+  bqt
+  bqe
+  bqr
+  bq/
+  bqn
+  bqw
+  bqc
+  bqh
+  bqe
+  bqm
+  bq_
+  bqo
+  bqu
+  bqt
+  bqp
+  bqu
+  bqt
+  bqs
+  bq/
+  bqH
+  bq2
+  bqO
+  bq_
+  bqH
+  bq2
+  bqO
+  bq_
+  bqd
+  bqi
+  bqs
+  bqt
+  bqa
+  bqn
+  bqc
+  bqe
+  bq_
+  bq0
+  bq.
+  bq5
+  bq_
+  bq1
+  bq.
+  bq0
+  bq_
+  bq1
+  bq.
+  bq7
+  bq5
+end
+basis spherical
+  bq/ library / aug-cc-pvdz
+  U library aug-cc-pvdz
+  bqs library s aug-cc-pvdz
+  bqe library e aug-cc-pvdz
+  bqr library r aug-cc-pvdz
+  bqi library i aug-cc-pvdz
+  bqb library b aug-cc-pvdz
+  bqa library a aug-cc-pvdz
+  bqh library h aug-cc-pvdz
+  bqm library m aug-cc-pvdz
+  bqD library D aug-cc-pvdz
+  bqo library o aug-cc-pvdz
+  bqc library c aug-cc-pvdz
+  bqu library u aug-cc-pvdz
+  bqn library n aug-cc-pvdz
+  bqt library t aug-cc-pvdz
+  bqP library P aug-cc-pvdz
+  bqg library g aug-cc-pvdz
+  bqd library d aug-cc-pvdz
+  bq_ library _ aug-cc-pvdz
+  bq2 library 2 aug-cc-pvdz
+  bq0 library 0 aug-cc-pvdz
+  bq5 library 5 aug-cc-pvdz
+  bqp library p aug-cc-pvdz
+  bq4 library 4 aug-cc-pvdz
+  bqf library f aug-cc-pvdz
+  bqw library w aug-cc-pvdz
+  bqH library H aug-cc-pvdz
+  bqO library O aug-cc-pvdz
+  bq. library . aug-cc-pvdz
+  bq1 library 1 aug-cc-pvdz
+  bq7 library 7 aug-cc-pvdz
+end
+task ccsd(t) energy
