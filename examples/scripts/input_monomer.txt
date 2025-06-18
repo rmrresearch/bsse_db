@@ -1,7 +1,0 @@
-geometry
-  /
-end
-basis spherical
-  / library aug-cc-pvdz
-end
-task ccsd(t) energy
