@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from scipy.interpolate import griddata
 from scipy.optimize import curve_fit
+from scipy.interpolate import UnivariateSpline
 
 
 def make_bsse_contour_plots(bsse_data_nwchem, monomer_name):
@@ -214,3 +215,105 @@ def make_error_contour_plots(bsse_data_nwchem, fit_gauss):
     )
     cbar.set_label("Predicted BSSE - Actual BSSE", rotation=270, labelpad=20)
     plt.show()
+
+
+def prepare_bsse_data(file):
+    bsse_data_nwchem_kcal = pd.read_csv(file)
+    for column in bsse_data_nwchem_kcal.columns:
+        if "energy" in column:
+            bsse_data_nwchem_kcal[column] = bsse_data_nwchem_kcal[column].apply(
+                lambda x: float(x.strip("()").split(",")[0])
+            )
+            bsse_data_nwchem_kcal[column] = bsse_data_nwchem_kcal[column].apply(
+                lambda x: x * 627.5096
+            )
+    return bsse_data_nwchem_kcal
+
+
+def plot_energy_types_by_distance(df, monomer, fit_spline=False):
+    energy_types = [
+        "Total Energy",
+        "SCF Energy",
+        "MP2 Correlation",
+        "CCSD Correlation",
+        "(T) Correlation",
+    ]
+    fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+    axes = axes.flatten()
+    delta_color = "blue"
+    bsse_color = "red"
+
+    all_lines = []
+    all_labels = []
+
+    for i, label in enumerate(energy_types):
+        delta_col = [
+            col
+            for col in df.columns
+            if label.title() in col.replace("_", " ").title() and "Delta" in col
+        ][0]
+        bsse_col = [
+            col
+            for col in df.columns
+            if label.title() in col.replace("_", " ").title() and "BSSE" in col
+        ][0]
+
+        if i < len(axes):
+            ax1 = axes[i]
+            x = df["distance"].values
+            y_delta = df[delta_col].values
+            y_bsse = df[bsse_col].values
+
+            line1 = ax1.scatter(x, y_delta, color=delta_color, alpha=0.7, s=50)
+            ax1.set_xlabel(f"{monomer} Distance", fontsize=10)
+            ax1.set_ylabel("Delta_EAB_EAB", fontsize=10)
+
+            if fit_spline:
+                delta_spline = UnivariateSpline(x, y_delta, s=0)
+                ax1.plot(
+                    np.sort(x),
+                    delta_spline(np.sort(x)),
+                    color=delta_color,
+                    linestyle="--",
+                )
+
+            ax2 = ax1.twinx()
+            line2 = ax2.scatter(x, y_bsse, color=bsse_color, alpha=0.7, s=50)
+            ax2.set_ylabel("BSSE_A", fontsize=10)
+
+            if fit_spline:
+                bsse_spline = UnivariateSpline(x, y_bsse, s=0)
+                ax2.plot(
+                    np.sort(x),
+                    bsse_spline(np.sort(x)),
+                    color=bsse_color,
+                    linestyle="--",
+                )
+
+            ax1.set_title(f"{label}", fontsize=11)
+            ax1.grid(True, alpha=0.3)
+
+            # Store one line from each for the shared legend
+            if i == 0:
+                all_lines.extend([line1, line2])
+                all_labels.extend(["Delta_EAB_EAB", "BSSE_A"])
+
+    # Turn off unused subplot if energy_types < axes
+    if len(energy_types) < len(axes):
+        for j in range(len(energy_types), len(axes)):
+            axes[j].axis("off")
+    fig.legend(
+        all_lines,
+        all_labels,
+        loc="upper center",
+        ncol=2,
+        fontsize=12,
+        bbox_to_anchor=(0.5, 1.02),
+    )
+    fig.suptitle(
+        f"Delta_EAB_EAB vs BSSE_A by Energy Component for {monomer}",
+        fontsize=14,
+        y=1.08,
+    )
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.92)

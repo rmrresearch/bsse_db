@@ -5,6 +5,11 @@ from bsse_calculator.generate_bsse_corrected_monomer_input import (
     bsse_corrected_monomer_input,
 )
 from bsse_calculator.read_total_energy import read_energies
+import numpy as np
+import tempfile
+import shutil
+import subprocess
+from pathlib import Path
 
 
 def run_software(input_files, force_run=True):
@@ -15,13 +20,26 @@ def run_software(input_files, force_run=True):
         input_files (list): list of input files
         force_run (bool): whether to run NWChem or not if output files already exist
     Returns the directory of the output path"""
-    for input_file in input_files:
-        output_file = input_file.replace("input", "output")
-        with open(output_file, "w") as out:
-            subprocess.run(["nwchem", input_file], stdout=out)
+    for input_path in input_files:
+        input_path = Path(input_path).resolve()
+        output_path = input_path.with_name(input_path.name.replace("input", "output"))
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmpdir_path = Path(tmpdir)
+
+            tmp_input = tmpdir_path / input_path.name
+            shutil.copy(input_path, tmp_input)
+            with open(output_path, "w") as out:
+                result = subprocess.run(
+                    ["nwchem", tmp_input],
+                    stdout=out,  # streamed to file
+                    stderr=subprocess.PIPE,  # captured in memory
+                    text=True,
+                )
+            if result.stderr:
+                return
 
 
-def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
+def get_bsses(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     """
     Calculates BSSE for geometry (of dimer)
     Returns a dictionary of the form
@@ -69,16 +87,29 @@ def get_bsse(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
                     os.path.join(scripts_dir, "input_monomer.txt"),
                 ]
             )
-    total_energy = read_energies(os.path.join(scripts_dir, "output_dimer.txt"))[
-        "Total_energy"
-    ]
-    E_A_AB = read_energies(os.path.join(scripts_dir, "output_A_AB.txt"))["Total_energy"]
-    E_B_AB = read_energies(os.path.join(scripts_dir, "output_B_AB.txt"))["Total_energy"]
-    E_monomer = read_energies(os.path.join(scripts_dir, "output_monomer.txt"))[
-        "Total_energy"
-    ]
-    return {
-        "Delta_E_AB_AB": total_energy - E_A_AB - E_B_AB,
-        "BSSE_A": E_monomer - E_A_AB,
-        "BSSE_B": E_monomer - E_B_AB,
-    }
+    try:
+        dimer_energies = read_energies(os.path.join(scripts_dir, "output_dimer.txt"))
+        E_A_AB_energies = read_energies(os.path.join(scripts_dir, "output_A_AB.txt"))
+        E_B_AB_energies = read_energies(os.path.join(scripts_dir, "output_B_AB.txt"))
+        E_monomer_energies = read_energies(
+            os.path.join(scripts_dir, "output_monomer.txt")
+        )
+        output = {}
+        for energy in dimer_energies.keys():
+            output[f"{energy}_Delta_E_AB_AB"] = (
+                dimer_energies[energy]
+                - E_A_AB_energies[energy]
+                - E_B_AB_energies[energy]
+            )
+
+            output[f"{energy}_BSSE_A"] = (
+                E_monomer_energies[energy] - E_A_AB_energies[energy]
+            )
+
+            output[f"{energy}_BSSE_B"] = (
+                E_monomer_energies[energy] - E_B_AB_energies[energy]
+            )
+
+        return output
+    except:
+        raise ValueError("Failed to calculate BSSE")

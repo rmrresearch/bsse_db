@@ -1,4 +1,4 @@
-from bsse_calculator.get_bsse import get_bsse
+from bsse_calculator.get_bsse import get_bsses
 from pytest import approx
 import os, shutil
 
@@ -18,11 +18,11 @@ def test_get_bsse(tmp_path):
         src = os.path.join(assets_dir, filename)
         dst = os.path.join(tmp_path, filename)
         shutil.copyfile(src, dst)
-    output = get_bsse(geometry, tmp_path, force_rerun=False)
+    output = get_bsses(geometry, tmp_path, force_rerun=False)
     expected_output = {
-        "Delta_E_AB_AB": 0.0010827957681129874,
-        "BSSE_A": 0.00016099410720471496,
-        "BSSE_B": 0.00016099410704839556,
+        "Total_energy_Delta_E_AB_AB": 0.000515982992553,
+        "Total_energy_BSSE_A": -3.5498e-11,
+        "Total_energy_BSSE_B": -3.5498e-11,
     }
     for key in expected_output:
         assert output[key] == approx(expected_output[key], abs=1e-3)

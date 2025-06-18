@@ -1,5 +1,5 @@
 from bsse_calculator.generate_dimer_geometry import generate_dimer_geometry
-from bsse_calculator.get_bsse import get_bsse
+from bsse_calculator.get_bsse import get_bsses
 import pandas as pd
 import numpy as np
 import os
@@ -23,20 +23,22 @@ if __name__ == "__main__":
         list(
             itertools.product(
                 np.arange(0.25, 2, 0.25),
-                np.arange(2, 3, 0.25),
+                np.arange(0.25, 2, 0.25),
                 np.arange(0.25, 2, 0.25),
             )
         )
     ):
+        if coords == (0.5, 1.0, 1.75):
+            continue
         if np.sqrt(coords[0] ** 2 + coords[1] ** 2 + coords[2] ** 2) < 2:
             continue
         geometry = generate_dimer_geometry(
             water_monomer, coords[0], coords[1], coords[2]
         )
         print(coords)
-        output = get_bsse(
+        output = get_bsses(
             geometry,
-            f"H2O_H2O_distance_{'_'.join(map(str, coords))}",
+            f"data/water/nwchem_outputs/H2O_H2O_distance_{'_'.join(map(str, coords))}",
             force_rerun=False,
         )
         output["x"] = coords[0]
