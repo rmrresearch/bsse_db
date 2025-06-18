@@ -42,6 +42,6 @@ def read_energies(file_path):
             "Total_energy": total_energy,
             "MP2_correlation_energy": mp2_correlation_energy,
             "(T)_correlation_energy": paren_t_correlation_energy,
-            "CCSD corr.energy": CSSD_corr_energy - mp2_correlation_energy,
+            "CCSD_correlation_energy": CSSD_corr_energy - mp2_correlation_energy,
             "SCF_energy": scf_energy,
         }

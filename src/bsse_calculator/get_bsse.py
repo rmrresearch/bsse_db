@@ -99,14 +99,17 @@ def get_bsses(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
             output[f"{energy}_Delta_E_AB_AB"] = (
                 dimer_energies[energy]
                 - E_A_AB_energies[energy]
-                - E_B_AB_energies[energy],
+                - E_B_AB_energies[energy]
             )
+
             output[f"{energy}_BSSE_A"] = (
-                E_monomer_energies[energy] - E_A_AB_energies[energy],
+                E_monomer_energies[energy] - E_A_AB_energies[energy]
             )
+
             output[f"{energy}_BSSE_B"] = (
-                E_monomer_energies[energy] - E_B_AB_energies[energy],
+                E_monomer_energies[energy] - E_B_AB_energies[energy]
             )
+
         return output
     except:
         raise ValueError("Failed to calculate BSSE")
