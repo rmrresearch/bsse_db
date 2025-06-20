@@ -30,7 +30,7 @@ def run_software(input_files, force_run=True):
             shutil.copy(input_path, tmp_input)
             with open(output_path, "w") as out:
                 result = subprocess.run(
-                    ["nwchem", tmp_input],
+                    ["mpirun", "--use-hwthread-cpus", "nwchem", tmp_input],
                     stdout=out,  # streamed to file
                     stderr=subprocess.PIPE,  # captured in memory
                     text=True,
