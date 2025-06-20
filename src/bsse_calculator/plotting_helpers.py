@@ -9,6 +9,7 @@ from itertools import combinations
 from collections import defaultdict
 from typing import Optional
 
+
 def make_bsse_contour_plots(bsse_data_nwchem, monomer_name):
     num_plots = bsse_data_nwchem["y"].nunique()
     fig, axes = plt.subplots(nrows=num_plots // 2, ncols=2, figsize=(25, 25))
