@@ -3,20 +3,11 @@ import pandas as pd
 from matplotlib.colors import Normalize
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from scipy.interpolate import griddata
+from scipy.interpolate import griddata, UnivariateSpline
 from scipy.optimize import curve_fit
-from scipy.interpolate import UnivariateSpline
-import matplotlib.pyplot as plt
-from itertools import combinations
-from scipy.interpolate import UnivariateSpline
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 from itertools import combinations
 from collections import defaultdict
 from typing import Optional
-
 
 def make_bsse_contour_plots(bsse_data_nwchem, monomer_name):
     num_plots = bsse_data_nwchem["y"].nunique()
