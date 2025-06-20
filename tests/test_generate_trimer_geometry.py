@@ -1,5 +1,7 @@
 from bsse_calculator.generate_trimer_geometry import generate_trimer_geometry
 import pytest
+
+
 def test_generate_trimer_geometry():
     input_geo = [
         "O -0.15218561 -0.00116398 0.00000000",
@@ -24,6 +26,7 @@ def test_generate_trimer_geometry():
         ],
     ]
     assert output_geo == generate_trimer_geometry(input_geo, 4)
+
 
 def test_fails_with_overlap():
     input_geo = [

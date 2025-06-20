@@ -4,6 +4,7 @@ import json
 import numpy as np
 from tqdm import tqdm
 import os
+
 neon_monomer = [
     "Ne 0.00000000 0.00000000 0.00000000",
 ]

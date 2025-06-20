@@ -17,6 +17,7 @@ from itertools import combinations
 from collections import defaultdict
 from typing import Optional
 
+
 def make_bsse_contour_plots(bsse_data_nwchem, monomer_name):
     num_plots = bsse_data_nwchem["y"].nunique()
     fig, axes = plt.subplots(nrows=num_plots // 2, ncols=2, figsize=(25, 25))
@@ -531,7 +532,9 @@ def plot_dual_axis(
 ):
     fig, ax1 = plt.subplots(figsize=(10, 6)) if ax1 is None else (None, ax1)
 
-    ax1.plot(x_series.values, series1.values, color="tab:blue", label=label1, marker="o")
+    ax1.plot(
+        x_series.values, series1.values, color="tab:blue", label=label1, marker="o"
+    )
     ax1.set_ylabel(y1_label)
     ax1.tick_params(axis="y")
 
