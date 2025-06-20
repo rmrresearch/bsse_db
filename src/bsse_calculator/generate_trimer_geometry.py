@@ -23,6 +23,6 @@ def check_no_overlaps(geometry):
         for atom1, atom2 in product(monomers[0], monomers[1]):
             pos1 = np.array([float(atom1.split()[1]), float(atom1.split()[2]), float(atom1.split()[3])])
             pos2 = np.array([float(atom2.split()[1]), float(atom2.split()[2]), float(atom2.split()[3])])
-            if np.linalg.norm(pos1 - pos2) < 1.5:
+            if np.linalg.norm(pos1 - pos2) < 1.4:
                 return False
     return True

@@ -17,5 +17,5 @@ for side_length in tqdm(list(np.arange(1.5, 4, 0.25))):
     os.makedirs(f"Ne_trimer_{side_length}", exist_ok=True)
     out[side_length] = get_bsse_trimer(trimer, f"Ne_trimer_{side_length}")
 
-with open("data/Ne/Ne_trimer_energies.json", "w") as f:
+with open("data/Ne/Ne_trimer_energies_extra.json", "w") as f:
     json.dump(out, f)
