@@ -16,7 +16,7 @@ To fix this we calculate the energy of both $A$ and $B$ in the combined basis to
 The monomers in the parentheses refer to the basis set and the subscript refers to the monomers the energy is being calculated for. So in this notation the first equation, the interaction energy without BSSE correction, becomes
 
 ```math
- \Delta E(AB)_{AB} = E(AB)_{AB} - E(A)_A - E(B)_B
+ \Delta E_{AB} = E(AB)_{AB} - E(A)_A - E(B)_B
 ```
 The BSSE is simply the difference between these two terms.
 ```math
@@ -27,5 +27,5 @@ For larger systems the BSSE and Interaction Energy is defined analogously.
  \Delta E_{\text{corrected}}(ABC)_{ABC} = E(ABC)_{ABC} - \Sigma_{i} E(ABC)_{i} + \Sigma_{i < j} (E(ij)_{ij} + E(ABC)_{ij})
 ```
 ```math
- \Delta E_(ABC)_{ABC} = E(ABC)_{ABC} - \Sigma_{i} E(i)_{i}
+ \Delta E_{ABC} = E(ABC)_{ABC} - \Sigma_{i} E(i)_{i}
 ```
