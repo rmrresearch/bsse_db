@@ -24,7 +24,7 @@ The BSSE is simply the difference between these two terms.
 ```
 For larger systems the BSSE and Interaction Energy is defined analogously.
 ```math
- \Delta E_{\text{corrected}}(ABC)_{ABC} = E(ABC)_{ABC} - \Sigma_{i} E(ABC)_{i} + \Sigma_{i,j} (E(ij)_{ij} + E(ABC)_{ij})
+ \Delta E_{\text{corrected}}(ABC)_{ABC} = E(ABC)_{ABC} - \Sigma_{i} E(ABC)_{i} + \Sigma_{i < j} (E(ij)_{ij} + E(ABC)_{ij})
 ```
 ```math
  \Delta E_(ABC)_{ABC} = E(ABC)_{ABC} - \Sigma_{i} E(i)_{i}
