@@ -10,7 +10,7 @@ This approach however overestimates the interaction energy because the calculati
 To fix this we calculate the energy of both $A$ and $B$ in the combined basis to get the BSSE corrected interaction energy. 
 
 ```math
- \Delta E_{\text{corrected}}(AB)_{AB} = E(AB)_{AB} - E(AB)_{AB} - E(AB)_{AB}
+ \Delta E_{\text{corrected}}(AB)_{AB} = E(AB)_{AB} - E(AB)_{A} - E(AB)_{B}
 ```
 
 The monomers in the parentheses refer to the basis set and the subscript refers to the monomers the energy is being calculated for. So in this notation the first equation, the interaction energy without BSSE correction, becomes
