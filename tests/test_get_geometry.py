@@ -1,5 +1,9 @@
-from bsse_calculator.get_geometry import get_geometry
+from bsse_calculator.get_geometry import (
+    get_geometry,
+    generate_dimer_geometry_euler_angles,
+)
 import pytest
+import numpy as np
 
 
 def test_geometry_FF_distance():
@@ -39,3 +43,25 @@ def test_FF_distance_too_short():
     FF_distance = 1.3
     with pytest.raises(ValueError):
         get_geometry(HF_bond_length, FF_distance=FF_distance)
+
+
+def test_geometry_euler_angles():
+    water_monomer = [
+        "O -0.15218561 -0.00116398 0.00000000",
+        "H 0.43776878 -0.76611046 0.00000000",
+        "H 0.44759598 0.75607921 0.00000000",
+    ]
+    expected_output = [
+        [
+            "O -0.15218561 -0.00116398 0.00000000",
+            "H 0.43776878 -0.76611046 0.00000000",
+            "H 0.44759598 0.75607921 0.00000000",
+        ],
+        [
+            "O -0.15218561 -7.12732190635768e-20 3.99883602",
+            "H 0.43776878 -4.691073613161532e-17 3.23388954",
+            "H 0.44759598 4.6296499221417974e-17 4.75607921",
+        ],
+    ]
+    output = generate_dimer_geometry_euler_angles(water_monomer, np.pi / 2, 0, 0, 4)
+    assert output == expected_output

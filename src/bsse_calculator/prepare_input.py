@@ -1,8 +1,9 @@
-def prepare_input(geometry_str, input_file_path, task):
+def prepare_input(geometry_str, input_file_path, task, basis_set="aug-cc-pvdz"):
     """Takes a geometry string and writes it to a nwchem input file with name input_file_path.
     The task parameter is either "energy" or "optimize and determines whether to perform an single
     point energy calculation or geometry optimization"""
     with open(input_file_path, "w") as f:
+        f.write("memory 16 gb\n")
         f.write("geometry\n")
         f.write(geometry_str)
         f.write("end\n")
@@ -16,9 +17,9 @@ def prepare_input(geometry_str, input_file_path, task):
             ghost = "bq" in atom
             if ghost:
                 atom = atom.replace("bq", "")
-                f.write(f"  bq{atom} library {atom} aug-cc-pvdz\n")
+                f.write(f"  bq{atom} library {atom} {basis_set}\n")
             else:
-                f.write(f"  {atom} library aug-cc-pvdz\n")
+                f.write(f"  {atom} library {basis_set}\n")
         f.write("end\n")
         if task == "energy":
             f.write("task ccsd(t) energy\n")

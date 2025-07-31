@@ -8,20 +8,24 @@ from scipy.optimize import curve_fit
 from itertools import combinations
 from collections import defaultdict
 from typing import Optional
+import json
+import re
 
 
-def make_bsse_contour_plots(bsse_data_nwchem, monomer_name):
+def make_bsse_contour_plots(bsse_data_nwchem, monomer_name, title=""):
     num_plots = bsse_data_nwchem["y"].nunique()
-    fig, axes = plt.subplots(nrows=num_plots // 2, ncols=2, figsize=(25, 25))
+    if num_plots > 8:
+        num_plots = 8
+    fig, axes = plt.subplots(nrows=num_plots // 2, ncols=2, figsize=(20, 20))
+    axes = axes.flatten()
     cmap = cm.get_cmap("viridis")
     vmin = bsse_data_nwchem["BSSE_A"].min()
     vmax = bsse_data_nwchem["BSSE_A"].max()
     normalizer = Normalize(vmin=vmin, vmax=vmax)
 
-    for i, fixed_y_value in enumerate(
-        np.arange(0.25, bsse_data_nwchem["y"].max(), 0.25)
+    for ax, fixed_y_value in zip(
+        axes, (np.arange(0.25, bsse_data_nwchem["y"].max(), 0.25))
     ):
-        ax = axes[i // 2, i % 2]
         data = bsse_data_nwchem[bsse_data_nwchem["y"] == fixed_y_value][
             ["x", "z", "BSSE_A"]
         ]
@@ -29,27 +33,24 @@ def make_bsse_contour_plots(bsse_data_nwchem, monomer_name):
         zs = data["z"].values
         bsse = data["BSSE_A"].values
 
-        # Grid and interpolation
         xi = np.linspace(min(xs), max(xs), 50)
         zi = np.linspace(min(zs), max(zs), 50)
         Xi, Zi = np.meshgrid(xi, zi)
         bssei = griddata((xs, zs), bsse, (Xi, Zi), method="cubic")
 
-        # Filled contour plot with fixed vmin/vmax
         contour = ax.contourf(
             Xi, Zi, bssei, levels=8, cmap="viridis", vmin=vmin, vmax=vmax
         )
-        ax.set_title(f"Contour Plot for y = {fixed_y_value}")
+        ax.set_title(f"Contour Plot for y = {fixed_y_value} {title}")
         ax.set_xlabel(f"X Coordinate of Second {monomer_name} (Å)")
         ax.set_ylabel(f"Z Coordinate of Second {monomer_name} (Å)")
-
-    # Create colorbar using the normalizer and colormap directly
     cbar = fig.colorbar(
         cm.ScalarMappable(norm=normalizer, cmap=cmap), ax=axes.ravel().tolist()
     )
     cbar.set_label("BSSE (kcal/mol)", labelpad=20)
-
     plt.show()
+
+    return fig
 
 
 def fit_gaussian(bsse_data_nwchem, num_gaussians=2):
@@ -121,7 +122,7 @@ def make_contour_plots_of_fitted_gaussian(bsse_data_nwchem, fit_gauss):
     plt.show()
 
 
-def predicted_v_actual_plot(bsse_data_nwchem, fit_gauss):
+def predicted_v_actual_plot(bsse_data_nwchem, fit_gauss, title):
     predicted_bsses = fit_gauss(bsse_data_nwchem[["x", "y", "z"]].values)
     actual_bsse = bsse_data_nwchem["BSSE_A"].values
     bsse_data_nwchem["predicted_bsse"] = predicted_bsses
@@ -141,7 +142,7 @@ def predicted_v_actual_plot(bsse_data_nwchem, fit_gauss):
 
     plt.xlabel("Predicted BSSE (kcal/mol)")
     plt.ylabel("Actual BSSE (kcal/mol)")
-    plt.title("Predicted vs Actual BSSE Values")
+    plt.title(f"Predicted vs Actual BSSE Values {title}")
     plt.legend()
     plt.grid(True, alpha=0.3)
 
@@ -328,7 +329,8 @@ def create_df(energies):
         for energy_type in energy_types:
             row = {"side_length": side_length}
             for calculation in energies[side_length].keys():
-                row[calculation] = (
+                calculation_new = calculation.replace("_", "").replace(")", ")_")
+                row[calculation_new] = (
                     energies[side_length][calculation][energy_type] * 627.5096
                 )
             regrouped_energies[energy_type].append(row)
@@ -344,41 +346,35 @@ def create_BSSEs_and_interaction_energies(total_energies):
         dimer_basis_name = (
             f"Delta_E({monomers[0]}{monomers[1]})_{monomers[0]}{monomers[1]}"
         )
-        dimer = f"{monomers[0]}_{monomers[1]}"
+        dimer = f"{monomers[0]}{monomers[1]}"
         total_energies[dimer_basis_name] = (
             total_energies[f"E({dimer})_{dimer}"]
-            - total_energies[f"E({monomers[0]})_{dimer}"]
-            - total_energies[f"E({monomers[1]})_{dimer}"]
+            - total_energies[f"E({dimer})_{monomers[0]}"]
+            - total_energies[f"E({dimer})_{monomers[1]}"]
         )
         # BSSE of adding third basis
-        full_basis_name = f"Delta_E({monomers[0]}{monomers[1]})_ABC"
+        full_basis_name = f"Delta_E(ABC)_{monomers[0]}{monomers[1]}"
         total_energies[full_basis_name] = (
-            total_energies[f"E({dimer})_A_B_C"]
-            - total_energies[f"E({monomers[0]})_A_B_C"]
-            - total_energies[f"E({monomers[1]})_A_B_C"]
+            total_energies[f"E(ABC)_{dimer}"]
+            - total_energies[f"E(ABC)_{monomers[0]}"]
+            - total_energies[f"E(ABC)_{monomers[1]}"]
         )
         total_energies[f"BSSE_({dimer})"] = (
             total_energies[dimer_basis_name] - total_energies[full_basis_name]
         )
+    working_interaction_energy = total_energies["E(ABC)_ABC"].copy()
     for monomer in ["A", "B", "C"]:
-        column_name = f"BSSE_({monomer})_ABC"
-        total_energies[column_name] = (
-            total_energies[f"E({monomer})_{monomer}"]
-            - total_energies[f"E({monomer})_A_B_C"]
-        )
-    working_interaction_energy = total_energies["E(A_B_C)_A_B_C"].copy()
-    for monomer in ["A", "B", "C"]:
-        working_interaction_energy -= total_energies[f"E({monomer})_A_B_C"]
+        working_interaction_energy -= total_energies[f"E(ABC)_{monomer}"]
     for monomers in combinations(["A", "B", "C"], 2):
         working_interaction_energy += (
-            -total_energies[f"Delta_E({monomers[0]}{monomers[1]})_ABC"]
+            -total_energies[f"Delta_E(ABC)_{monomers[0]}{monomers[1]}"]
             + total_energies[
                 f"Delta_E({monomers[0]}{monomers[1]})_{monomers[0]}{monomers[1]}"
             ]
         )
     total_energies["Total Interaction Energy (BSSE free)"] = working_interaction_energy
     working_total_interaction_energy_wo_bsse_correction = total_energies[
-        "E(A_B_C)_A_B_C"
+        "E(ABC)_ABC"
     ].copy()
     for monomer in ["A", "B", "C"]:
         working_total_interaction_energy_wo_bsse_correction -= total_energies[
@@ -403,7 +399,7 @@ def plot_interaction_and_bsse(total_energies):
     x_sorted = np.array(total_energies["side_length"])[sorted_indices].astype(float)
     # x_smooth = np.linspace(x_sorted.min(), x_sorted.max(), 300)
 
-    y_delta_e = np.array(total_energies["Delta_E(A_B_C)_A_B_C"])[sorted_indices]
+    y_delta_e = np.array(total_energies["Delta_E(ABC)_ABC"])[sorted_indices]
     # spline_delta_e = UnivariateSpline(x_sorted, y_delta_e, s=0)
     ax1.plot(x_sorted, y_delta_e, color="black", label="ΔE(ABC)", zorder=3, marker="o")
     # ax1.plot(x_smooth, spline_delta_e(x_smooth), color='black', alpha=0.7, linewidth=2)
@@ -509,10 +505,164 @@ def plot_interaction_with_extra_basis(total_energies):
     plt.show()
 
 
+def calculate_total_interaction_energy_with_bsse(df):
+    working_total_interaction_energy_with_bsse = df["E(ABCD)_ABCD"].copy()
+    for monomer in ["A", "B", "C", "D"]:
+        working_total_interaction_energy_with_bsse -= df[f"E({monomer})_{monomer}"]
+    df["Total Interaction Energy (w/ BSSE)"] = (
+        working_total_interaction_energy_with_bsse
+    )
+
+
+def calculate_dimer_interaction_energies(df):
+    for monomer1, monomer2 in combinations(["A", "B", "C", "D"], 2):
+        df[f"Delta_E({monomer1}{monomer2})_{monomer1}{monomer2}"] = (
+            df[f"E({monomer1}{monomer2})_{monomer1}{monomer2}"]
+            - df[f"E({monomer1}{monomer2})_{monomer1}"]
+            - df[f"E({monomer1}{monomer2})_{monomer2}"]
+        )
+    for monomer1, monomer2, monomer3 in combinations(["A", "B", "C", "D"], 3):
+        for dimer in combinations([monomer1, monomer2, monomer3], 2):
+            df[f"Delta_E({monomer1}{monomer2}{monomer3})_{dimer[0]}{dimer[1]}"] = (
+                df[f"E({monomer1}{monomer2}{monomer3})_{dimer[0]}{dimer[1]}"]
+                - df[f"E({monomer1}{monomer2}{monomer3})_{dimer[0]}"]
+                - df[f"E({monomer1}{monomer2}{monomer3})_{dimer[1]}"]
+            )
+    for dimer in combinations(["A", "B", "C", "D"], 2):
+        df[f"Delta_E(ABCD)_{dimer[0]}{dimer[1]}"] = (
+            df[f"E(ABCD)_{dimer[0]}{dimer[1]}"]
+            - df[f"E(ABCD)_{dimer[0]}"]
+            - df[f"E(ABCD)_{dimer[1]}"]
+        )
+
+
+def calculate_trimer_interaction_energies(df):
+    for monomer1, monomer2, monomer3 in combinations(["A", "B", "C", "D"], 3):
+        working_interaction_energy = df[
+            f"E({monomer1}{monomer2}{monomer3})_{monomer1}{monomer2}{monomer3}"
+        ].copy()
+        for monomer in [monomer1, monomer2, monomer3]:
+            working_interaction_energy -= df[
+                f"E({monomer1}{monomer2}{monomer3})_{monomer}"
+            ]
+        for dimer in combinations([monomer1, monomer2, monomer3], 2):
+            working_interaction_energy -= df[
+                f"Delta_E({monomer1}{monomer2}{monomer3})_{dimer[0]}{dimer[1]}"
+            ]
+        df[
+            f"Delta_E({monomer1}{monomer2}{monomer3})_{monomer1}{monomer2}{monomer3}"
+        ] = working_interaction_energy
+    for monomer1, monomer2, monomer3 in combinations(["A", "B", "C", "D"], 3):
+        working_interaction_energy_tetramer_basis = df[
+            f"E(ABCD)_{monomer1}{monomer2}{monomer3}"
+        ].copy()
+        for monomer in [monomer1, monomer2, monomer3]:
+            working_interaction_energy_tetramer_basis -= df[f"E(ABCD)_{monomer}"]
+        for dimer in combinations([monomer1, monomer2, monomer3], 2):
+            working_interaction_energy_tetramer_basis -= df[
+                f"Delta_E(ABCD)_{dimer[0]}{dimer[1]}"
+            ]
+        df[f"Delta_E(ABCD)_{monomer1}{monomer2}{monomer3}"] = (
+            working_interaction_energy_tetramer_basis
+        )
+
+
+def calculate_total_interaction_energy_with_correction(df):
+    working_total_interaction_energy_with_correction = df["E(ABCD)_ABCD"].copy()
+    for monomer in ["A", "B", "C", "D"]:
+        working_total_interaction_energy_with_correction -= df[f"E(ABCD)_{monomer}"]
+    for dimer in combinations(["A", "B", "C", "D"], 2):
+        working_total_interaction_energy_with_correction += (
+            -df[f"Delta_E(ABCD)_{dimer[0]}{dimer[1]}"]
+            + df[f"Delta_E({dimer[0]}{dimer[1]})_{dimer[0]}{dimer[1]}"]
+        )
+    for trimer in combinations(["A", "B", "C", "D"], 3):
+        working_total_interaction_energy_with_correction += (
+            -df[f"Delta_E(ABCD)_{trimer[0]}{trimer[1]}{trimer[2]}"]
+            + df[
+                f"Delta_E({trimer[0]}{trimer[1]}{trimer[2]})_{trimer[0]}{trimer[1]}{trimer[2]}"
+            ]
+        )
+    df["Total Interaction Energy (BSSE free)"] = (
+        working_total_interaction_energy_with_correction
+    )
+
+
+def calculate_total_bsse(df):
+    df["Total BSSE"] = (
+        df["Total Interaction Energy (w/ BSSE)"]
+        - df["Total Interaction Energy (BSSE free)"]
+    )
+
+
+def get_dimer_bsse(df):
+    for dimer in combinations(["A", "B", "C", "D"], 2):
+        df[f"BSSE_Dimer({dimer[0]}{dimer[1]})"] = (
+            df[f"Delta_E({dimer[0]}{dimer[1]})_{dimer[0]}{dimer[1]}"]
+            - df[f"Delta_E(ABCD)_{dimer[0]}{dimer[1]}"]
+        )
+
+
+def get_trimer_bsse(df):
+    for trimer in combinations(["A", "B", "C", "D"], 3):
+        df[f"BSSE_Trimer({trimer[0]}{trimer[1]}{trimer[2]})"] = (
+            df[
+                f"Delta_E({trimer[0]}{trimer[1]}{trimer[2]})_{trimer[0]}{trimer[1]}{trimer[2]}"
+            ]
+            - df[f"Delta_E(ABCD)_{trimer[0]}{trimer[1]}{trimer[2]}"]
+        )
+
+
+def get_monomer_bsse(df):
+    for monomer in ["A", "B", "C", "D"]:
+        df[f"BSSE_Monomer({monomer})"] = (
+            df[f"E({monomer})_{monomer}"] - df[f"E(ABCD)_{monomer}"]
+        )
+
+
+def group_bsse(df):
+    total_dimer_bsse = pd.Series(0, index=df.index)
+    for column in df.columns:
+        if "BSSE_Dimer" in column:
+            total_dimer_bsse += df[column]
+    df["BSSE Dimer Sum"] = total_dimer_bsse
+
+    total_trimer_bsse = pd.Series(0, index=df.index)
+    for column in df.columns:
+        if "BSSE_Trimer" in column:
+            total_trimer_bsse += df[column]
+    df["BSSE Trimer Sum"] = total_trimer_bsse
+
+    total_Monomer_bsse = pd.Series(0, index=df.index)
+    for column in df.columns:
+        if "BSSE_Monomer" in column:
+            total_Monomer_bsse += df[column]
+    df["BSSE Monomer Sum"] = total_Monomer_bsse
+
+
+def run_all_calculations(df):
+    calculate_total_interaction_energy_with_bsse(df)
+    calculate_dimer_interaction_energies(df)
+    calculate_trimer_interaction_energies(df)
+    calculate_total_interaction_energy_with_correction(df)
+    calculate_total_bsse(df)
+    get_dimer_bsse(df)
+    get_trimer_bsse(df)
+    get_monomer_bsse(df)
+    group_bsse(df)
+    return df
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from typing import Optional
+
+
 def plot_dual_axis(
     series1: pd.Series,
     series2: pd.Series,
     x_series: pd.Series,
+    type: str = "line",
     *,
     ax1: Optional[plt.Axes] = None,
     title: str = "Dual Axis Plot",
@@ -521,25 +671,429 @@ def plot_dual_axis(
     y2_label: str = "Right Y-axis",
     label1: str = "Series 1",
     label2: str = "Series 2",
+    show_legend: bool = True,
 ):
     fig, ax1 = plt.subplots(figsize=(10, 6)) if ax1 is None else (None, ax1)
 
-    ax1.plot(
-        x_series.values, series1.values, color="tab:blue", label=label1, marker="o"
-    )
+    if type == "line":
+        ax1.plot(
+            x_series.values, series1.values, color="tab:blue", label=label1, marker="o"
+        )
+        ax2 = ax1.twinx()
+        ax2.plot(
+            x_series.values, series2.values, color="tab:red", label=label2, marker="o"
+        )
+    elif type == "scatter":
+        ax1.scatter(x_series.values, series1.values, color="tab:blue", label=label1)
+        ax2 = ax1.twinx()
+        ax2.scatter(x_series.values, series2.values, color="tab:red", label=label2)
+    else:  # bar plot
+        width = 0.4
+        x = x_series.values
+        x1 = [i - width / 2 for i in range(len(x))]
+        x2 = [i + width / 2 for i in range(len(x))]
+
+        ax1.bar(
+            x1,
+            series1.values,
+            width=width,
+            color="tab:blue",
+            label=label1,
+            align="center",
+        )
+        ax2 = ax1.twinx()
+        ax2.bar(
+            x2,
+            series2.values,
+            width=width,
+            color="tab:red",
+            label=label2,
+            align="center",
+        )
+
+        ax1.set_xticks(range(len(x)))
+        ax1.set_xticklabels(x)
+
     ax1.set_ylabel(y1_label)
-    ax1.tick_params(axis="y")
-
-    ax2 = ax1.twinx()
-    ax2.plot(x_series.values, series2.values, color="tab:red", label=label2, marker="o")
     ax2.set_ylabel(y2_label)
-    ax2.tick_params(axis="y")
-
     ax1.set_xlabel(x_label)
     ax1.set_title(title)
+    ax1.tick_params(axis="y")
+    ax2.tick_params(axis="y")
 
-    # Optional: combine legends
+    # Combine legends
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
+    if show_legend:
+        ax1.legend(lines1 + lines2, labels1 + labels2)
     return lines1 + lines2, labels1 + labels2
-    # ax1.legend(lines1 + lines2, labels1 + labels2, loc="upper left")
+
+
+def create_df_euler_angles(filename):
+    energies = json.loads(open(filename, "r").read())
+    energies_df = []
+    for phi in energies:
+        for theta in energies[phi]:
+            for psi in energies[phi][theta]:
+                for translation in energies[phi][theta][psi]:
+                    record = {
+                        "phi": phi,
+                        "theta": theta,
+                        "psi": psi,
+                        "translation": translation,
+                        **{
+                            k: energy * 627.5096
+                            for k, energy in energies[phi][theta][psi][
+                                translation
+                            ].items()
+                        },
+                    }
+                    energies_df.append(record)
+    energies_df = pd.DataFrame(energies_df)
+    for angle in ["phi", "theta", "psi"]:
+        energies_df[angle] = energies_df[angle].astype(float) * 180 / np.pi
+    grouped_df = energies_df.groupby("translation").agg(["mean", "min", "max"])
+    return grouped_df
+
+
+def plot_energy_vs_bsse_euler_angles(grouped_df):
+    energy_types = [
+        column.replace("_BSSE_A", "")
+        for column in grouped_df.columns.get_level_values(0).unique()
+        if "BSSE_A" in column
+    ]
+    fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+    axes = axes.flatten()
+
+    # To collect legend entries
+    handles_labels = []
+    for ax, energy_type in zip(axes, energy_types):
+        formated_title = energy_type.replace("_", " ").title()
+
+        feature1 = grouped_df[f"{energy_type}_Delta_E_AB_AB"]
+        feature2 = grouped_df[f"{energy_type}_BSSE_A"]
+
+        yerr1 = [feature1["mean"] - feature1["min"], feature1["max"] - feature1["mean"]]
+        yerr2 = [feature2["mean"] - feature2["min"], feature2["max"] - feature2["mean"]]
+
+        h1 = ax.errorbar(
+            x=feature1.index,
+            y=feature1["mean"],
+            yerr=yerr1,
+            fmt="o",
+            capsize=5,
+            color="black",
+            ecolor="gray",
+            label="Total_energy_BSSE_A",
+        )
+        ax.set_ylabel("Total Interaction Energy (kcal/mol)")
+        ax.set_title(formated_title)
+
+        ax2 = ax.twinx()
+        h2 = ax2.errorbar(
+            x=feature2.index,
+            y=feature2["mean"],
+            yerr=yerr2,
+            fmt="s",
+            capsize=5,
+            color="blue",
+            ecolor="lightblue",
+            label="BSSE_A",
+        )
+        ax2.set_ylabel("BSSE (kcal/mol)")
+
+    plt.tight_layout()
+    bbox = axes[-1].get_position()
+    fig.delaxes(axes[-1])  # Remove empty subplot if needed
+
+    # Add a joint legend to the figure
+    fig.legend(
+        handles=[h1, h2],
+        labels=["Delta_E_AB_AB", "BSSE_A"],
+        loc="center",
+        bbox_to_anchor=(bbox.x0 + bbox.width / 2, bbox.y0 + bbox.height / 2),
+        frameon=False,
+    )
+
+
+def plot_bsse_components(filename, monomer_name):
+    energies = json.loads(open(filename, "r").read())
+    energy_dfs = create_df(energies)
+    energy_types_df = pd.DataFrame(
+        columns=energy_dfs["Total_energy"].columns.tolist() + ["type"]
+    )
+    for energy_type, df in energy_dfs.items():
+        df = df.copy()
+        df["type"] = energy_type
+        energy_types_df = pd.concat([energy_types_df, df], axis=0)
+
+    energy_types_df.reset_index(drop=True, inplace=True)
+    energy_dfs = run_all_calculations(energy_types_df)
+    tmp_df = energy_types_df[
+        ["type", "BSSE Monomer Sum", "BSSE Dimer Sum", "BSSE Trimer Sum"]
+    ]
+    tmp_df.plot(x="type", kind="barh")
+    plt.title(f"BSSE components for Tetramer ({monomer_name})")
+    plt.tight_layout()
+
+
+def plot_interaction_v_bsse(filename, monomer_name):
+    energies = json.loads(open(filename, "r").read())
+    energy_dfs = create_df(energies)
+    energy_types_df = pd.DataFrame(
+        columns=energy_dfs["Total_energy"].columns.tolist() + ["type"]
+    )
+
+    for energy_type, df in energy_dfs.items():
+        df = df.copy()
+        df["type"] = energy_type
+        energy_types_df = pd.concat([energy_types_df, df], axis=0)
+    energy_types_df.reset_index(drop=True, inplace=True)
+    energy_dfs = run_all_calculations(energy_types_df)
+    energy_dfs = energy_dfs.set_index("type")
+    energy_dfs = energy_dfs.loc[
+        [
+            "Total_energy",
+            "SCF_energy",
+            "MP2_correlation_energy",
+            "CCSD_correlation_energy",
+            "(T)_correlation_energy",
+        ]
+    ]
+    lines, labels = plot_dual_axis(
+        energy_dfs["Total Interaction Energy (BSSE free)"],
+        energy_dfs["Total BSSE"],
+        energy_dfs.index,
+        title=f"Interaction Energy vs BSSE for ({monomer_name})",
+        x_label="Side Length (Å)",
+        y1_label="Interaction Energy (kcal/mol)",
+        y2_label="BSSE (kcal/mol)",
+        label1="Interaction Energy",
+        label2="BSSE",
+    )
+    plt.tight_layout()
+    plt.legend(lines, labels, loc="upper left")
+    return energy_dfs
+
+
+def plot_bsse_composition_trimer(filename, monomer_name):
+    energies = json.loads(open(filename, "r").read())
+    new_energies = defaultdict(dict)
+    labels = {
+        "BSSE monomers (one body approximation)": r"$\Sigma_{i} \theta(ABC)_{i}$",
+        "BSSE monomers (two body approximation)": r"$\Sigma_{i}(\theta(ABC)_{i} - \theta(ij)_{i})$",
+        "BSSE Dimers (two body approximation)": r"$\Sigma_{i<j} \theta(ABC)_{ij}$",
+    }
+    for side_length, calculations in energies.items():
+        for calculation_type, energies_types in calculations.items():
+            match = re.search(r"\((.*?)\)", calculation_type)
+            if match:
+                result = match.group(1)  # 'afd'
+            else:
+                raise Exception
+            monomers = result.replace("_", "")
+            basis = (
+                calculation_type.replace(f"E({result})", "")
+                .replace("_", "")
+                .replace("E(", "")
+                .replace(")", "")
+            )
+            new_energies[side_length][f"E({basis})_{monomers}"] = energies_types
+    energy_dfs = create_df(new_energies)
+    energy_dfs = {
+        k: create_BSSEs_and_interaction_energies(df) for k, df in energy_dfs.items()
+    }
+    energy_dfs = {
+        k: TrimerBsseCalculator.calculate_all_bsse(df) for k, df in energy_dfs.items()
+    }
+    fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+    axes = axes.flatten()
+    for ax, (k, df) in zip(axes, energy_dfs.items()):
+        formated_title = k.replace("_", " ")
+        tmp_df = df[["side_length"] + list(labels.keys())]
+        tmp_df.plot(x="side_length", ax=ax, kind="bar")
+        ax.set_title(f"BSSE for {formated_title} ({monomer_name})")
+        ax.legend(
+            labels=[labels[col] for col in tmp_df.columns[1:]],
+        )
+    plt.suptitle(f"BSSE components for Trimer ({monomer_name})", fontsize=20)
+    plt.tight_layout()
+    fig.delaxes(axes[-1])
+
+
+def plot_bsse_composition_tetramer(filename, monomer_name):
+    energy_dfs = plot_interaction_v_bsse(filename, monomer_name)
+    energy_dfs = TetramerBSSECalculator.calculate_all_bsse(energy_dfs)
+    monomer_name = "HF"
+    labels = {
+        "BSSE monomers (one body approximation)": r"$\Sigma_{i} \theta_{i}(ABCD)$",
+        "BSSE monomers (two body approximation)": r"$\Sigma_{i}(\theta_{i}(ABCD) - \theta_{i}(ij))$",
+        "BSSE monomers (three body approximation)": r"$\Sigma_{i}(\theta_{i}(ABCD) - \theta_{i}(ijk))$",
+        "BSSE Dimers (two body approximation)": r"$\Sigma_{i<j} \theta_{ij}(ABCD)$",
+        "BSSE Dimers (three body approximation)": r"$\Sigma_{i<j}(\theta_{ij}(ABCD) - \theta_{ij}(ijk))$",
+        "BSSE Trimers (three body approximation)": r"$\Sigma_{i<j<k} \theta_{ijk}(ABCD)$",
+    }
+    tmp_df = energy_dfs[list(labels.keys())]
+    tmp_df.index = tmp_df.index.map(
+        lambda x: x.replace("_", " ").replace("energy", "").replace("correlation", "")
+    )
+
+    ax = tmp_df.plot(kind="barh", figsize=(7, 5))
+    # Title and legend
+    plt.title(f"BSSE components for Tetramer ({monomer_name})")
+    ax.legend(
+        labels=[labels[col] for col in tmp_df.columns],
+    )
+    ax.set_ylabel("Energy Component (kcal/mol)")
+    plt.tight_layout()
+    plt.show()
+
+
+class TrimerBsseCalculator:
+    @staticmethod
+    def switch_convention(df):
+        df_copy = df.copy()
+        for column in df.columns:
+            match = re.search(r"\((.*?)\)", column)
+            if match:
+                result = match.group(1)  # 'afd'
+            else:
+                continue
+            monomers = result.replace("_", "")
+            basis = (
+                column.replace(f"E({result})", "")
+                .replace("_", "")
+                .replace("E(", "")
+                .replace(")", "")
+            )
+            df_copy[f"E({basis})_{monomers}"] = df[column]
+        return df_copy
+
+    @staticmethod
+    def calculate_monomer_bsse_one_approx(df):
+        total_dimer_bsse = pd.Series(0, index=df.index)
+        for monomer in ["A", "B", "C"]:
+            total_dimer_bsse += df[f"E({monomer})_{monomer}"] - df[f"E(ABC)_{monomer}"]
+        df["BSSE monomers (one body approximation)"] = total_dimer_bsse
+        return df
+
+    @staticmethod
+    def calculate_monomer_bsse_two_approx(df):
+        total_dimer_bsse = pd.Series(0, index=df.index)
+        for monomer in ["A", "B", "C"]:
+            two_body_approx = pd.Series(0, index=df.index)
+            for dimer in combinations(["A", "B", "C"], 2):
+                if monomer in dimer:
+                    two_body_approx += df[f"E({dimer[0]}{dimer[1]})_{monomer}"] / 2
+            total_dimer_bsse += two_body_approx - df[f"E(ABC)_{monomer}"]
+        df["BSSE monomers (two body approximation)"] = total_dimer_bsse
+        return df
+
+    @staticmethod
+    def calculate_dimer_two_approx(df):
+        total_dimer_bsse = pd.Series(0, index=df.index)
+        for dimer in combinations(["A", "B", "C"], 2):
+            total_dimer_bsse += (
+                df[f"Delta_E({dimer[0]}{dimer[1]})_{dimer[0]}{dimer[1]}"]
+                - df[f"Delta_E(ABC)_{dimer[0]}{dimer[1]}"]
+            )
+        df["BSSE Dimers (two body approximation)"] = total_dimer_bsse
+        return df
+
+    @staticmethod
+    def calculate_all_bsse(df, switch_convention=False):
+        if switch_convention:
+            df = TrimerBsseCalculator.switch_convention(df)
+        df = TrimerBsseCalculator.calculate_monomer_bsse_one_approx(df)
+        df = TrimerBsseCalculator.calculate_monomer_bsse_two_approx(df)
+        df = TrimerBsseCalculator.calculate_dimer_two_approx(df)
+        return df
+
+
+class TetramerBSSECalculator:
+    @staticmethod
+    def calculate_monomer_bsse_one_approx(df):
+        bsse = pd.Series(0, index=df.index)
+        for monomer in ["A", "B", "C", "D"]:
+            bsse += df[f"E({monomer})_{monomer}"] - df[f"E(ABCD)_{monomer}"]
+        df["BSSE monomers (one body approximation)"] = bsse
+        return df
+
+    @staticmethod
+    def calculate_monomer_bsse_two_approx(df):
+        bsse = pd.Series(0, index=df.index)
+        for monomer in ["A", "B", "C", "D"]:
+            two_body_approx = pd.Series(0, index=df.index)
+            for dimer in combinations(["A", "B", "C", "D"], 2):
+                if monomer in dimer:
+                    two_body_approx += df[f"E({dimer[0]}{dimer[1]})_{monomer}"] / 3
+            bsse += two_body_approx - df[f"E(ABCD)_{monomer}"]
+        df["BSSE monomers (two body approximation)"] = bsse
+        return df
+
+    @staticmethod
+    def calculate_monomer_bsse_three_approx(df):
+        bsse = pd.Series(0, index=df.index)
+        for monomer in ["A", "B", "C", "D"]:
+            three_body_approx = pd.Series(0, index=df.index)
+            for trimer in combinations(["A", "B", "C", "D"], 3):
+                if monomer in trimer:
+                    three_body_approx += (
+                        df[f"E({trimer[0]}{trimer[1]}{trimer[2]})_{monomer}"] / 3
+                    )
+            bsse += three_body_approx - df[f"E(ABCD)_{monomer}"]
+        df["BSSE monomers (three body approximation)"] = bsse
+        return df
+
+    @staticmethod
+    def calculate_dimer_two_approx(df):
+        bsse = pd.Series(0, index=df.index)
+        for dimer in combinations(["A", "B", "C", "D"], 2):
+            bsse += (
+                df[f"Delta_E({dimer[0]}{dimer[1]})_{dimer[0]}{dimer[1]}"]
+                - df[f"Delta_E(ABCD)_{dimer[0]}{dimer[1]}"]
+            )
+        df["BSSE Dimers (two body approximation)"] = bsse
+        return df
+
+    @staticmethod
+    def calculate_dimer_three_approx(df):
+        bsse = pd.Series(0, index=df.index)
+        for dimer in combinations(["A", "B", "C", "D"], 2):
+            three_body_approx = pd.Series(0, index=df.index)
+            for trimer in combinations(["A", "B", "C", "D"], 3):
+                if set(dimer).issubset(set(trimer)):
+                    three_body_approx += (
+                        df[
+                            f"Delta_E({trimer[0]}{trimer[1]}{trimer[2]})_{dimer[0]}{dimer[1]}"
+                        ]
+                        / 2
+                    )
+            bsse += three_body_approx - df[f"Delta_E(ABCD)_{dimer[0]}{dimer[1]}"]
+        df["BSSE Dimers (three body approximation)"] = bsse
+        return df
+
+    @staticmethod
+    def calculate_trimer_three_approx(df):
+        bsse = pd.Series(0, index=df.index)
+        for trimer in combinations(["A", "B", "C", "D"], 3):
+            bsse += (
+                df[
+                    f"Delta_E({trimer[0]}{trimer[1]}{trimer[2]})_{trimer[0]}{trimer[1]}{trimer[2]}"
+                ]
+                - df[f"Delta_E(ABCD)_{trimer[0]}{trimer[1]}{trimer[2]}"]
+            )
+        df["BSSE Trimers (three body approximation)"] = bsse
+        return df
+
+    @staticmethod
+    def calculate_all_bsse(df, switch_convention=False):
+        if switch_convention:
+            df = TetramerBSSECalculator.switch_convention(df)
+        df = TetramerBSSECalculator.calculate_monomer_bsse_one_approx(df)
+        df = TetramerBSSECalculator.calculate_monomer_bsse_two_approx(df)
+        df = TetramerBSSECalculator.calculate_monomer_bsse_three_approx(df)
+        df = TetramerBSSECalculator.calculate_dimer_two_approx(df)
+        df = TetramerBSSECalculator.calculate_dimer_three_approx(df)
+        df = TetramerBSSECalculator.calculate_trimer_three_approx(df)
+        return df

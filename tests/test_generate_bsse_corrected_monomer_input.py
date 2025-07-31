@@ -15,6 +15,7 @@ def test_bsse_corrected_monomer_input(tmp_path):
         geometry,
         os.path.join(tmp_path, "input_A_AB.txt"),
         os.path.join(tmp_path, "input_B_AB.txt"),
+        "aug-cc-pvdz"
     )
     for monomer in ["A", "B"]:
         with (

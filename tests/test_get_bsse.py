@@ -18,7 +18,7 @@ def test_get_bsse(tmp_path):
         src = os.path.join(assets_dir, filename)
         dst = os.path.join(tmp_path, filename)
         shutil.copyfile(src, dst)
-    output = get_bsses(geometry, tmp_path, force_rerun=False)
+    output = get_bsses(geometry, "aug-cc-pvdz", tmp_path, force_rerun=False)
     expected_output = {
         "Total_energy_Delta_E_AB_AB": 0.000515982992553,
         "Total_energy_BSSE_A": -3.5498e-11,

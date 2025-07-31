@@ -10,6 +10,7 @@ import tempfile
 import shutil
 import subprocess
 from pathlib import Path
+import glob
 
 
 def run_software(input_files, force_run=True):
@@ -37,9 +38,11 @@ def run_software(input_files, force_run=True):
                 )
             if result.stderr:
                 return
+        for file_path in glob.glob("input_*"):
+            os.remove(file_path)
 
 
-def get_bsses(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
+def get_bsses(geometry, basis_set, scripts_dir="scripts", force_rerun=True) -> dict:
     """
     Calculates BSSE for geometry (of dimer)
     Returns a dictionary of the form
@@ -51,13 +54,14 @@ def get_bsses(geometry, scripts_dir="scripts", force_rerun=True) -> dict:
     where Delta_E_AB_AB = ΔE(AB, AB) and BSSE_A = ε(A, AB) and BSSE_B = ε(B, AB)
     """
     os.makedirs(scripts_dir, exist_ok=True)
-    dimer_input(geometry, os.path.join(scripts_dir, "input_dimer.txt"))
+    dimer_input(geometry, os.path.join(scripts_dir, "input_dimer.txt"), basis_set)
     bsse_corrected_monomer_input(
         geometry,
         os.path.join(scripts_dir, "input_A_AB.txt"),
         os.path.join(scripts_dir, "input_B_AB.txt"),
+        basis_set,
     )
-    monomer_input(geometry, os.path.join(scripts_dir, "input_monomer.txt"))
+    monomer_input(geometry, os.path.join(scripts_dir, "input_monomer.txt"), basis_set)
     if force_rerun:
         run_software(
             [

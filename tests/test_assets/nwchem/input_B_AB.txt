@@ -1,3 +1,4 @@
+memory 16 gb
 geometry
   bqH 0 0 -1
   bqF 0 0 0

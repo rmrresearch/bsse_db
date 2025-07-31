@@ -1,4 +1,6 @@
 from math import sqrt
+import numpy as np
+from bsse_calculator.generate_nmer_geometry import check_no_overlaps
 
 
 def get_geometry(HF_bond_length, **kwargs):
@@ -28,3 +30,38 @@ def get_geometry(HF_bond_length, **kwargs):
         ]
     else:
         raise ValueError("Please specify either FF_distance or F2_coords")
+
+
+def euler_angle_rotation(phi, theta, psi):
+    rotation_z = np.array(
+        [[np.cos(psi), -np.sin(psi), 0], [np.sin(psi), np.cos(psi), 0], [0, 0, 1]]
+    )
+    rotation_y = np.array(
+        [
+            [np.cos(theta), 0, np.sin(theta)],
+            [0, 1, 0],
+            [-np.sin(theta), 0, np.cos(theta)],
+        ]
+    )
+    rotation_x = np.array(
+        [[1, 0, 0], [0, np.cos(phi), -np.sin(phi)], [0, np.sin(phi), np.cos(phi)]]
+    )
+    return rotation_x @ rotation_y @ rotation_z
+
+
+def generate_dimer_geometry_euler_angles(geo, phi, theta, psi, translation):
+    rotation_matrix = euler_angle_rotation(phi, theta, psi)
+    second_monomer = []
+    for atom in geo:
+        pos = np.array(
+            [float(atom.split()[1]), float(atom.split()[2]), float(atom.split()[3])]
+        )
+        new_pos = rotation_matrix @ pos
+        new_pos[-1] += translation
+        second_monomer.append(
+            f"{atom.split()[0]} {new_pos[0]} {new_pos[1]} {new_pos[2]}"
+        )
+    out = [geo, second_monomer]
+    if not check_no_overlaps(out):
+        raise ValueError("Monomers overlap")
+    return out
