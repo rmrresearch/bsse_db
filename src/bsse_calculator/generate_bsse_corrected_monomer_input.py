@@ -9,9 +9,13 @@ def bsse_corrected_monomer_geometry_str(geometry, ghost_monomer):
     return ret
 
 
-def bsse_corrected_monomer_input(geometry, input_A, input_B):
+def bsse_corrected_monomer_input(geometry, input_A, input_B, basis_set):
     """
     Creates NWChem input files for geometry to calculate E(A, AB) and E(B, AB)
     """
-    prepare_input(bsse_corrected_monomer_geometry_str(geometry, 0), input_A, "energy")
-    prepare_input(bsse_corrected_monomer_geometry_str(geometry, 1), input_B, "energy")
+    prepare_input(
+        bsse_corrected_monomer_geometry_str(geometry, 0), input_A, "energy", basis_set
+    )
+    prepare_input(
+        bsse_corrected_monomer_geometry_str(geometry, 1), input_B, "energy", basis_set
+    )

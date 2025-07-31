@@ -1,0 +1,33 @@
+HETATM    1  F   FLU A   1       0.836  -2.363   0.672  1.00  0.00           F  
+HETATM    2  H   FLU A   1      -0.140  -2.369   0.519  1.00  0.00           H  
+HETATM    3  F   FLU A   2       1.298  -0.713  -1.246  1.00  0.00           F  
+HETATM    4  H   FLU A   2       1.268  -1.185  -0.422  1.00  0.00           H  
+HETATM    5  F   FLU A   3      -0.414   0.193   0.601  1.00  0.00           F  
+HETATM    6  H   FLU A   3      -1.232   0.517   1.101  1.00  0.00           H  
+HETATM    7  F   FLU A   4      -2.474   0.786   1.616  1.00  0.00           F  
+HETATM    8  H   FLU A   4      -2.979   0.023   1.205  1.00  0.00           H  
+HETATM    9  F   FLU A   5      -1.303  -0.210  -1.590  1.00  0.00           F  
+HETATM   10  H   FLU A   5      -0.818  -0.019  -0.733  1.00  0.00           H  
+HETATM   11  F   FLU A   6      -1.884  -3.192  -2.124  1.00  0.00           F  
+HETATM   12  H   FLU A   6      -1.144  -2.616  -2.667  1.00  0.00           H  
+HETATM   13  F   FLU A   7      -0.410  -1.741  -3.164  1.00  0.00           F  
+HETATM   14  H   FLU A   7      -0.589  -0.997  -2.498  1.00  0.00           H  
+HETATM   15  F   FLU A   8       0.600  -3.756  -1.480  1.00  0.00           F  
+HETATM   16  H   FLU A   8       0.991  -3.360  -0.715  1.00  0.00           H  
+HETATM   17  F   FLU A   9      -3.436  -1.123   0.553  1.00  0.00           F  
+HETATM   18  H   FLU A   9      -2.650  -1.697   0.349  1.00  0.00           H  
+HETATM   19  F   FLU A  10      -1.520  -2.505   0.043  1.00  0.00           F  
+HETATM   20  H   FLU A  10      -1.660  -2.920  -1.034  1.00  0.00           H  
+
+CONECT    1    2
+CONECT    3    4
+CONECT    5    6
+CONECT    7    8
+CONECT    9   10
+CONECT   11   12
+CONECT   13   14
+CONECT   15   16
+CONECT   17   18
+CONECT   19   20
+
+END

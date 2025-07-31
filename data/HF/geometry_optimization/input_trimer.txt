@@ -1,0 +1,15 @@
+start HF_trimer
+memory 16 gb
+geometry
+  H -5.06589274 8.37794273 -0.47511090
+  F -4.33873634 7.83933722 -0.27943319
+  H 5.38487258 -0.45293860 -0.44701658
+  F 4.68737414 0.12958014 -0.26988395
+  H -0.47407939 -7.95849153 -0.81778726
+  F -0.20231709 -7.93844090 0.06708760
+end
+basis spherical
+  H library aug-cc-pvdz
+  F library aug-cc-pvdz
+end
+task ccsd(t) optimize

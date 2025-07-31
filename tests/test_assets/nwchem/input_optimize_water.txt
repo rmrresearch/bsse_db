@@ -1,3 +1,4 @@
+memory 16 gb
 geometry
   O 0 0 -0.5
   H 0 0 -2
