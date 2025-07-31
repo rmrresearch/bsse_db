@@ -19,8 +19,6 @@ geometry = [
 
 out = {}
 os.makedirs(f"ten_body_HF", exist_ok=True)
-out["10body"] = get_bsse_nmer(
-    10, geometry, "ten_body_HF", "aug-cc-pvdz", False, 4
-)
+out["10body"] = get_bsse_nmer(10, geometry, "ten_body_HF", "aug-cc-pvdz", False, 4)
 with open("data/HF/HF_10body_singlepoint.json", "w") as f:
     json.dump(out, f)
