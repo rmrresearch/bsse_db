@@ -1,9 +1,12 @@
 
 # File Organization
 
-In each molecule directory there are separate tarballs for the dimer and monomer calculations. Each tarball contains a series of subdirectories labeled either `{molecule}_{dimer/trimer}_{distance}` or `{molecule}_{dimer/trimer}_{x}_{y}_{z}`
-
-where distance is the distance separating the monomers and x,y,z are the translation distances between the monomers. 
+In each molecule directory there are separate tarballs for the dimer and monomer 
+calculations. Each tarball contains a series of subdirectories labeled 
+either `{molecule}_{dimer/trimer}_{distance}` or 
+`{molecule}_{dimer/trimer}_{x}_{y}_{z}` where distance is the distance 
+separating the monomers and x,y,z are the translation distances between the 
+monomers. 
 
 Note: All trimers are in an equilateral triangle position so there is only one distance.
 

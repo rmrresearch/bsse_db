@@ -1,11 +1,9 @@
 from bsse_calculator.get_bsse import get_bsses
 from pytest import approx
+from test_bsse_helpers import get_assets_dir
 import os, shutil
 
-assets_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "test_assets", "nwchem"
-)
-
+assets_dir = get_assets_dir()
 
 def test_get_bsse(tmp_path):
     geometry = [["H 0 0 -1", "F 0 0 0"], ["F 0 0 4", "H 0 0 5"]]

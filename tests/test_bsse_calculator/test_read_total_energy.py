@@ -1,10 +1,9 @@
 from bsse_calculator.read_total_energy import read_energies
 from pytest import approx
+from test_bsse_helpers import get_assets_dir
 import os
 
-assets_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "test_assets", "nwchem"
-)
+assets_dir = get_assets_dir()
 
 
 def test_read_total_energy():

@@ -1,12 +1,10 @@
 import os
-
+from test_bsse_helpers import get_assets_dir
 from bsse_calculator.generate_bsse_corrected_monomer_input import (
     bsse_corrected_monomer_input,
 )
 
-assets_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "test_assets", "nwchem"
-)
+assets_dir = get_assets_dir()
 
 
 def test_bsse_corrected_monomer_input(tmp_path):

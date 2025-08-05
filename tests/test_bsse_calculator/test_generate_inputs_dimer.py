@@ -1,10 +1,9 @@
 from bsse_calculator.generate_inputs_dimer import dimer_input
 from pytest import approx
+from test_bsse_helpers import get_assets_dir
 import os, shutil, subprocess
 
-assets_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "test_assets", "nwchem"
-)
+assets_dir = get_assets_dir()
 
 
 def test_dimer_input(tmp_path):

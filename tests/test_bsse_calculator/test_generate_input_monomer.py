@@ -1,9 +1,8 @@
 from bsse_calculator.generate_inputs_monomer import monomer_input
+from test_bsse_helpers import get_assets_dir
 import os
 
-assets_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "test_assets", "nwchem"
-)
+assets_dir = get_assets_dir()
 
 
 def test_monomer_input(tmp_path):

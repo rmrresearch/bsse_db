@@ -1,5 +1,5 @@
 [project]
-name = "bsse_calculator"
+name = "bsse_calculators"
 version = "0.0.1"
 description = "Basis Set Superposition Error calculator"
 readme = "README.md"
@@ -11,5 +11,6 @@ authors = [
 dependencies = [
     "pytest",
     "rdkit",
-    "py3Dmol"
+    "py3Dmol",
+    "jupyterlab"
 ]

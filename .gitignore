@@ -19,3 +19,6 @@ __pycache__
 input.txt
 **/scratch.ipynb
 examples/example.py
+
+venv/
+.ipynb_checkpoints/
