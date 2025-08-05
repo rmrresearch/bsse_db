@@ -1,17 +1,18 @@
 from bsse_calculator.get_bsse import get_bsses
 from pytest import approx
-from test_bsse_helpers import get_assets_dir
+from test_helpers import get_assets_dir
 import os, shutil
 
 assets_dir = get_assets_dir()
 
+
 def test_get_bsse(tmp_path):
     geometry = [["H 0 0 -1", "F 0 0 0"], ["F 0 0 4", "H 0 0 5"]]
     for filename in [
-        "output_dimer.txt",
-        "output_A_AB.txt",
-        "output_B_AB.txt",
-        "output_monomer.txt",
+            "output_dimer.txt",
+            "output_A_AB.txt",
+            "output_B_AB.txt",
+            "output_monomer.txt",
     ]:
         src = os.path.join(assets_dir, filename)
         dst = os.path.join(tmp_path, filename)

@@ -1,9 +1,10 @@
 import os
 from bsse_calculator.optimize_monomer_geometry import optimize_monomer_geometry
-from test_bsse_helpers import get_assets_dir
+from test_helpers import get_assets_dir
 import re
 
 assets_dir = get_assets_dir()
+
 
 def normalize_line(line):
     # Replace all numbers (including decimals and negatives) with a placeholder
@@ -16,12 +17,13 @@ def test_optimize_monomer_geometry(tmp_path):
         os.path.join(tmp_path, "input_optimize_water.txt"),
     )
     with (
-        open(os.path.join(tmp_path, f"input_optimize_water.txt"), "r") as f,
-        open(os.path.join(assets_dir, f"input_optimize_water.txt"), "r") as f_expected,
+            open(os.path.join(tmp_path, f"input_optimize_water.txt"),
+                 "r") as f,
+            open(os.path.join(assets_dir, f"input_optimize_water.txt"), "r") as
+            f_expected,
     ):
         for out_line, expected_line in zip(f, f_expected):
             out_line = normalize_line(out_line)
             expected_line = normalize_line(expected_line)
-            assert (
-                out_line == expected_line
-            ), f"Lines differ:\n{out_line}\n{expected_line}"
+            assert (out_line == expected_line
+                    ), f"Lines differ:\n{out_line}\n{expected_line}"

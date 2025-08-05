@@ -1,5 +1,5 @@
 '''
-Functions to facilitate extracting input geometries from NWchem outputs.
+Functions to facilitate extracting input geometries from NWChem outputs.
 '''
 
 
@@ -11,8 +11,8 @@ def is_geometry_start(line):
 
     return 'Geometry "geometry" -> ""' in line
 
-def extract_geometry(file):
-    """
+def extract_geometry(line, file):
+    '''
     Extracts the geometry from an NWChem file.
 
     Given a file iterator `file` currently pointing at the line:
@@ -22,11 +22,10 @@ def extract_geometry(file):
     This function will advance the iterator 7 times (skips over dashes, blank
     lines, conversion factor, and column headings) to get to the first atom.
 
-    """
+    '''
 
     geom = []
 
-    line = None
     for _ in range(7):
         line = next(file)
     

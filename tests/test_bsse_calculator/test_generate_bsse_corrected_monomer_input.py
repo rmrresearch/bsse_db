@@ -1,8 +1,7 @@
 import os
-from test_bsse_helpers import get_assets_dir
+from test_helpers import get_assets_dir
 from bsse_calculator.generate_bsse_corrected_monomer_input import (
-    bsse_corrected_monomer_input,
-)
+    bsse_corrected_monomer_input, )
 
 assets_dir = get_assets_dir()
 
@@ -17,10 +16,10 @@ def test_bsse_corrected_monomer_input(tmp_path):
     )
     for monomer in ["A", "B"]:
         with (
-            open(os.path.join(tmp_path, f"input_{monomer}_AB.txt"), "r") as f,
-            open(
-                os.path.join(assets_dir, f"input_{monomer}_AB.txt"), "r"
-            ) as f_expected,
+                open(os.path.join(tmp_path, f"input_{monomer}_AB.txt"),
+                     "r") as f,
+                open(os.path.join(assets_dir, f"input_{monomer}_AB.txt"), "r")
+                as f_expected,
         ):
             output = f.read()
             expected_output = f_expected.read()
