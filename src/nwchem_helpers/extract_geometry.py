@@ -1,3 +1,16 @@
+'''
+Functions to facilitate extracting input geometries from NWchem outputs.
+'''
+
+
+def is_geometry_start(line):
+    '''
+    Wraps the logic for determining if the current line starts the geometry
+    block.
+    '''
+
+    return 'Geometry "geometry" -> ""' in line
+
 def extract_geometry(file):
     """
     Extracts the geometry from an NWChem file.
@@ -16,13 +29,12 @@ def extract_geometry(file):
     line = None
     for _ in range(7):
         line = next(file)
-        print(line)
     
-
-    while not line.strip():
-        print(line)
+    # line points to the first atom, iterate until we hit a blank line
+    while line.split():
+        (idx, sym, q, x, y, z) = line.split()
+        geom.append((sym, x, y, z))
         line = next(file)
-        geom.append(line)
 
     return geom
 

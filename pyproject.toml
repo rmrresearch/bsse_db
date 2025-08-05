@@ -1,12 +1,12 @@
 [project]
-name = "bsse_calculators"
+name = "bsse_db"
 version = "0.0.1"
-description = "Basis Set Superposition Error calculator"
+description = "Database of BSSE calculations used to understand VMFC"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 authors = [
-    { name = "Your Name", email = "you@example.com" }
+    { name = "Ibrahim Sufi"}
 ]
 dependencies = [
     "pytest",
