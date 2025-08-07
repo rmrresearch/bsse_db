@@ -2,6 +2,7 @@
 Driver for extracting useful information out of an NWChem output file
 '''
 
+from nwchem_helpers.extract_ao_basis_set import *
 from nwchem_helpers.extract_energy import *
 from nwchem_helpers.extract_geometry import is_geometry_start, extract_geometry
 
@@ -46,11 +47,17 @@ def parse_nwchem_output(file):
     for line in file:
 
         # These are "signals" indicating we found a result of interest
+        is_basis = is_ao_basis_set_start(line)
         egy_type = is_total_energy_start(line)
         is_geom = is_geometry_start(line)
 
         # These are the "signal handlers" that extract the result of interest
-        if egy_type:
+        if is_basis:
+            basis = extract_ao_basis_set(line, file)
+            basis_key = 'AO Basis Set'
+            check_value(basis_key, parsed_values, basis)
+
+        elif egy_type:
             egy_value = extract_total_energy(egy_type, line, file)
             egy_key = 'Total {} Energy (a.u.)'.format(egy_type)
             check_value(egy_key, parsed_values, egy_value)

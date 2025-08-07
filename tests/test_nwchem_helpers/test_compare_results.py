@@ -73,6 +73,12 @@ class TestSimilarNWChemRuns:
 
         assert not similar_nwchem_runs(results0, results1)
 
+    def test_different_bases(self):
+        results0 = {'AO Basis Set': 'aug-cc-pvdz'}
+        results1 = {'AO Basis Set': 'aug-cc-pvtz'}
+
+        assert not similar_nwchem_runs(results0, results1)
+
     def test_slightly_different_geometries(self):
         keys = get_output_files()
         r0 = corr_nwchem_results()[keys[0]]

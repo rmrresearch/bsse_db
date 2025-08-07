@@ -33,6 +33,10 @@ def corr_input_geometries():
     }
 
 
+def corr_ao_basis_sets():
+    return {'output_A_AB.txt': 'aug-cc-pvdz', 'output_B_AB.txt': 'aug-cc-pvdz'}
+
+
 def corr_scf_energies():
     return {
         'output_A_AB.txt': '-100.023680528337',
@@ -62,6 +66,7 @@ def corr_ccsd_t_energies():
 
 
 def corr_nwchem_results():
+    bases = corr_ao_basis_sets()
     geoms = corr_input_geometries()
     scf_egys = corr_scf_energies()
     mp2_egys = corr_mp2_energies()
@@ -72,6 +77,7 @@ def corr_nwchem_results():
 
     for output_file in get_output_files():
         rv[output_file] = {
+            'AO Basis Set': bases[output_file],
             'Input Geometry (angstroms)': geoms[output_file],
             'Total SCF Energy (a.u.)': scf_egys[output_file],
             'Total MP2 Energy (a.u.)': mp2_egys[output_file],

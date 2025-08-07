@@ -93,6 +93,11 @@ def similar_nwchem_runs(results0, results1, **kwargs):
         if k == 'Input Geometry (angstroms)':
             if not are_similar_geometries(v, results1[k], geom_tol):
                 return False
+
+        elif k == 'AO Basis Set':
+            if v != results1[k]:
+                return False
+
         else:
             if not are_similar_energies(v, results1[k], egy_tol):
                 return False
