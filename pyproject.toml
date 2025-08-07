@@ -12,5 +12,6 @@ dependencies = [
     "pytest",
     "rdkit",
     "py3Dmol",
-    "jupyterlab"
+    "jupyterlab",
+    "pandas"
 ]

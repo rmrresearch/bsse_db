@@ -59,3 +59,24 @@ def corr_ccsd_t_energies():
         'output_A_AB.txt': '-100.260535167198398',
         'output_B_AB.txt': '-100.260535167257615'
     }
+
+
+def corr_nwchem_results():
+    geoms = corr_input_geometries()
+    scf_egys = corr_scf_energies()
+    mp2_egys = corr_mp2_energies()
+    ccsd_egys = corr_ccsd_energies()
+    ccsd_t_egys = corr_ccsd_t_energies()
+
+    rv = {}
+
+    for output_file in get_output_files():
+        rv[output_file] = {
+            'Input Geometry (angstroms)': geoms[output_file],
+            'Total SCF Energy (a.u.)': scf_egys[output_file],
+            'Total MP2 Energy (a.u.)': mp2_egys[output_file],
+            'Total CCSD Energy (a.u.)': ccsd_egys[output_file],
+            'Total CCSD(T) Energy (a.u.)': ccsd_t_egys[output_file]
+        }
+
+    return rv

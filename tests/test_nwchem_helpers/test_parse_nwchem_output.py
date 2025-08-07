@@ -31,20 +31,9 @@ class TestCheckValue:
 
 
 def test_parse_nwchem_output():
-    geoms = corr_input_geometries()
-    scf_egys = corr_scf_energies()
-    mp2_egys = corr_mp2_energies()
-    ccsd_egys = corr_ccsd_energies()
-    ccsd_t_egys = corr_ccsd_t_energies()
+
+    corr = corr_nwchem_results()
 
     for output_file in get_output_files():
-        corr = {
-            'Input Geometry (angstroms)': geoms[output_file],
-            'Total SCF Energy (a.u.)': scf_egys[output_file],
-            'Total MP2 Energy (a.u.)': mp2_egys[output_file],
-            'Total CCSD Energy (a.u.)': ccsd_egys[output_file],
-            'Total CCSD(T) Energy (a.u.)': ccsd_t_egys[output_file]
-        }
-
         with open(os.path.join(get_assets_dir(), output_file)) as f:
-            assert parse_nwchem_output(f) == corr
+            assert parse_nwchem_output(f) == corr[output_file]
