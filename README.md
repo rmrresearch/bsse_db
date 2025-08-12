@@ -1,5 +1,19 @@
-# Base DB
-We can naively calculate the interaction energy between two monomers $A$ and $B$ using the following formula:
+# BSSE DB
+
+## Developing the Code
+
+This project is designed to be developed as an editable install. To do this:
+
+```sh
+python -m venv my_venv      # Create a virtual environment called "my_venv"
+source my_venv/bin/activate # Activate the virtual environment
+pip install -e .
+```
+
+## Background
+
+We can naively calculate the interaction energy between two monomers $A$ and 
+$B$ using the following formula:
 
 ```math
 \Delta E_{AB} = E(AB)_{AB} - E(A)_{A} - E(B)_{B}
