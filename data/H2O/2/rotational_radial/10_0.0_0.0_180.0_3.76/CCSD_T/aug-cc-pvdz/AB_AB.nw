@@ -1,0 +1,14 @@
+memory 16 gb
+geometry noautoz autosym 0.1
+  O -0.15218561 -0.00116398 0.00000000
+  H 0.43776878 -0.76611046 0.00000000
+  H 0.44759598 0.75607921 0.00000000
+  O 0.15218561 0.0011639799999999814 3.75
+  H -0.4377687799999999 0.76611046 3.75
+  H -0.4475959800000001 -0.75607921 3.75
+end
+basis spherical
+  O library aug-cc-pvdz
+  H library aug-cc-pvdz
+end
+task ccsd(t) energy

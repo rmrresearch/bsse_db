@@ -1,0 +1,15 @@
+geometry
+  bqO -0.15218561 -0.00116398 0.00000000
+  bqH 0.43776878 -0.76611046 0.00000000
+  bqH 0.44759598 0.75607921 0.00000000
+  O 0.34781439000000003 2.24883602 0.25
+  H 0.9377687800000001 1.4838895399999998 0.25
+  H 0.94759598 3.0060792100000002 0.25
+end
+basis spherical
+  bqO library O aug-cc-pvdz
+  bqH library H aug-cc-pvdz
+  O library aug-cc-pvdz
+  H library aug-cc-pvdz
+end
+task ccsd(t) energy

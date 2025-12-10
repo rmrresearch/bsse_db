@@ -1,0 +1,1057 @@
+ argument  1 = /var/folders/v1/k9l8hql13n1gcrjl_yh_gs5m0000gn/T/tmp4tyx9uo7/input_dimer.txt
+                                         
+                                         
+
+
+             Northwest Computational Chemistry Package (NWChem) 7.2.3
+             --------------------------------------------------------
+
+
+                    Environmental Molecular Sciences Laboratory
+                       Pacific Northwest National Laboratory
+                                Richland, WA 99352
+
+                              Copyright (c) 1994-2022
+                       Pacific Northwest National Laboratory
+                            Battelle Memorial Institute
+
+             NWChem is an open-source computational chemistry package
+                        distributed under the terms of the
+                      Educational Community License (ECL) 2.0
+             A copy of the license is included with this distribution
+                              in the LICENSE.TXT file
+
+                                  ACKNOWLEDGMENT
+                                  --------------
+
+            This software and its documentation were developed at the
+            EMSL at Pacific Northwest National Laboratory, a multiprogram
+            national laboratory, operated for the U.S. Department of Energy
+            by Battelle under Contract Number DE-AC05-76RL01830. Support
+            for this work was provided by the Department of Energy Office
+            of Biological and Environmental Research, Office of Basic
+            Energy Sciences, and the Office of Advanced Scientific Computing.
+
+
+           Job information
+           ---------------
+
+    hostname        = visitor-wireless1-147-155-221-109.ameslab.gov
+    program         = nwchem
+    date            = Wed Jul  2 16:30:04 2025
+
+    compiled        = Thu_Dec_26_16:03:44_2024
+    source          = /private/tmp/nwchem-20241226-24280-orrtsi/nwchem-7.2.3
+    nwchem branch   = 7.2.3
+    nwchem revision = d690e065
+    ga revision     = 5.8.0
+    use scalapack   = T
+    input           = /var/folders/v1/k9l8hql13n1gcrjl_yh_gs5m0000gn/T/tmp4tyx9uo7/input_dimer.txt
+    prefix          = input_dimer.
+    data base       = ./input_dimer.db
+    status          = restart
+    nproc           =        8
+    time left       =     -1s
+
+
+
+           Memory information
+           ------------------
+
+    heap     =  536870908 doubles =   4096.0 Mbytes
+    stack    =  536870913 doubles =   4096.0 Mbytes
+    global   = 1073741824 doubles =   8192.0 Mbytes (distinct from heap & stack)
+    total    = 2147483645 doubles =  16384.0 Mbytes
+    verify   = yes
+    hardfail = no 
+
+
+           Directory information
+           ---------------------
+
+  0 permanent = .
+  0 scratch   = .
+
+
+           Previous task information
+           -------------------------
+
+    Theory    = ccsd(t)                         
+    Operation = energy                        
+    Status    = ok                            
+    Qmmm      = F
+    Ignore    = F
+
+
+           Geometries in the database
+           --------------------------
+
+       Name                              Natoms  Last Modified
+       --------------------------------  ------  ------------------------
+    1  geometry                               6  Wed Jul  2 16:29:00 2025  
+
+  The geometry named "geometry" is the default for restart
+
+
+
+           Basis sets in the database
+           --------------------------
+
+       Name                              Natoms  Last Modified
+        --------------------------------  ------  ------------------------
+    1  ao basis                               2  Wed Jul  2 16:29:00 2025  
+
+  The basis set named "ao basis" is the default AO basis for restart
+
+
+
+
+                                NWChem Input Module
+                                -------------------
+
+
+
+ Scaling coordinates for geometry "geometry" by  1.889725989
+ (inverse scale =  0.529177249)
+
+ CS  symmetry detected
+
+
+                             Geometry "geometry" -> ""
+                             -------------------------
+
+ Output coordinates in angstroms (scale by  1.889725989 to convert to a.u.)
+
+  No.       Tag          Charge          X              Y              Z
+ ---- ---------------- ---------- -------------- -------------- --------------
+    1 O                    8.0000    -0.09127888     1.36218435     0.00000000
+    2 H                    1.0000     0.50323037     1.34239813    -0.76105701
+    3 H                    1.0000     0.50323037     1.34239813     0.76105701
+    4 O                    8.0000    -0.02443482    -1.23929375     0.00000000
+    5 H                    1.0000     0.72045034    -1.85436781     0.00000000
+    6 H                    1.0000    -0.80120149    -1.81355325     0.00000000
+
+      Atomic Mass 
+      ----------- 
+
+      O                 15.994910
+      H                  1.007825
+
+
+ Effective nuclear repulsion energy (a.u.)      37.5276367748
+
+            Nuclear Dipole moment (a.u.) 
+            ----------------------------
+        X                 Y               Z
+ ---------------- ---------------- ----------------
+     0.0000000000    -0.0000000000     0.0000000000
+
+      Symmetry information
+      --------------------
+
+ Group name             Cs        
+ Group number              2
+ Group order               2
+ No. of unique centers     5
+
+      Symmetry unique atoms
+
+     1    2    4    5    6
+
+
+            XYZ format geometry
+            -------------------
+     6
+ geometry
+ O                    -0.09127888     1.36218435     0.00000000
+ H                     0.50323037     1.34239813    -0.76105701
+ H                     0.50323037     1.34239813     0.76105701
+ O                    -0.02443482    -1.23929375     0.00000000
+ H                     0.72045034    -1.85436781     0.00000000
+ H                    -0.80120149    -1.81355325     0.00000000
+
+ ==============================================================================
+                                internuclear distances
+ ------------------------------------------------------------------------------
+       center one      |      center two      | atomic units |  angstroms
+ ------------------------------------------------------------------------------
+    2 H                |   1 O                |     1.82536  |     0.96594
+    3 H                |   1 O                |     1.82536  |     0.96594
+    5 H                |   4 O                |     1.82549  |     0.96601
+    6 H                |   4 O                |     1.82546  |     0.96599
+ ------------------------------------------------------------------------------
+                         number of included internuclear distances:          4
+ ==============================================================================
+
+
+
+ ==============================================================================
+                                 internuclear angles
+ ------------------------------------------------------------------------------
+        center 1       |       center 2       |       center 3       |  degrees
+ ------------------------------------------------------------------------------
+    2 H                |   1 O                |   3 H                |   103.98
+    5 H                |   4 O                |   6 H                |   103.98
+ ------------------------------------------------------------------------------
+                            number of included internuclear angles:          2
+ ==============================================================================
+
+
+
+  library name resolved from: environment
+  library file name is: </opt/homebrew/Caskroom/mambaforge/base/envs/ames/share/nwchem/libraries/>
+  
+                      Basis "ao basis" -> "" (spherical)
+                      -----
+  O (Oxygen)
+  ----------
+            Exponent  Coefficients 
+       -------------- ---------------------------------------------------------
+  1 S  1.17200000E+04  0.000710
+  1 S  1.75900000E+03  0.005470
+  1 S  4.00800000E+02  0.027837
+  1 S  1.13700000E+02  0.104800
+  1 S  3.70300000E+01  0.283062
+  1 S  1.32700000E+01  0.448719
+  1 S  5.02500000E+00  0.270952
+  1 S  1.01300000E+00  0.015458
+
+  2 S  1.17200000E+04 -0.000160
+  2 S  1.75900000E+03 -0.001263
+  2 S  4.00800000E+02 -0.006267
+  2 S  1.13700000E+02 -0.025716
+  2 S  3.70300000E+01 -0.070924
+  2 S  1.32700000E+01 -0.165411
+  2 S  5.02500000E+00 -0.116955
+  2 S  1.01300000E+00  0.557368
+
+  3 S  3.02300000E-01  1.000000
+
+  4 S  7.89600000E-02  1.000000
+
+  5 P  1.77000000E+01  0.043018
+  5 P  3.85400000E+00  0.228913
+  5 P  1.04600000E+00  0.508728
+
+  6 P  2.75300000E-01  1.000000
+
+  7 P  6.85600000E-02  1.000000
+
+  8 D  1.18500000E+00  1.000000
+
+  9 D  3.32000000E-01  1.000000
+
+  H (Hydrogen)
+  ------------
+            Exponent  Coefficients 
+       -------------- ---------------------------------------------------------
+  1 S  1.30100000E+01  0.019685
+  1 S  1.96200000E+00  0.137977
+  1 S  4.44600000E-01  0.478148
+
+  2 S  1.22000000E-01  1.000000
+
+  3 S  2.97400000E-02  1.000000
+
+  4 P  7.27000000E-01  1.000000
+
+  5 P  1.41000000E-01  1.000000
+
+
+
+ Summary of "ao basis" -> "" (spherical)
+ ------------------------------------------------------------------------------
+       Tag                 Description            Shells   Functions and Types
+ ---------------- ------------------------------  ------  ---------------------
+ O                        aug-cc-pvdz                9       23   4s3p2d
+ H                        aug-cc-pvdz                5        9   3s2p
+
+
+                                 NWChem SCF Module
+                                 -----------------
+
+
+
+  ao basis        = "ao basis"
+  functions       =    82
+  atoms           =     6
+  closed shells   =    10
+  open shells     =     0
+  charge          =   0.00
+  wavefunction    = RHF 
+  input vectors   = ./input_dimer.movecs
+  output vectors  = ./input_dimer.movecs
+  use symmetry    = T
+  symmetry adapt  = T
+
+
+ Summary of "ao basis" -> "ao basis" (spherical)
+ ------------------------------------------------------------------------------
+       Tag                 Description            Shells   Functions and Types
+ ---------------- ------------------------------  ------  ---------------------
+ O                        aug-cc-pvdz                9       23   4s3p2d
+ H                        aug-cc-pvdz                5        9   3s2p
+
+
+      Symmetry analysis of basis
+      --------------------------
+
+        a'         55
+        a"         27
+
+
+ Forming initial guess at       0.1s
+
+
+ Loading old vectors from job with title :
+
+
+
+
+      Symmetry analysis of molecular orbitals - initial
+      -------------------------------------------------
+
+  Numbering of irreducible representations: 
+
+     1 a'          2 a"      
+
+  Orbital symmetries:
+
+     1 a'          2 a'          3 a'          4 a'          5 a'      
+     6 a"          7 a'          8 a'          9 a"         10 a'      
+    11 a'         12 a'         13 a'         14 a"         15 a'      
+    16 a'         17 a'         18 a"         19 a'         20 a"      
+
+
+ Starting SCF solution at       0.1s
+
+
+
+ ----------------------------------------------
+         Quadratically convergent ROHF
+
+ Convergence threshold     :          1.000E-06
+ Maximum no. of iterations :           30
+ Final Fock-matrix accuracy:          1.000E-08
+ ----------------------------------------------
+
+
+ Integral file          = ./input_dimer.aoints.0
+ Record size in doubles =  65536        No. of integs per rec  =  43688
+ Max. records in memory =     17        Max. records in file   =   3869
+ No. of bits per label  =      8        No. of bits per value  =     64
+
+
+ #quartets = 1.837D+05 #integrals = 3.000D+06 #direct =  0.0% #cached =100.0%
+
+
+File balance: exchanges=    11  moved=     9  time=   0.0
+
+
+              iter       energy          gnorm     gmax       time
+             ----- ------------------- --------- --------- --------
+                 1     -152.0677872904  2.51D-01  8.24D-02      0.4
+                 2     -152.0717808220  9.53D-03  2.02D-03      0.5
+                 3     -152.0717932024  7.27D-05  1.29D-05      0.8
+                 4     -152.0717932031  8.64D-08  2.05D-08      1.3
+
+
+       Final RHF  results 
+       ------------------ 
+
+         Total SCF energy =   -152.071793203073
+      One-electron energy =   -284.604214426454
+      Two-electron energy =     95.004784448532
+ Nuclear repulsion energy =     37.527636774848
+
+        Time for solution =      1.2s
+
+
+
+       Symmetry analysis of molecular orbitals - final
+       -----------------------------------------------
+
+  Numbering of irreducible representations: 
+
+     1 a'          2 a"      
+
+  Orbital symmetries:
+
+     1 a'          2 a'          3 a'          4 a'          5 a'      
+     6 a"          7 a'          8 a'          9 a"         10 a'      
+    11 a'         12 a'         13 a'         14 a"         15 a'      
+    16 a'         17 a"         18 a'         19 a'         20 a"      
+
+             Final eigenvalues
+             -----------------
+
+              1      
+    1  -20.5699
+    2  -20.5486
+    3   -1.3465
+    4   -1.3239
+    5   -0.7064
+    6   -0.6864
+    7   -0.5852
+    8   -0.5575
+    9   -0.5014
+   10   -0.4714
+   11    0.0337
+   12    0.0541
+   13    0.0615
+   14    0.0660
+   15    0.1749
+   16    0.1989
+   17    0.2156
+   18    0.2189
+   19    0.2380
+   20    0.2452
+
+                       ROHF Final Molecular Orbital Analysis
+                       -------------------------------------
+
+ Vector    2  Occ=2.000000D+00  E=-2.054861D+01  Symmetry=a'
+              MO Center= -9.1D-02,  1.4D+00,  1.1D-20, r^2= 1.5D-02
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     1      1.001472  1 O  s          
+
+ Vector    3  Occ=2.000000D+00  E=-1.346530D+00  Symmetry=a'
+              MO Center= -2.3D-02, -1.3D+00, -4.4D-18, r^2= 7.8D-01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    43      0.439732  4 O  s                 44      0.374428  4 O  s          
+    65      0.199637  5 H  s                 74      0.197293  6 H  s          
+
+ Vector    4  Occ=2.000000D+00  E=-1.323927D+00  Symmetry=a'
+              MO Center=  7.2D-02,  1.2D+00, -3.2D-18, r^2= 8.0D-01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     2      0.439934  1 O  s                  3      0.374557  1 O  s          
+    24      0.199234  2 H  s                 33      0.199234  3 H  s          
+
+ Vector    5  Occ=2.000000D+00  E=-7.064408D-01  Symmetry=a'
+              MO Center= -3.0D-02, -1.5D+00, -2.5D-18, r^2= 7.8D-01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    46      0.497200  4 O  px                74     -0.348936  6 H  s          
+    65      0.345359  5 H  s                 49      0.198922  4 O  px         
+
+ Vector    6  Occ=2.000000D+00  E=-6.863738D-01  Symmetry=a"
+              MO Center=  1.2D-01,  1.4D+00, -3.8D-17, r^2= 7.8D-01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     7      0.496366  1 O  pz                24     -0.347996  2 H  s          
+    33      0.347996  3 H  s                 10      0.198325  1 O  pz         
+
+ Vector    7  Occ=2.000000D+00  E=-5.852069D-01  Symmetry=a'
+              MO Center= -2.2D-02, -1.0D+00,  5.5D-18, r^2= 1.2D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    47      0.521813  4 O  py                50      0.306202  4 O  py         
+    44      0.299015  4 O  s                 65     -0.205966  5 H  s          
+    74     -0.202692  6 H  s                  6     -0.158476  1 O  py         
+
+ Vector    8  Occ=2.000000D+00  E=-5.575306D-01  Symmetry=a'
+              MO Center= -1.2D-01,  1.4D+00, -3.7D-17, r^2= 7.7D-01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     5      0.542100  1 O  px                 8      0.323050  1 O  px         
+     3     -0.317621  1 O  s                 24      0.212181  2 H  s          
+    33      0.212181  3 H  s                  2     -0.151923  1 O  s          
+
+ Vector    9  Occ=2.000000D+00  E=-5.013770D-01  Symmetry=a"
+              MO Center= -2.3D-02, -1.3D+00,  4.3D-18, r^2= 6.9D-01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    48      0.626841  4 O  pz                51      0.450839  4 O  pz         
+
+ Vector   10  Occ=2.000000D+00  E=-4.713836D-01  Symmetry=a'
+              MO Center= -5.1D-02,  1.2D+00,  3.5D-16, r^2= 1.2D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     6      0.612549  1 O  py                 9      0.439371  1 O  py         
+    47      0.167982  4 O  py         
+
+ Vector   11  Occ=0.000000D+00  E= 3.367652D-02  Symmetry=a'
+              MO Center=  9.3D-01, -1.7D+00,  1.4D-16, r^2= 1.2D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    45      1.542495  4 O  s                 67     -1.368151  5 H  s          
+     4      0.618563  1 O  s                 66     -0.615174  5 H  s          
+    75     -0.395432  6 H  s                 53     -0.329087  4 O  py         
+    52      0.203435  4 O  px                44      0.197720  4 O  s          
+    26     -0.189615  2 H  s                 35     -0.189615  3 H  s          
+
+ Vector   12  Occ=0.000000D+00  E= 5.407712D-02  Symmetry=a'
+              MO Center= -4.8D-02,  9.0D-03,  2.2D-16, r^2= 1.9D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    76      1.946852  6 H  s                  4      1.073863  1 O  s          
+    26     -0.905204  2 H  s                 35     -0.905204  3 H  s          
+    45     -0.709347  4 O  s                 75      0.546678  6 H  s          
+    67     -0.509428  5 H  s                 53      0.448846  4 O  py         
+    52      0.446162  4 O  px                25     -0.327586  2 H  s          
+
+ Vector   13  Occ=0.000000D+00  E= 6.148789D-02  Symmetry=a'
+              MO Center= -4.1D-02, -1.2D+00,  9.2D-17, r^2= 1.8D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    67      2.983300  5 H  s                 76     -2.493846  6 H  s          
+    52     -0.827685  4 O  px                 4      0.683362  1 O  s          
+    66      0.645597  5 H  s                 26     -0.597611  2 H  s          
+    35     -0.597611  3 H  s                 75     -0.483035  6 H  s          
+    53      0.262783  4 O  py                12      0.175658  1 O  py         
+
+ Vector   14  Occ=0.000000D+00  E= 6.602202D-02  Symmetry=a"
+              MO Center=  9.0D-01,  1.5D+00,  1.0D-15, r^2= 1.6D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    26      3.090253  2 H  s                 35     -3.090253  3 H  s          
+    13      0.868639  1 O  pz                25      0.613370  2 H  s          
+    34     -0.613370  3 H  s          
+
+ Vector   15  Occ=0.000000D+00  E= 1.749410D-01  Symmetry=a'
+              MO Center= -7.2D-02,  3.9D-01,  5.6D-16, r^2= 1.3D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     4      5.787706  1 O  s                 25     -2.324748  2 H  s          
+    34     -2.324748  3 H  s                 53     -2.185947  4 O  py         
+    11      2.091083  1 O  px                12     -1.315286  1 O  py         
+    67     -1.212981  5 H  s                 66     -0.930283  5 H  s          
+    45      0.710913  4 O  s                 75     -0.395931  6 H  s          
+
+ Vector   16  Occ=0.000000D+00  E= 1.989184D-01  Symmetry=a'
+              MO Center= -1.6D-01, -1.3D+00, -2.0D-16, r^2= 1.2D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    45      5.132640  4 O  s                 75     -2.161450  6 H  s          
+    53     -1.659665  4 O  py                 4     -1.636038  1 O  s          
+    66     -1.520808  5 H  s                 76     -1.412915  6 H  s          
+    11     -1.095159  1 O  px                25      0.921628  2 H  s          
+    34      0.921628  3 H  s                 67     -0.602517  5 H  s          
+
+ Vector   17  Occ=0.000000D+00  E= 2.156231D-01  Symmetry=a"
+              MO Center= -3.2D-02, -9.0D-01,  8.9D-17, r^2= 8.5D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    54      1.746113  4 O  pz                13     -0.715287  1 O  pz         
+    26      0.558098  2 H  s                 35     -0.558098  3 H  s          
+    82     -0.323415  6 H  pz                73     -0.281817  5 H  pz         
+    51     -0.262678  4 O  pz                32      0.210027  2 H  pz         
+    41      0.210027  3 H  pz                48     -0.173645  4 O  pz         
+
+ Vector   18  Occ=0.000000D+00  E= 2.188621D-01  Symmetry=a'
+              MO Center=  8.6D-01, -4.3D-01, -8.1D-17, r^2= 1.0D+01
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    52      2.613393  4 O  px                66     -1.948173  5 H  s          
+    75      1.918120  6 H  s                 67     -1.884435  5 H  s          
+    76      1.678790  6 H  s                 45      0.852422  4 O  s          
+    53      0.827713  4 O  py                11     -0.808370  1 O  px         
+    72     -0.720541  5 H  py                71      0.492838  5 H  px         
+
+ Vector   19  Occ=0.000000D+00  E= 2.379758D-01  Symmetry=a'
+              MO Center=  4.2D-01,  1.7D+00,  3.9D-16, r^2= 9.8D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     4      2.111265  1 O  s                 12      1.643776  1 O  py         
+    67      1.581397  5 H  s                 53      1.154781  4 O  py         
+    52     -1.135520  4 O  px                26     -1.035251  2 H  s          
+    35     -1.035251  3 H  s                 66      0.977272  5 H  s          
+    75     -0.929836  6 H  s                 76     -0.697571  6 H  s          
+
+ Vector   20  Occ=0.000000D+00  E= 2.451598D-01  Symmetry=a"
+              MO Center= -2.0D-01,  1.3D+00,  3.2D-15, r^2= 9.9D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    13      3.051835  1 O  pz                25      2.743297  2 H  s          
+    34     -2.743297  3 H  s                 26      2.649010  2 H  s          
+    35     -2.649010  3 H  s                 32      0.632575  2 H  pz         
+    41      0.632575  3 H  pz                30     -0.569728  2 H  px         
+    39      0.569728  3 H  px                10      0.282649  1 O  pz         
+
+ Vector   21  Occ=0.000000D+00  E= 2.519292D-01  Symmetry=a'
+              MO Center= -9.5D-01, -3.6D-01, -2.4D-16, r^2= 9.7D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    76      1.886267  6 H  s                 66     -1.828746  5 H  s          
+    52      1.701033  4 O  px                67     -1.562222  5 H  s          
+    75      1.299449  6 H  s                 12      0.878396  1 O  py         
+    80      0.731177  6 H  px                53     -0.623357  4 O  py         
+    81      0.568730  6 H  py                 4      0.558892  1 O  s          
+
+ Vector   22  Occ=0.000000D+00  E= 2.879572D-01  Symmetry=a'
+              MO Center= -2.0D-02, -4.5D-01,  1.1D-15, r^2= 8.8D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    53      2.329285  4 O  py                12      1.598343  1 O  py         
+    75      1.350859  6 H  s                  4     -1.277485  1 O  s          
+    66      0.777679  5 H  s                 71      0.374309  5 H  px         
+    81     -0.351208  6 H  py                11      0.341464  1 O  px         
+    80     -0.320141  6 H  px                67      0.306631  5 H  s          
+
+ Vector   23  Occ=0.000000D+00  E= 3.017673D-01  Symmetry=a"
+              MO Center=  4.5D-01,  1.2D+00, -9.9D-16, r^2= 4.8D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    25      0.813109  2 H  s                 34     -0.813109  3 H  s          
+    13      0.770172  1 O  pz                30      0.484798  2 H  px         
+    39     -0.484798  3 H  px                32     -0.462738  2 H  pz         
+    41     -0.462738  3 H  pz                26     -0.411129  2 H  s          
+    35      0.411129  3 H  s                 10      0.245423  1 O  pz         
+
+ Vector   24  Occ=0.000000D+00  E= 3.142475D-01  Symmetry=a'
+              MO Center=  1.5D-01, -1.1D+00, -1.0D-16, r^2= 6.3D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    66      2.330722  5 H  s                 45     -2.054140  4 O  s          
+     4      1.928585  1 O  s                 52     -1.440204  4 O  px         
+    25     -0.986546  2 H  s                 34     -0.986546  3 H  s          
+    11      0.970460  1 O  px                81      0.446617  6 H  py         
+    12     -0.415985  1 O  py                53      0.382519  4 O  py         
+
+ Vector   25  Occ=0.000000D+00  E= 3.509622D-01  Symmetry=a'
+              MO Center= -3.1D-01,  4.1D-01, -1.2D-15, r^2= 6.6D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    45      5.189568  4 O  s                  4     -4.151610  1 O  s          
+    75     -2.255383  6 H  s                 12      1.510219  1 O  py         
+    66     -1.443079  5 H  s                 25      1.318951  2 H  s          
+    34      1.318951  3 H  s                 53      1.256403  4 O  py         
+    30     -0.604653  2 H  px                39     -0.604653  3 H  px         
+
+ Vector   26  Occ=0.000000D+00  E= 3.885386D-01  Symmetry=a'
+              MO Center=  8.7D-02, -3.9D-02,  1.5D-16, r^2= 6.5D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    45      4.330942  4 O  s                 75     -2.577467  6 H  s          
+    66     -1.861831  5 H  s                  4      1.622030  1 O  s          
+    25     -1.105894  2 H  s                 34     -1.105894  3 H  s          
+    53     -0.672169  4 O  py                50     -0.512125  4 O  py         
+    30      0.476443  2 H  px                39      0.476443  3 H  px         
+
+ Vector   27  Occ=0.000000D+00  E= 3.929706D-01  Symmetry=a"
+              MO Center= -2.0D-01, -1.4D+00,  8.3D-17, r^2= 5.4D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    82      1.141897  6 H  pz                73     -0.953296  5 H  pz         
+    13     -0.547187  1 O  pz                25     -0.468005  2 H  s          
+    34      0.468005  3 H  s                 31     -0.329945  2 H  py         
+    40      0.329945  3 H  py                26     -0.207659  2 H  s          
+    35      0.207659  3 H  s          
+
+ Vector   28  Occ=0.000000D+00  E= 4.171942D-01  Symmetry=a"
+              MO Center=  5.9D-01, -1.9D-01, -1.2D-16, r^2= 6.7D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    73      1.040025  5 H  pz                31     -0.774315  2 H  py         
+    40      0.774315  3 H  py                54     -0.459178  4 O  pz         
+    51     -0.388016  4 O  pz                13      0.296980  1 O  pz         
+    25     -0.296180  2 H  s                 34      0.296180  3 H  s          
+    82      0.296525  6 H  pz                32     -0.270107  2 H  pz         
+
+ Vector   29  Occ=0.000000D+00  E= 4.964920D-01  Symmetry=a'
+              MO Center=  4.2D-02, -9.1D-01,  6.7D-16, r^2= 7.6D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+    53     -3.192181  4 O  py                45      3.078242  4 O  s          
+     4     -2.587243  1 O  s                 75     -2.051633  6 H  s          
+    25      2.005250  2 H  s                 34      2.005250  3 H  s          
+    66     -1.758663  5 H  s                 11     -1.395475  1 O  px         
+    81      0.882489  6 H  py                72      0.878012  5 H  py         
+
+ Vector   30  Occ=0.000000D+00  E= 5.004464D-01  Symmetry=a'
+              MO Center=  1.7D-01,  2.5D-01, -3.6D-15, r^2= 7.5D+00
+   Bfn.  Coefficient  Atom+Function         Bfn.  Coefficient  Atom+Function  
+  ----- ------------  ---------------      ----- ------------  ---------------
+     4      7.249314  1 O  s                 25     -3.168193  2 H  s          
+    34     -3.168193  3 H  s                 66     -2.549832  5 H  s          
+    53     -2.211495  4 O  py                12     -2.195324  1 O  py         
+    11      1.457978  1 O  px                75      1.253589  6 H  s          
+    71      1.069013  5 H  px                 8      0.743354  1 O  px         
+
+
+ center of mass
+ --------------
+ x =  -0.04815330 y =   0.05113991 z =   0.00000000
+
+ moments of inertia (a.u.)
+ ------------------
+         234.971488330987          -0.000040508791           0.000000000000
+          -0.000040508791          10.596811813268           0.000000000000
+           0.000000000000           0.000000000000         237.230006792685
+
+  Mulliken analysis of the total density
+  --------------------------------------
+
+    Atom       Charge   Shell Charges
+ -----------   ------   -------------------------------------------------------
+    1 O    8     8.31   2.00  0.84  0.82  0.07  2.82  1.64  0.12  0.01 -0.02
+    2 H    1     0.84   0.72  0.02 -0.00  0.08  0.02
+    3 H    1     0.84   0.72  0.02 -0.00  0.08  0.02
+    4 O    8     8.37   2.00  0.85  0.82  0.10  2.81  1.64  0.15  0.01 -0.02
+    5 H    1     0.83   0.72  0.02 -0.01  0.08  0.01
+    6 H    1     0.82   0.72  0.02 -0.00  0.08  0.01
+
+       Multipole analysis of the density wrt the origin
+       ------------------------------------------------
+
+     L   x y z        total         open         nuclear
+     -   - - -        -----         ----         -------
+     0   0 0 0     -0.000000      0.000000     20.000000
+
+     1   1 0 0      0.723339      0.000000      0.000000
+     1   0 1 0     -0.858055      0.000000     -0.000000
+     1   0 0 1     -0.000000      0.000000      0.000000
+
+     2   2 0 0     -7.795432      0.000000      6.209671
+     2   1 1 0      2.122438      0.000000      2.555664
+     2   1 0 1      0.000000      0.000000      0.000000
+     2   0 2 0     -7.084643      0.000000    133.782363
+     2   0 1 1     -0.000000      0.000000      0.000000
+     2   0 0 2     -8.883455      0.000000      4.136776
+
+
+------------------------------------------------------------
+EAF file 0: "./input_dimer.aoints.0" size=1572864 bytes
+------------------------------------------------------------
+               write      read    awrite     aread      wait
+               -----      ----    ------     -----      ----
+     calls:        3         1         0         2         2
+   data(b): 1.57e+06  5.24e+05  0.00e+00  1.05e+06
+   time(s): 0.00e+00  0.00e+00  0.00e+00  0.00e+00  0.00e+00
+rate(mb/s): 0.00e+00  0.00e+00
+------------------------------------------------------------
+
+
+ Parallel integral file used      71 records with       0 large values
+
+
+
+                   Four-Index Transformation
+                   -------------------------
+          Number of basis functions:             82
+          Number of shells:                      38
+          Number of occupied orbitals:           10
+          Number of occ. correlated orbitals:    10
+          Block length:                          16
+          Superscript MO index range:      1 -   10
+          Subscript MO index range:        1 -   82
+          MO coefficients read from:  ./input_dimer.movecs     
+          Number of operator matrices in core:  110
+          Half-transformed integrals produced
+
+     Pass:    1     Index range:    1  -   10     Time:      2.49
+ ------------------------------------------
+ MP2 Energy (coupled cluster initial guess)
+ ------------------------------------------
+ Reference energy:           -152.071793203073412
+ MP2 Corr. energy:             -0.447748912253998
+ Total MP2 energy:           -152.519542115327397
+
+
+ ****************************************************************************
+              the segmented parallel ccsd program:    8 nodes
+ ****************************************************************************
+
+
+
+
+ level of theory    ccsd(t)
+ number of core         0
+ number of occupied    10
+ number of virtual     72
+ number of deleted      0
+ total functions       82
+ number of shells      38
+ basis label          566
+
+
+
+   ***** ccsd parameters *****
+   iprt   =     0
+   convi  =  0.100E-05
+   maxit  =    20
+   mxvec  =     5
+ memory           1073724036
+  Using  1 OpenMP thread(s) in CCSD
+  avail0,avail1,avail0-avail1                 16287                16287                    0
+  avail0,avail1,avail0-avail1                 16287                16287                    0
+  avail0,avail1,avail0-avail1                 16287                16302                  -15
+  avail0,avail1,avail0-avail1                 16287                16302                  -15
+  Restarting from old vector in ./input_dimer.t2
+
+
+-------------------------------------------------------------------------
+ iter     correlation     delta       rms       T2     Non-T2      Main
+             energy      energy      error      ampl     ampl      Block
+                                                time     time      time
+-------------------------------------------------------------------------
+   1     -0.4506651666 -4.507D-01  1.194D-01     2.69     0.00     2.37
+   2     -0.4531803413 -2.515D-03  3.161D-01     1.06     0.00     0.78
+   3     -0.4603914042 -7.211D-03  6.363D-02     1.06     0.00     0.66
+   4     -0.4618037585 -1.412D-03  2.978D-02     1.10     0.00     0.76
+   5     -0.4624193217 -6.156D-04  6.053D-03     1.07     0.00     0.75
+   6     -0.4626088027 -1.895D-04  6.511D-04     1.06     0.00     0.73
+   7     -0.4626194634 -1.066D-05  1.676D-04     1.06     0.00     0.77
+   8     -0.4626088934  1.057D-05  1.360D-04     1.04     0.00     0.69
+   9     -0.4626084039  4.895D-07  6.450D-05     0.96     0.00     0.70
+  10     -0.4626046105  3.793D-06  2.868D-05     1.08     0.00     0.70
+  11     -0.4626047944 -1.839D-07  2.476D-05     1.63     0.00     1.11
+  12     -0.4626047691  2.526D-08  1.469D-05     1.21     0.00     0.84
+  13     -0.4626049239 -1.548D-07  5.965D-06     1.19     0.00     0.84
+  14     -0.4626050396 -1.157D-07  8.908D-07     1.18     0.00     0.76
+                  *************converged*************
+-------------------------------------------------------------------------
+
+ -----------
+ CCSD Energy
+ -----------
+ Reference energy:            -152.071793203073412
+ CCSD corr. energy:             -0.462605039637207
+ Total CCSD energy:           -152.534398242710608
+
+
+ --------------------------------
+ Spin Component Scaled (SCS) CCSD
+ --------------------------------
+ Same spin contribution:                 -0.101644174838413
+ Same spin scaling factor:                1.130000000000000
+ Opposite spin contribution:             -0.360960864798794
+ Opposite spin scaling fact.:             1.270000000000000
+ SCS-CCSD correlation energy:            -0.573278215861875
+ Total SCS-CCSD energy:                -152.645071418935288
+ memory           1073724036
+
+
+*********triples calculation*********
+
+nkpass=    1; nvpass=    1; memdrv=         271656; memtrn=         680678; memavail=     1073723300
+ memory available/node                     1073723300
+ total number of virtual orbitals        72
+ number of virtuals per integral pass    72
+ number of integral evaluations           1
+ number of occupied per triples pass     10
+ number of triples passes                 1
+
+ commencing integral evaluation        1 at          22.10
+  symmetry use  T
+task         2 out of       741 done   0%  at       0.1 secs
+task        40 out of       741 done   5%  at       0.3 secs
+task        86 out of       741 done  11%  at       0.5 secs
+task       114 out of       741 done  15%  at       0.6 secs
+task       152 out of       741 done  20%  at       0.7 secs
+task       193 out of       741 done  26%  at       0.8 secs
+task       226 out of       741 done  30%  at       0.9 secs
+task       263 out of       741 done  35%  at       1.0 secs
+task       299 out of       741 done  40%  at       1.1 secs
+task       339 out of       741 done  45%  at       1.3 secs
+task       382 out of       741 done  51%  at       1.4 secs
+task       409 out of       741 done  55%  at       1.4 secs
+task       445 out of       741 done  60%  at       1.5 secs
+task       486 out of       741 done  65%  at       1.5 secs
+task       532 out of       741 done  71%  at       1.6 secs
+task       557 out of       741 done  75%  at       1.6 secs
+task       597 out of       741 done  80%  at       1.7 secs
+task       638 out of       741 done  86%  at       1.8 secs
+task       669 out of       741 done  90%  at       1.9 secs
+task       709 out of       741 done  95%  at       1.9 secs
+ commencing triples evaluation - blocking       1
+ ccsd(t): done        1 out of       72 progress:    1.4%
+ ccsd(t): done        2 out of       72 progress:    2.8%
+ ccsd(t): done        3 out of       72 progress:    4.2%
+ ccsd(t): done        4 out of       72 progress:    5.6%
+ ccsd(t): done        5 out of       72 progress:    6.9%
+ ccsd(t): done        6 out of       72 progress:    8.3%
+ ccsd(t): done        7 out of       72 progress:    9.7%
+ ccsd(t): done        8 out of       72 progress:   11.1%
+ ccsd(t): done        9 out of       72 progress:   12.5%
+ ccsd(t): done       10 out of       72 progress:   13.9%
+ ccsd(t): done       11 out of       72 progress:   15.3%
+ ccsd(t): done       12 out of       72 progress:   16.7%
+ ccsd(t): done       13 out of       72 progress:   18.1%
+ ccsd(t): done       14 out of       72 progress:   19.4%
+ ccsd(t): done       15 out of       72 progress:   20.8%
+ ccsd(t): done       16 out of       72 progress:   22.2%
+ ccsd(t): done       17 out of       72 progress:   23.6%
+ ccsd(t): done       18 out of       72 progress:   25.0%
+ ccsd(t): done       19 out of       72 progress:   26.4%
+ ccsd(t): done       20 out of       72 progress:   27.8%
+ ccsd(t): done       21 out of       72 progress:   29.2%
+ ccsd(t): done       22 out of       72 progress:   30.6%
+ ccsd(t): done       23 out of       72 progress:   31.9%
+ ccsd(t): done       24 out of       72 progress:   33.3%
+ ccsd(t): done       25 out of       72 progress:   34.7%
+ ccsd(t): done       26 out of       72 progress:   36.1%
+ ccsd(t): done       27 out of       72 progress:   37.5%
+ ccsd(t): done       28 out of       72 progress:   38.9%
+ ccsd(t): done       29 out of       72 progress:   40.3%
+ ccsd(t): done       30 out of       72 progress:   41.7%
+ ccsd(t): done       31 out of       72 progress:   43.1%
+ ccsd(t): done       32 out of       72 progress:   44.4%
+ ccsd(t): done       33 out of       72 progress:   45.8%
+ ccsd(t): done       34 out of       72 progress:   47.2%
+ ccsd(t): done       35 out of       72 progress:   48.6%
+ ccsd(t): done       36 out of       72 progress:   50.0%
+ ccsd(t): done       37 out of       72 progress:   51.4%
+ ccsd(t): done       38 out of       72 progress:   52.8%
+ ccsd(t): done       39 out of       72 progress:   54.2%
+ ccsd(t): done       40 out of       72 progress:   55.6%
+ ccsd(t): done       41 out of       72 progress:   56.9%
+ ccsd(t): done       42 out of       72 progress:   58.3%
+ ccsd(t): done       43 out of       72 progress:   59.7%
+ ccsd(t): done       44 out of       72 progress:   61.1%
+ ccsd(t): done       45 out of       72 progress:   62.5%
+ ccsd(t): done       46 out of       72 progress:   63.9%
+ ccsd(t): done       47 out of       72 progress:   65.3%
+ ccsd(t): done       48 out of       72 progress:   66.7%
+ ccsd(t): done       49 out of       72 progress:   68.1%
+ ccsd(t): done       50 out of       72 progress:   69.4%
+ ccsd(t): done       51 out of       72 progress:   70.8%
+ ccsd(t): done       52 out of       72 progress:   72.2%
+ ccsd(t): done       53 out of       72 progress:   73.6%
+ ccsd(t): done       54 out of       72 progress:   75.0%
+ ccsd(t): done       55 out of       72 progress:   76.4%
+ ccsd(t): done       56 out of       72 progress:   77.8%
+ ccsd(t): done       57 out of       72 progress:   79.2%
+ ccsd(t): done       58 out of       72 progress:   80.6%
+ ccsd(t): done       59 out of       72 progress:   81.9%
+ ccsd(t): done       60 out of       72 progress:   83.3%
+ ccsd(t): done       61 out of       72 progress:   84.7%
+ ccsd(t): done       62 out of       72 progress:   86.1%
+ ccsd(t): done       63 out of       72 progress:   87.5%
+ ccsd(t): done       64 out of       72 progress:   88.9%
+ ccsd(t): done       65 out of       72 progress:   90.3%
+ ccsd(t): done       66 out of       72 progress:   91.7%
+ ccsd(t): done       67 out of       72 progress:   93.1%
+ ccsd(t): done       68 out of       72 progress:   94.4%
+ ccsd(t): done       69 out of       72 progress:   95.8%
+ ccsd(t): done       70 out of       72 progress:   97.2%
+ ccsd(t): done       71 out of       72 progress:   98.6%
+ ccsd(t): done       72 out of       72 progress:  100.0%
+ Time for integral evaluation pass     1        2.15
+ Time for triples evaluation pass      1        7.60
+
+ pseudo-e(mp4)  -0.11927742497189E-01
+ pseudo-e(mp5)   0.87161743673517E-03
+        e(t)    -0.11056125060453E-01
+
+ --------------
+ CCSD(T) Energy
+ --------------
+ Reference energy:                    -152.071793203073412
+
+ CCSD corr. energy:                     -0.462605039637207
+ T(CCSD) corr. energy:                  -0.011927742497189
+ Total CCSD+T(CCSD) energy:           -152.546325985207801
+
+ CCSD corr. energy:                     -0.462605039637207
+ (T) corr. energy:                      -0.011056125060453
+ Total CCSD(T) energy:                -152.545454367771072
+
+ routine      calls  cpu(0)   cpu-min  cpu-ave  cpu-max   i/o 
+ aoccsd          1     0.08     0.08     0.08     0.08    0.00
+ iterdrv         1     0.24     0.24     0.24     0.24    0.00
+ pampt          14     0.36     0.35     0.36     0.36    0.00
+ t2pm           14     1.08     1.08     1.08     1.08    0.00
+ sxy            14     1.37     0.36     0.97     1.37    0.00
+ ints        68882     0.63     0.55     0.60     0.69    0.00
+ f_write       186     0.04     0.04     0.04     0.04    0.00
+ t2eri        1302     2.77     2.62     2.74     2.88    0.00
+ idx2         1302     7.40     7.40     7.88     8.71    0.00
+ idx34          14     0.06     0.04     0.05     0.06    0.00
+ ht2pm          14     0.36     0.36     0.36     0.36    0.00
+ itm            14     3.11     3.11     3.11     3.11    0.00
+ pdiis          14     0.02     0.01     0.01     0.02    0.00
+ r_read       1209     0.19     0.13     0.16     0.19    0.00
+ triples         1     0.02     0.02     0.02     0.02    0.00
+ rdtrpo          1     0.04     0.04     0.04     0.04    0.00
+ trpmos          1     2.15     2.15     2.15     2.15    0.00
+ trpdrv          1     4.36     4.36     4.48     4.69    0.00
+ dovvv       10340     2.23     1.98     2.12     2.23    0.00
+ doooo       10340     0.37     0.34     0.37     0.39    0.00
+ tengy        9400     0.64     0.56     0.61     0.64    0.00
+ Total                27.49    27.48    27.49    27.49    0.00
+
+ Task  times  cpu:       31.9s     wall:       31.9s
+
+
+                                NWChem Input Module
+                                -------------------
+
+
+ Summary of allocated global arrays
+-----------------------------------
+  No active global arrays
+
+
+MA_summarize_allocated_blocks: starting scan ...
+MA_summarize_allocated_blocks: scan completed: 0 heap blocks, 0 stack blocks
+MA usage statistics:
+
+	allocation statistics:
+					      heap	     stack
+					      ----	     -----
+	current number of blocks	         0	         0
+	maximum number of blocks	        18	        42
+	current total bytes		         0	         0
+	maximum total bytes		   8999728	7731416168
+	maximum total K-bytes		      9000	   7731417
+	maximum total M-bytes		         9	      7732
+
+
+                                     CITATION
+                                     --------
+                Please cite the following reference when publishing
+                           results obtained with NWChem:
+
+          E. Apra, E. J. Bylaska, W. A. de Jong, N. Govind, K. Kowalski,
+       T. P. Straatsma, M. Valiev, H. J. J. van Dam, Y. Alexeev, J. Anchell,
+       V. Anisimov, F. W. Aquino, R. Atta-Fynn, J. Autschbach, N. P. Bauman,
+     J. C. Becca, D. E. Bernholdt, K. Bhaskaran-Nair, S. Bogatko, P. Borowski,
+         J. Boschen, J. Brabec, A. Bruner, E. Cauet, Y. Chen, G. N. Chuev,
+      C. J. Cramer, J. Daily, M. J. O. Deegan, T. H. Dunning Jr., M. Dupuis,
+   K. G. Dyall, G. I. Fann, S. A. Fischer, A. Fonari, H. Fruchtl, L. Gagliardi,
+      J. Garza, N. Gawande, S. Ghosh, K. Glaesemann, A. W. Gotz, J. Hammond,
+       V. Helms, E. D. Hermes, K. Hirao, S. Hirata, M. Jacquelin, L. Jensen,
+   B. G. Johnson, H. Jonsson, R. A. Kendall, M. Klemm, R. Kobayashi, V. Konkov,
+      S. Krishnamoorthy, M. Krishnan, Z. Lin, R. D. Lins, R. J. Littlefield,
+      A. J. Logsdail, K. Lopata, W. Ma, A. V. Marenich, J. Martin del Campo,
+   D. Mejia-Rodriguez, J. E. Moore, J. M. Mullin, T. Nakajima, D. R. Nascimento,
+    J. A. Nichols, P. J. Nichols, J. Nieplocha, A. Otero-de-la-Roza, B. Palmer,
+    A. Panyala, T. Pirojsirikul, B. Peng, R. Peverati, J. Pittner, L. Pollack,
+   R. M. Richard, P. Sadayappan, G. C. Schatz, W. A. Shelton, D. W. Silverstein,
+   D. M. A. Smith, T. A. Soares, D. Song, M. Swart, H. L. Taylor, G. S. Thomas,
+            V. Tipparaju, D. G. Truhlar, K. Tsemekhman, T. Van Voorhis,
+      A. Vazquez-Mayagoitia, P. Verma, O. Villa, A. Vishnu, K. D. Vogiatzis,
+        D. Wang, J. H. Weare, M. J. Williamson, T. L. Windus, K. Wolinski,
+        A. T. Wong, Q. Wu, C. Yang, Q. Yu, M. Zacharias, Z. Zhang, Y. Zhao,
+                                and R. J. Harrison
+                        "NWChem: Past, present, and future
+                         J. Chem. Phys. 152, 184102 (2020)
+                               doi:10.1063/5.0004997
+
+                                      AUTHORS
+                                      -------
+  E. Apra, E. J. Bylaska, N. Govind, K. Kowalski, M. Valiev, D. Mejia-Rodriguez,
+       A. Kunitsa, N. P. Bauman, A. Panyala, W. A. de Jong, T. P. Straatsma,
+   H. J. J. van Dam, D. Wang, T. L. Windus, J. Hammond, J. Autschbach, A. Woods,
+    K. Bhaskaran-Nair, J. Brabec, K. Lopata, S. A. Fischer, S. Krishnamoorthy,
+     M. Jacquelin, W. Ma, M. Klemm, O. Villa, Y. Chen, V. Anisimov, F. Aquino,
+     S. Hirata, M. T. Hackler, E. Hermes, L. Jensen, J. E. Moore, J. C. Becca,
+      V. Konjkov, T. Risthaus, M. Malagoli, A. Marenich, A. Otero-de-la-Roza,
+        J. Mullin, P. Nichols, R. Peverati, J. Pittner, Y. Zhao, P.-D. Fan,
+        A. Fonari, M. J. Williamson, R. J. Harrison, J. R. Rehr, M. Dupuis,
+     D. Silverstein, D. M. A. Smith, J. Nieplocha, V. Tipparaju, M. Krishnan,
+     B. E. Van Kuiken, A. Vazquez-Mayagoitia, M. Swart, Q. Wu, T. Van Voorhis,
+     A. A. Auer, M. Nooijen, L. D. Crosby, E. Brown, G. Cisneros, G. I. Fann,
+   H. Fruchtl, J. Garza, K. Hirao, R. A. Kendall, J. A. Nichols, K. Tsemekhman,
+    K. Wolinski, J. Anchell, D. E. Bernholdt, P. Borowski, T. Clark, D. Clerc,
+   H. Dachsel, M. J. O. Deegan, K. Dyall, D. Elwood, E. Glendening, M. Gutowski,
+   A. C. Hess, J. Jaffe, B. G. Johnson, J. Ju, R. Kobayashi, R. Kutteh, Z. Lin,
+   R. Littlefield, X. Long, B. Meng, T. Nakajima, S. Niu, L. Pollack, M. Rosing,
+   K. Glaesemann, G. Sandrone, M. Stave, H. Taylor, G. Thomas, J. H. van Lenthe,
+                               A. T. Wong, Z. Zhang.
+
+ Total times  cpu:       31.9s     wall:       31.9s
