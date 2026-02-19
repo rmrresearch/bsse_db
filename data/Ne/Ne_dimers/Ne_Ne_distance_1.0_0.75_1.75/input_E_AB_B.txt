@@ -1,0 +1,9 @@
+geometry
+  bqNe 0 0 0
+  Ne 1.0 0.75 1.75
+end
+basis spherical
+  bqNe library Ne aug-cc-pvdz
+  Ne library aug-cc-pvdz
+end
+task ccsd(t) energy

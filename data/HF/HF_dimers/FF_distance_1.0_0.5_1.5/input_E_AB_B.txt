@@ -1,0 +1,13 @@
+geometry
+  bqH 0 0 -0.924
+  bqF 0 0 0
+  F 1.0 0.5 1.5
+  H 1.0 0.5 2.424
+end
+basis spherical
+  bqH library H aug-cc-pvdz
+  bqF library F aug-cc-pvdz
+  F library aug-cc-pvdz
+  H library aug-cc-pvdz
+end
+task ccsd(t) energy

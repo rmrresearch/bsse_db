@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "version": "1.0",
+    "units": { "length": "angstrom", "mass": "amu" }
+  },
+  "elements": {
+    "H": {
+      "Z": 1,
+      "name": "Hydrogen",
+      "mass": { "value": 1.00784, "unit": "amu", "ref_year": 2018 },
+      "vdw_radii": { "value": 1.20, "unit": "angstrom", "ref_year": 2013 },
+      "color": { "cpk": "#FFFFFF" }
+    },
+    "O": {
+      "Z": 8,
+      "name": "Oxygen",
+      "mass": { "value": 15.999, "unit": "amu", "ref_year": 2018 },
+      "vdw_radii": { "value": 1.50, "unit": "angstrom", "ref_year": 2013 },
+      "color": { "cpk": "#FF0D0D" }
+    },
+    "F": {
+      "Z": 9,
+      "name": "Fluorine",
+      "mass": { "value": 18.998, "unit": "amu", "ref_year": 2018 },
+      "vdw_radii": { "value": 1.46, "unit": "angstrom", "ref_year": 2013 },
+      "color": { "cpk": "#90E050" }
+    },
+    "Ne": {
+      "Z": 10,
+      "name": "Neon",
+      "mass": { "value": 20.1797, "unit": "amu", "ref_year": 2018 },
+      "vdw_radii": { "value": 1.58, "unit": "angstrom", "ref_year": 2013 },
+      "color": { "cpk": "#B3E3F5" }
+    }
+  }
+}
+

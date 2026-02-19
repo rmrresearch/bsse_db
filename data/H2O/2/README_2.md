@@ -1,75 +1,166 @@
-# README_2.md  
-## H2O/2 — Folder Contents and Description
+# `2/` — H₂O Dimer Interaction Energy Dataset
 
-This directory contains all computational and structural data for the **H₂O–H₂O dimer study**, including translational scans, rotational–radial scans, and the corresponding 3D coordinate files used for visualization and analysis.
-
-Below is a description of each subfolder and file contained in `H2O/2`.
-
----
-
-## 📁 **Folders**
-
-### **1. `translational/`**  
-Contains computations in which **monomer 2** (specifically the second oxygen atom) is translated with respect to **monomer 1**.  
-These configurations represent **center-of-mass translations** without changing orientation.
+This directory contains the full set of quantum-chemistry calculations used to study
+**water (H₂O) dimers**, with a focus on analyzing **Basis Set Superposition Error (BSSE)**
+as a function of intermolecular geometry. Calculations are performed at the
+CCSD(T)/aug-cc-pVDZ level of theory. Both monomers are treated as **rigid** throughout.
 
 ---
 
-### **2. `rotational_radial/`**  
-Contains computations where **monomer 2 is rotated and placed at a radial distance R from monomer 1**.  
-The relative orientation is defined using **Euler angles**:
+## 1. Configuration and Geometry Parameters
 
-$\alpha,\ \beta,\, \gamma$
+The geometry of the dimer is described in terms of the relative position and
+orientation of two rigid H₂O monomers. Each configuration corresponds to a distinct
+intermolecular arrangement, indexed by an integer label.
 
+### Relative Position Vector
 
-Angles are stored and interpreted in **degree units**.  
-These configurations form the dataset used in the rotational–radial study of the H₂O dimer.
+The translational displacement between monomer 1 and monomer 2 is defined as
 
----
+$$\mathbf{r} = \mathbf{r}_2 - \mathbf{r}_1$$
 
-### **3. `H2O_dimers_xyz/`**  
-Contains all **XYZ coordinate files** used for the translational study.  
-These files can be loaded into PyMOL for visualization of each translational geometry.
+where $\mathbf{r}_1$ and $\mathbf{r}_2$ are the Cartesian coordinates of the
+**oxygen atoms** in monomer 1 and monomer 2, respectively. All coordinates are
+given in **Ångströms**, which is the default unit in the NWChem input files used here.
 
----
-
-### **4. `H2O_dimers_euler_angles_xyz/`**  
-Contains all coordinate files describing configurations characterized by Euler angles:
-
-$(\alpha, \beta, \gamma, R)$
-
-These are the input geometries for the rotational–radial study and can also be visualized in PyMOL.
+Varying $\mathbf{r}$ directly controls the **oxygen–oxygen (O–O) separation**, which
+implicitly also modifies the center-of-mass distance between the monomers.
 
 ---
 
-## 📄 **Files**
+## 2. Translational Configuration Dataset
 
-### **`README_1`**  
-A detailed description of the entire folder structure and the full methodology behind the H₂O dimer study.
+In the translational dataset the **relative orientation of the two monomers is held
+fixed**, and the O–O displacement vector $\mathbf{r} = (x, y, z)$ is varied.
+
+Each configuration is labeled as:
+
+```
+n_x_y_z
+```
+
+where:
+
+- `n` is the configuration index
+- `(x, y, z)` are the Cartesian components (in Ångströms) of the O–O displacement
+  vector $\mathbf{r}$
+
+### Grid structure
+
+The goal of the translational sampling is to construct **2D contour grids** of the
+BSSE as a function of two displacement coordinates, with the third held fixed. This
+gives rise to three families of slices:
+
+- **Fixed x** → contour over (y, z)
+- **Fixed y** → contour over (x, z)
+- **Fixed z** → contour over (x, y)
+
+### Grid completeness
+
+The translational dataset was originally generated without guaranteeing full grid
+coverage for every slice. As a result, most 2D slices are incomplete — not due to
+convergence failures, but because the original sampling did not cover all required
+grid points for a given fixed coordinate. The previous analysis had been producing
+contour plots from these partial grids without flagging them as incomplete.
+
+The only slices with full 7×7 grid coverage (49 points each), and therefore the
+only ones considered for contour analysis, are the **fixed-y** slices at:
+
+- y = 2.0, 2.25, 2.5, 2.75 Å
+
+All other slices — fixed x and fixed z — have incomplete grids and are excluded
+from the contour analysis. A full breakdown of coverage per slice is available by
+running `analyze_trnl_grid_coverage.py` in `data_frames_plots/`.
 
 ---
 
-### **`README_2`**  
-*This file* — a concise summary of the contents of the `H2O/2` directory.
+## 3. Rotational–Radial Configuration Dataset
+
+In the rotational–radial dataset both the **relative orientation** and the
+**intermolecular separation** of the two monomers are varied. Euler angles are
+sampled randomly and the O–O distance R is varied independently.
+
+Each configuration is labeled as:
+
+```
+n_α_β_γ_R
+```
+
+where:
+
+- `n` is the configuration index
+- `(α, β, γ)` are Euler angles in degrees describing the rotation of monomer 2
+  relative to monomer 1
+- `R` is the O–O separation distance in Ångströms
+
+### R-point coverage
+
+Similarly to the translational case, not all rotational orientations have sufficient
+R values to construct a meaningful BSSE-vs-R curve. Orientations with fewer than 5
+distinct R values are excluded from the analysis. Of the 64 unique orientations
+sampled, 32 meet this criterion and are used for plotting. A full breakdown is
+available by running `analyze_rot_coverage.py` in `data_frames_plots/`.
 
 ---
 
-### **`load_h2o_dimers.py`**  
-A Python script used to load all **translational XYZ coordinate files** into PyMOL.  
-Inside PyMOL, run:
+## 4. Directory Structure and Organization
 
-`run load_h2o_dimers.py`
+```
+2/
+├── translational/            # NWChem input/output files — translational scan
+├── rotational_radial/        # NWChem input/output files — rotational/radial scan
+├── translational_pymol_xyz/  # XYZ files extracted from translational inputs
+├── rotational_pymol_xyz/     # XYZ files extracted from rotational inputs
+├── data_frames_plots/        # Parsed CSV data frames, analysis scripts, and plots
+├── load_translational.pml    # PyMOL script to load all translational configurations
+├── load_rotational.pml       # PyMOL script to load all rotational configurations
+└── make_pml.py               # Utility to regenerate the .pml loader files
+```
 
-to automatically load and visualize all geometries.
+### Configuration subdirectories
 
----
+Within `translational/` and `rotational_radial/`, each configuration folder is
+organized as:
 
-### **`load_h2o_dimers_euler_angles.py`**  
-A Python script used to load all **Euler-angle XYZ coordinate files** into PyMOL.  
-Inside PyMOL, run:
+```
+<configuration>/<method>/<basis>/
+```
 
-`run load_h2o_dimers_euler_angles.py`
+where:
 
-to visualize all rotational–radial configurations.
+- `<configuration>` is one of the translational or rotational–radial labels above
+- `<method>` reflects the energy contribution stored by the parser. All calculations
+  are run under a single `CCSD_T/` directory; the NWChem output reports total SCF,
+  MP2, and CCSD(T) energies, which are decomposed during parsing into:
+  - `SCF` — total SCF energy
+  - `MP2` — MP2 correlation energy (relative to SCF)
+  - `CCSD_T` — CCSD(T) correlation component (relative to MP2)
+- `<basis>` is the basis set used (e.g., `aug-cc-pvdz`)
 
----
+Each `<basis>` directory contains the NWChem input (`.nw`) and output (`.out`) files
+for the BSSE components (e.g., `A_A`, `A_AB`, `AB_AB`). Only configurations for which
+**all required energy components converge** are retained for BSSE analysis.
+
+### `data_frames_plots/`
+
+Contains the parsed output data in CSV format, the parser scripts used to extract
+energies from NWChem output files, and potential energy curve plots. See
+`data_frames_plots/README.md` for full usage instructions.
+
+### PyMOL visualization
+
+The `translational_pymol_xyz/` and `rotational_pymol_xyz/` folders contain one XYZ
+file per configuration, extracted from the corresponding `AB_AB.nw` input files.
+To visualize all configurations in PyMOL, run from this directory:
+
+```bash
+pymol load_translational.pml
+# or
+pymol load_rotational.pml
+```
+
+To regenerate the `.pml` loader files if the XYZ folders are updated:
+
+```bash
+python make_pml.py
+```

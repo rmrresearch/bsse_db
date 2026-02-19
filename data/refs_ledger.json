@@ -1,0 +1,24 @@
+{
+  "2024-001": {
+    "year": 2024,
+    "code": "2024-001",
+    "title": "Van der Waals Radii of Free and Bonded Atoms from Hydrogen (Z=1) to Oganesson (Z=118)",
+    "authors": "J. Charry; A. Tkatchenko",
+    "journal": "J. Chem. Theory Comput.",
+    "doi": "10.1021/acs.jctc.4c00784",
+    "scale": "free-atom",
+    "method": "Polarizability-based vdW radius (R ∝ α^{1/7}); recommended free-atom values (converted to Å in radii.json).",
+    "units": "bohr (source); angstrom (converted)"
+  },
+  "1964-001": {
+    "year": 1964,
+    "code": "1964-001",
+    "title": "Van der Waals Volumes and Radii",
+    "authors": "A. Bondi",
+    "journal": "J. Phys. Chem.",
+    "doi": "10.1021/j100785a001",
+    "scale": "contact-derived",
+    "method": "Nonbonded contact-distance additivity (R_A + R_B ≈ d*(A···B)); classic baseline.",
+    "units": "angstrom"
+  }
+}

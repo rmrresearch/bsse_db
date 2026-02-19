@@ -1,0 +1,10 @@
+geometry
+Ne 0.00000000 0.00000000 0.00000000
+Ne 1.0000000000000002 1.7320508075688772 0.00000000
+bqNe 2.0 0.00000000 0.00000000
+end
+basis spherical
+  Ne library aug-cc-pvdz
+  bqNe library Ne aug-cc-pvdz
+end
+task ccsd(t) energy
