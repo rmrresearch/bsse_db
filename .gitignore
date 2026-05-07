@@ -25,3 +25,14 @@ data/H2O/3/
 data/H2O/4/
 data/H2O/H2O_trimers/
 data/H2O/geometry_optimization/
+data/Ne/2/
+data/Ne/Ne_trimers/
+data/Ne/geometry_optimization/
+data/Ne/BSSE_by_Ne_Ne_distance_nwchem.csv
+data/Ne/make_contour_plots.ipynb
+data/Ne/Ne_dimer_energies_pvtz.json
+data/Ne/Ne_tetramer_energies.json
+data/Ne/Ne_tetramer_singlepoint.json
+data/Ne/Ne_trimer_energies.json
+data/Ne/Ne_trimers.tar
+data/Ne/optimal_Ne_tetramer.tar
