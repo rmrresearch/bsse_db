@@ -19,9 +19,9 @@ These folders contain all raw NWChem calculations associated with that system. T
 * `2.tar.gz` → dimers
 * `3.tar.gz` → trimers (if present)
 
-Each archive contains calculations organized by **motion type** and **configuration**.
+#### Dimer Archives (`2.tar.gz`)
 
-#### Motion Types
+Dimer archives are organized by **motion type** and **configuration**:
 
 * `translational/`
   Cartesian translations between monomers.
@@ -29,33 +29,33 @@ Each archive contains calculations organized by **motion type** and **configurat
 * `rotational_radial/`
   Rotational scans defined by Euler angles and an intermolecular separation.
 
-#### Configuration Directories
-
 Configuration folders encode the geometric parameters directly in their names:
 
-* Translational example:
+* Translational example: `0_0.25_0.25_1.5` representing `(config_id, x, y, z)`.
+* Rotational–radial example: `3_0.0_0.0_90.0_2.76` representing `(config_id, α, β, γ, R)`.
 
-  ```
-  0_0.25_0.25_1.5
-  ```
+#### Trimer Archives (`3.tar.gz`)
 
-  representing `(config_id, x, y, z)`.
+Trimer archives have no motion type level. Configurations are organized directly by O-O distance:
 
-* Rotational–radial example:
+```
+3/<config_id>_<distance>/<method>/<basis>/
+```
 
-  ```
-  3_0.0_0.0_90.0_2.76
-  ```
+For example:
+```
+3/0_2.75/CCSD_T/aug-cc-pvdz/
+```
 
-  representing `(config_id, α, β, γ, R)`.
+Configuration folders encode the O-O distance directly in their names, e.g. `0_2.75` representing `(config_id, O-O distance in Angstroms)`.
 
-Within each configuration directory, calculations are further organized as:
+Within each configuration directory, calculations are organized as:
 
 ```
 <configuration>/<method>/<basis>/
 ```
 
-containing the corresponding NWChem input (`.nw`) and output (`.out`) files for the BSSE components (e.g., `A_A`, `A_AB`, `AB_AB`).
+containing the corresponding NWChem output (`.out`) files for the BSSE components (e.g., `A_A`, `A_AB`, `ABC_ABC`).
 
 Only configurations for which **all required methods converge** are retained for BSSE analysis.
 
@@ -63,12 +63,12 @@ Only configurations for which **all required methods converge** are retained for
 
 ### Per-Molecule Documentation
 
-Each molecule directory contains one or more README files (`README_n.md`) that provide **detailed scientific context** for the calculations performed.
+Each molecule directory contains one or more README files that provide **detailed scientific context** for the calculations performed.
 
 For example, in the `H2O/` directory:
 
-* `README_1.md` describes the configuration space, geometry definitions, and how translational and rotational datasets were generated.
-* `README_2.md` summarizes the directory layout and provides utilities or guidance for visualization.
+* `README_H2O.md` describes the configuration space, geometry definitions, and how translational and rotational datasets were generated for the dimers.
+* `3/README.md` summarizes the trimer directory layout, configuration mapping, and provides utilities or guidance for visualization.
 
 These files are the **authoritative reference** for interpreting configuration labels and geometric parameters used by the parsers and stored in the pickled data.
 
@@ -76,18 +76,24 @@ These files are the **authoritative reference** for interpreting configuration l
 
 ### Python Scripts
 
-The `data/` directory also contains Python scripts used to parse, validate, and store the results of the quantum-chemistry calculations:
+The `data/` directory contains Python scripts used to parse, validate, and store the results of the quantum-chemistry calculations. Scripts are named with a trailing `_<cluster_size>` suffix for cluster-specific parsers, making it clear which cluster size they target.
 
 * **`tar_output_discovery.py`**
-  Dynamically locates and streams `.out` files inside compressed `.tar.gz` archives without extracting them to disk.
+  Dynamically locates and streams `.out` files inside compressed `.tar.gz` archives for dimers (cluster size 2) without extracting them to disk.
+
+* **`tar_output_discovery_3.py`**
+  Same as above but for trimers (cluster size 3). Uses non-recursive `glob` instead of `rglob` to avoid picking up nested backup archives inside the molecule folders.
 
 * **`build_raw_data.py`**
-  Parses total SCF, MP2, and CCSD(T) energies from output files, enforces convergence requirements, and constructs the nested `raw_data` dictionary used for BSSE analysis. Non-converged configurations are tracked separately for diagnostic purposes.
+  Parses total SCF, MP2, and CCSD(T) energies from dimer output files, enforces convergence requirements, and constructs the nested `raw_data` dictionary used for BSSE analysis. Non-converged configurations are tracked separately for diagnostic purposes.
+
+* **`build_raw_data_3.py`**
+  Same as above but for trimers (cluster size 3). Adapted to handle the trimer directory structure (no motion type level) and extracts O-O distance as the configuration parameter.
 
 * **`pickle_data.py`**
-  Serializes the converged `raw_data` dictionary into molecule-specific pickle files for fast reuse in later analysis steps.
+  Serializes the converged `raw_data` and `parameters` dictionaries into molecule-specific pickle files for fast reuse in later analysis steps. Supports an optional `cluster` argument to distinguish pickle files by cluster size.
 
-These scripts are designed to be reusable across different molecules and cluster sizes.
+These scripts are designed to be reusable across different molecules. Cluster-specific scripts (e.g., `build_raw_data_3.py`) can be adapted for HF and Ne trimers by changing the molecule argument.
 
 ---
 
@@ -96,16 +102,33 @@ These scripts are designed to be reusable across different molecules and cluster
 After successful parsing, the converged data are saved as pickle files in the `data/` directory:
 
 * **`raw_data_<MOLECULE>.pickle`**
-  Example: `raw_data_H2O.pickle`
+  Example: `raw_data_H2O.pickle` — dimer data for H2O.
 
-These pickle files contain **validated energy and structural information** required to compute **Basis Set Superposition Error (BSSE)** for specific molecular configurations (both translational and rotational).
+* **`raw_data_<MOLECULE>_<CLUSTER>.pickle`**
+  Example: `raw_data_H2O_3.pickle` — trimer data for H2O.
 
-Stored information includes:
+Each pickle file contains a bundle with two keys:
+* `'raw_data'` — the nested energy dictionary
+* `'parameters'` — configuration metadata (distances, angles, etc.)
+
+The `raw_data` dictionary is keyed by:
+```
+raw_data[molecule][cluster][config_key][level_of_theory][basis][real_basis]
+```
+
+Stored energy information includes:
 
 * SCF total energies
-* MP2 correlation energies
-* CCSD(T) correlation components (relative to MP2)
-* Configuration metadata (translation vectors or Euler angles and intermolecular distance)
+* MP2 correlation energies (total MP2 minus total SCF)
+* CCSD(T) correlation components (total CCSD(T) minus total MP2)
+
+The `parameters` dictionary is keyed by:
+```
+parameters[molecule][cluster][config_key] = {
+    'config_label': <full folder name>,
+    'params': <dict of geometric parameters>
+}
+```
 
 Only **fully converged configurations** are included. Any configuration with missing or non-converged calculations is excluded to ensure that all BSSE computations are consistent and physically meaningful.
 

@@ -18,10 +18,10 @@ __pycache__
 **/*.DS_Store
 input.txt
 **/scratch.ipynb
+**/.vscode/
 examples/example.py
-data/H2O/2
-data/H2O/H2O_trimers/
-data/H2O/geometry_optimization/
 data/H2O/2/
+data/H2O/3/
+data/H2O/4/
 data/H2O/H2O_trimers/
 data/H2O/geometry_optimization/

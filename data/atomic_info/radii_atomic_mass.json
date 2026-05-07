@@ -1,7 +1,0 @@
-{
-  "units": "angstrom, Atomic Mass [u]",
-   "H": {"value":1.67,  "vdw_ref": "2024-001", "atomic_weight": 1.00784},
-   "O": {"value":1.71,  "vdw_ref": "2024-001", "atomic_weight": 15.99903},
-   "F": {"value":1.63,  "vdw_ref": "2024-001", "atomic_weight": 18.99840 },
-   "Ne":{"value":1.55,  "vdw_ref": "2024-001", "atomic_weight": 20.17976}
-}
