@@ -1,0 +1,15 @@
+start HF_dimer_2
+memory 16 gb
+geometry
+  H 0 0 -0.924
+  F 0 0 0
+  bqH 0.0 0.0 1.576
+  bqF 0.0 0.0 2.5
+end
+basis spherical
+  H library aug-cc-pvtz
+  F library aug-cc-pvtz
+  bqH library H aug-cc-pvtz
+  bqF library F aug-cc-pvtz
+end
+task ccsd(t) energy
