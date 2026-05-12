@@ -1,35 +1,18 @@
 """
-three_body_bsse.py
-==================
-Trimer analogue of two_body_bsse.py.
+three_body_bsse.py  (generalized)
+==================================
+Trimer analogue of two_body_bsse.py. Handles H2O, Ne, and HF trimers
+via --mol CLI argument.
 
-Reads many_body_interactions_H2O_3.pickle and computes BSSE quantities
-for both FORM(I) and FORM(II).
-
-Lives in data/ alongside two_body_bsse.py, as per the PI's convention.
+Reads:   data/many_body_interactions_{molecule}_3.pickle
+Writes:  data/three_body_bsse_{molecule}.pickle
 
 Key differences from two_body_bsse.py
 --------------------------------------
-1. No `motion` level — trimer configurations are just numbered (0, 1, 2, ...)
-   Dimer nesting : [mol][cluster][motion][config][method][basis]
-   Trimer nesting: [mol][cluster][config][method][basis]
-
+1. No `motion` level — trimer configurations are numbered (0, 1, 2, ...)
 2. Two-body terms have three pairs (AB, AC, BC) instead of one scalar.
-   Each pair stores: no_vmfc, vmfc, bsse
-
 3. Three-body term is a single scalar per config/method/basis.
-   Stores: no_vmfc, vmfc, bsse
-
-4. FORM(II) delta terms — 12 individual basis-sharing contributions
-   organized in 3 physical groups:
-       1b_in_2b  : A_in_AB, B_in_AB, A_in_AC, C_in_AC, B_in_BC, C_in_BC
-       1b_in_3b  : A_in_ABC, B_in_ABC, C_in_ABC
-       2b_in_3b  : AB_in_ABC, AC_in_ABC, BC_in_ABC
-
-   Signs in total BSSE:
-       1b_in_2b  → positive  (ghost functions inflate interaction)
-       1b_in_3b  → negative  (correction for overcounting)
-       2b_in_3b  → positive  (dimer gains trimer ghost functions)
+4. FORM(II) delta terms — 12 individual basis-sharing contributions.
 
 Output dictionary structure
 ----------------------------
@@ -50,13 +33,13 @@ result[mol][cluster][config][method][basis] = {
 
     # FORM(II) — 12 individual delta terms (raw positive differences)
     'delta_terms': {
-        # 1-body in 2-body basis (positive contribution to BSSE)
+        # 1-body in 2-body basis (positive in BSSE sum)
         'A_in_AB': float, 'B_in_AB': float,
         'A_in_AC': float, 'C_in_AC': float,
         'B_in_BC': float, 'C_in_BC': float,
-        # 1-body in 3-body basis (negative contribution to BSSE)
+        # 1-body in 3-body basis (negative in BSSE sum)
         'A_in_ABC': float, 'B_in_ABC': float, 'C_in_ABC': float,
-        # 2-body in 3-body basis (positive contribution to BSSE)
+        # 2-body in 3-body basis (positive in BSSE sum)
         'AB_in_ABC': float, 'AC_in_ABC': float, 'BC_in_ABC': float,
     },
 
@@ -66,17 +49,14 @@ result[mol][cluster][config][method][basis] = {
 
 Usage
 -----
-From data/ or any script that adds data/ to sys.path:
-
-    from three_body_bsse import threebody_bsse
-    result = threebody_bsse(pickle_file, 'H2O')
-
-    # Access example
-    entry = result['H2O']['3']['0']['CCSD_T']['aug-cc-pvdz']
-    print(entry['total_bsse'])
-    print(entry['delta_terms']['AB_in_ABC'])
+    python three_body_bsse.py --mol Ne
+    python three_body_bsse.py --mol HF
+    python three_body_bsse.py --mol H2O
 """
 
+import pickle
+import argparse
+from pathlib import Path
 from open_pickle_data import open_pickle
 
 
@@ -97,9 +77,9 @@ def threebody_bsse(pickle_file, molecule):
     Parameters
     ----------
     pickle_file : str or Path
-        Path to many_body_interactions_H2O_3.pickle
+        Path to many_body_interactions_{molecule}_3.pickle
     molecule : str
-        e.g. 'H2O'
+        e.g. 'Ne', 'HF', 'H2O'
 
     Returns
     -------
@@ -108,28 +88,26 @@ def threebody_bsse(pickle_file, molecule):
     """
     raw_data = open_pickle(pickle_file)
 
-    # Pull the four FORM(I) quantities and the 12 delta terms
     two_b_no   = raw_data['2b_no_vmfc']
     two_b_vf   = raw_data['2b_vmfc']
     three_b_no = raw_data['3b_no_vmfc']
     three_b_vf = raw_data['3b_vmfc']
     deltas     = raw_data['bsse_delta_terms']
 
-    three_body_bsse = {molecule: {}}
+    result = {molecule: {}}
 
     for cluster in two_b_no[molecule]:
-        three_body_bsse[molecule][cluster] = {}
+        result[molecule][cluster] = {}
 
-        # No motion loop — trimer has no rot/trnl distinction
-        for config in two_b_no[molecule][cluster]:
-            three_body_bsse[molecule][cluster][config] = {}
+        for config in sorted(two_b_no[molecule][cluster], key=int):
+            result[molecule][cluster][config] = {}
 
             for method in two_b_no[molecule][cluster][config]:
-                three_body_bsse[molecule][cluster][config][method] = {}
+                result[molecule][cluster][config][method] = {}
 
                 for basis in two_b_no[molecule][cluster][config][method]:
 
-                    # ---- FORM(I) two-body terms per pair ----------------
+                    # FORM(I) two-body terms per pair
                     two_b = {}
                     for pair in ('AB', 'AC', 'BC'):
                         no_v = two_b_no[molecule][cluster][config][method][basis][pair]
@@ -140,7 +118,7 @@ def threebody_bsse(pickle_file, molecule):
                             'bsse'   : no_v - vf,
                         }
 
-                    # ---- FORM(I) three-body term ------------------------
+                    # FORM(I) three-body term
                     no_v3 = three_b_no[molecule][cluster][config][method][basis]
                     vf3   = three_b_vf [molecule][cluster][config][method][basis]
                     three_b = {
@@ -149,25 +127,24 @@ def threebody_bsse(pickle_file, molecule):
                         'bsse'   : no_v3 - vf3,
                     }
 
-                    # ---- FORM(I) total BSSE -----------------------------
+                    # FORM(I) total BSSE
                     total_bsse_f1 = (
-                        two_b['AB']['bsse']
-                      + two_b['AC']['bsse']
-                      + two_b['BC']['bsse']
-                      + three_b['bsse']
+                          two_b['AB']['bsse']
+                        + two_b['AC']['bsse']
+                        + two_b['BC']['bsse']
+                        + three_b['bsse']
                     )
 
-                    # ---- FORM(II) delta terms ---------------------------
+                    # FORM(II) delta terms
                     delta_entry = deltas[molecule][cluster][config][method][basis]
 
-                    # Recover total BSSE from signed sum of delta terms
                     total_bsse_f2 = sum(
                         DELTA_SIGNS[key] * val
                         for key, val in delta_entry.items()
                     )
 
-                    # ---- Store everything -------------------------------
-                    three_body_bsse[molecule][cluster][config][method][basis] = {
+                    # Store everything
+                    result[molecule][cluster][config][method][basis] = {
                         '2b'              : two_b,
                         '3b'              : three_b,
                         'total_bsse'      : total_bsse_f1,
@@ -175,4 +152,77 @@ def threebody_bsse(pickle_file, molecule):
                         'total_bsse_form2': total_bsse_f2,
                     }
 
-    return three_body_bsse
+    return result
+
+
+def print_summary(result, molecule, params_pickle=None):
+    """
+    Print a compact summary table of total BSSE per config at CCSD_T level.
+
+    Parameters
+    ----------
+    result       : the nested BSSE result dict
+    molecule     : e.g. 'Ne', 'HF', 'H2O'
+    params_pickle: path to raw_data_{molecule}_3.pickle (to get real distances).
+                   If None, falls back to showing config index.
+    """
+    # Load distance lookup from parameters pickle if provided
+    dist_map = {}
+    if params_pickle is not None:
+        stored = open_pickle(params_pickle)
+        params = stored.get('parameters', {})
+        for cfg_key, cfg_data in params.get(molecule, {}).get('3', {}).items():
+            dist_map[cfg_key] = cfg_data['params']['distance']
+
+    print()
+    print(f"{'='*65}")
+    print(f"  {molecule} Trimer BSSE Summary")
+    print(f"{'='*65}")
+    print(f"  {'Config':<8}  {'R (Å)':<10}  {'BSSE CCSD(T) (Ha)':>20}  {'BSSE (µHa)':>12}")
+    print(f"  {'-'*8}  {'-'*10}  {'-'*20}  {'-'*12}")
+
+    cluster = '3'
+    configs = sorted(result[molecule][cluster], key=int)
+    for cfg in configs:
+        methods = list(result[molecule][cluster][cfg].keys())
+        method  = 'CCSD_T' if 'CCSD_T' in methods else methods[0]
+        bases   = list(result[molecule][cluster][cfg][method].keys())
+        basis   = bases[0]
+
+        entry    = result[molecule][cluster][cfg][method][basis]
+        bsse     = entry['total_bsse']
+        dist_str = f"{dist_map[cfg]:.4f}" if cfg in dist_map else cfg
+        print(f"  {cfg:<8}  {dist_str:<10}  {bsse:>20.10f}  {bsse*1e6:>12.4f}")
+
+    print(f"{'='*65}")
+    print()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Compute three-body BSSE for trimer configurations."
+    )
+    parser.add_argument(
+        "--mol",
+        type=str,
+        required=True,
+        choices=["H2O", "Ne", "HF"],
+        help="Molecule name: H2O, Ne, or HF",
+    )
+    args = parser.parse_args()
+    molecule = args.mol
+
+    here        = Path(__file__).resolve().parent
+    pickle_file = here / f'many_body_interactions_{molecule}_3.pickle'
+    out_file    = here / f'three_body_bsse_{molecule}.pickle'
+
+    print(f'Reading : {pickle_file}')
+    result = threebody_bsse(pickle_file, molecule)
+
+    print(f'Writing : {out_file}')
+    with open(out_file, 'wb') as fh:
+        pickle.dump(result, fh)
+    print('Done.')
+
+    params_pickle = here / f'raw_data_{molecule}_3.pickle'
+    print_summary(result, molecule, params_pickle=params_pickle)
