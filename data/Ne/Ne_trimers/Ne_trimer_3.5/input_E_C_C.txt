@@ -1,7 +1,0 @@
-geometry
-Ne 3.5 0.00000000 0.00000000
-end
-basis spherical
-  Ne library aug-cc-pvdz
-end
-task ccsd(t) energy

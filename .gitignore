@@ -36,3 +36,7 @@ data/Ne/Ne_tetramer_singlepoint.json
 data/Ne/Ne_trimer_energies.json
 data/Ne/Ne_trimers.tar
 data/Ne/optimal_Ne_tetramer.tar
+data/HF/2/
+data/HF/3/
+data/Ne/3/
+data/HF/Ne_trimer_4_misplaced/
