@@ -1,8 +1,8 @@
 """
 four_body_bsse.py
 ------------------
-Reads many_body_interactions_H2O_4.pickle and raw_data_H2O_4.pickle and
-computes the BSSE decomposition for the H2O tetramer.
+Reads many_body_interactions_{molecule}_4.pickle and raw_data_{molecule}_4.pickle
+and computes the BSSE decomposition for the Ne or HF tetramer.
 
 FORM(I) — grouped by interaction order (PI's convention)
 ---------------------------------------------------------
@@ -11,7 +11,7 @@ FORM(I) — grouped by interaction order (PI's convention)
     4b_bsse      = 4b_no_vmfc      - 4b_vmfc
     total_bsse   = Σ 2b_bsse + Σ 3b_bsse + 4b_bsse
 
-FORM(II) — 50 individual delta terms (your contribution)
+FORM(II) — 50 individual delta terms
 ---------------------------------------------------------
 Each term: delta[X_in_Y] = E(X|Y) - E(X|X)
 Sign rule: (-1)^(|Y| - |X| + 1)
@@ -39,12 +39,22 @@ result[mol][cluster][config][method][basis] = {
     'total_bsse_form2': float,          # FORM(II) signed sum
 }
 
+Molecule-specific notes
+-----------------------
+    Ne  : B_B = C_C = D_D = A_A was injected at the build_raw_data stage.
+          No special handling needed here — all 65 keys are present.
+
+    HF  : All four monomers are independent. No special handling needed.
+
 Usage
 -----
-    python3 four_body_bsse.py
+    python3 four_body_bsse.py --mol Ne
+    python3 four_body_bsse.py --mol HF
+    # produces data/four_body_bsse_{mol}_4.pickle
 """
 
 import pickle
+import argparse
 from pathlib import Path
 from itertools import combinations
 
@@ -93,7 +103,7 @@ def compute_delta_terms(e):
 
     # --- 1b-in-2b (12 terms, sign +) ---
     for ij in PAIRS:
-        for i in ij:                         # each monomer in the pair
+        for i in ij:
             deltas[f'{i}_in_{ij}'] = e(f'{i}_{ij}') - e(f'{i}_{i}')
 
     # --- 1b-in-3b (12 terms, sign -) ---
@@ -104,7 +114,7 @@ def compute_delta_terms(e):
     # --- 2b-in-3b (12 terms, sign +) ---
     for ijk in TRIMERS:
         for r in range(len(ijk)):
-            for s in range(r+1, len(ijk)):
+            for s in range(r + 1, len(ijk)):
                 ij = ijk[r] + ijk[s]
                 deltas[f'{ij}_in_{ijk}'] = e(f'{ij}_{ijk}') - e(f'{ij}_{ij}')
 
@@ -150,7 +160,7 @@ def bsse_form2(deltas, pairs, trimers):
     # 2b-in-3b (+)
     for ijk in trimers:
         for r in range(len(ijk)):
-            for s in range(r+1, len(ijk)):
+            for s in range(r + 1, len(ijk)):
                 ij = ijk[r] + ijk[s]
                 total += deltas[f'{ij}_in_{ijk}']
 
@@ -203,8 +213,9 @@ def build_bsse(molecule, cluster='4', config='0',
                 return total_energy(_d, _m, _b, key)
 
             # --- FORM(I) ---
-            two_b = {}
+            two_b      = {}
             total_bsse = 0.0
+
             for ij in PAIRS:
                 bsse_ij = mb['2b'][ij]['no_vmfc'] - mb['2b'][ij]['vmfc']
                 two_b[ij] = {
@@ -233,11 +244,12 @@ def build_bsse(molecule, cluster='4', config='0',
             total_bsse += bsse_4b
 
             # --- FORM(II) ---
-            deltas         = compute_delta_terms(e)
-            total_form2    = bsse_form2(deltas, PAIRS, TRIMERS)
+            deltas      = compute_delta_terms(e)
+            total_form2 = bsse_form2(deltas, PAIRS, TRIMERS)
 
             # --- Consistency check ---
             diff = abs(total_bsse - total_form2)
+            status = '✅' if diff < 1e-10 else f'⚠️  MISMATCH'
             if diff > 1e-10:
                 print(f'WARNING: FORM(I) vs FORM(II) mismatch '
                       f'({method}/{basis}): |diff| = {diff:.2e} Ha')
@@ -264,31 +276,55 @@ def build_bsse(molecule, cluster='4', config='0',
 # ---------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    molecule = 'H2O'
+    parser = argparse.ArgumentParser(
+        description='Compute tetramer BSSE decomposition for Ne or HF'
+    )
+    parser.add_argument(
+        '--mol', required=True, choices=['Ne', 'HF'],
+        help='Molecule: Ne or HF'
+    )
+    args = parser.parse_args()
+
+    molecule = args.mol
     cluster  = '4'
     config   = '0'
     here     = Path(__file__).resolve().parent
 
-    print('Computing tetramer BSSE decomposition...\n')
+    print(f'Computing {molecule} tetramer BSSE decomposition...\n')
     result = build_bsse(molecule, cluster, config)
 
     basis = 'aug-cc-pvdz'
     for method in ['SCF', 'MP2', 'CCSD_T']:
         d = result[molecule][cluster][config][method][basis]
         print(f'--- {method} ---')
+
+        # FORM(I) — per-pair, per-triple, per-4b
         for ij in PAIRS:
-            print(f"  2b_bsse({ij})  = {d['2b'][ij]['bsse']:+.6f} Ha")
+            print(f"  2b_bsse({ij})  = {d['2b'][ij]['bsse']:+.6e} Ha")
         for ijk in TRIMERS:
-            print(f"  3b_bsse({ijk}) = {d['3b'][ijk]['bsse']:+.6f} Ha")
-        print(f"  4b_bsse       = {d['4b']['bsse']:+.6f} Ha")
-        print(f"  total_bsse    = {d['total_bsse']:+.6f} Ha  [FORM I]")
-        print(f"  total_form2   = {d['total_bsse_form2']:+.6f} Ha  [FORM II]")
+            print(f"  3b_bsse({ijk}) = {d['3b'][ijk]['bsse']:+.6e} Ha")
+        print(f"  4b_bsse       = {d['4b']['bsse']:+.6e} Ha")
+
+        # FORM(I) total vs FORM(II) total
+        print(f"  total_bsse    = {d['total_bsse']:+.6e} Ha  [FORM I]")
+        print(f"  total_form2   = {d['total_bsse_form2']:+.6e} Ha  [FORM II]")
         diff = abs(d['total_bsse'] - d['total_bsse_form2'])
         print(f"  |FORM I - FORM II| = {diff:.2e} Ha  "
-              f"{'✅' if diff < 1e-10 else '⚠️ MISMATCH'}\n")
+              f"{'✅' if diff < 1e-10 else '⚠️  MISMATCH'}\n")
+
+    # --- Body-order scaling summary ---
+    print('--- Body-order scaling summary ---')
+    for method in ['SCF', 'MP2', 'CCSD_T']:
+        d = result[molecule][cluster][config][method][basis]
+        sum_2b = sum(d['2b'][ij]['bsse'] for ij in PAIRS)
+        sum_3b = sum(d['3b'][ijk]['bsse'] for ijk in TRIMERS)
+        bsse_4b = d['4b']['bsse']
+        total   = d['total_bsse']
+        print(f'  {method}:  Σ2b={sum_2b:+.4e}  Σ3b={sum_3b:+.4e}'
+              f'  4b={bsse_4b:+.4e}  total={total:+.4e} Ha')
 
     # --- Pickle ---
     out_path = here / f'four_body_bsse_{molecule}_{cluster}.pickle'
     with open(out_path, 'wb') as f:
         pickle.dump(result, f)
-    print(f'Pickled to: {out_path}')
+    print(f'\nPickled to: {out_path}')

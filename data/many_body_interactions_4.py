@@ -1,8 +1,8 @@
 """
 many_body_interactions_4.py
 ----------------------------
-Reads raw_data_H2O_4.pickle and computes the many-body interaction energies
-for the H2O tetramer using the VMFC (Valiron-Mayer) scheme.
+Reads raw_data_{molecule}_4.pickle and computes the many-body interaction
+energies for the Ne or HF tetramer using the VMFC (Valiron-Mayer) scheme.
 
 Interaction terms computed
 --------------------------
@@ -57,18 +57,28 @@ Formulas (Valiron & Mayer 1997, PI task list Issue #46)
 
 Notation: E(X|Y) means fragment X computed in basis Y, i.e. file key X_Y.
 
+Molecule-specific notes
+-----------------------
+    Ne  : B_B = C_C = D_D = A_A was injected at the build_raw_data stage.
+          No special handling needed here — all 65 keys are present.
+
+    HF  : All four monomers are independent. No special handling needed.
+
 Usage
 -----
-    python3 many_body_interactions_4.py
+    python3 many_body_interactions_4.py --mol Ne
+    python3 many_body_interactions_4.py --mol HF
+    # produces data/many_body_interactions_{mol}_4.pickle
 """
 
 import pickle
+import argparse
 from pathlib import Path
 from itertools import combinations
 
 
 # ---------------------------------------------------------------------------
-# Topology
+# Topology — same for Ne and HF
 # ---------------------------------------------------------------------------
 
 MONOMERS = ['A', 'B', 'C', 'D']
@@ -215,7 +225,7 @@ def build_interactions(molecule, cluster='4', config='0',
             def e(key, _d=d_cfg, _m=method, _b=basis):
                 return total_energy(_d, _m, _b, key)
 
-            two_b  = compute_2b(e, PAIRS)
+            two_b   = compute_2b(e, PAIRS)
             three_b = compute_3b(e, TRIMERS)
             four_b  = compute_4b(e, PAIRS, TRIMERS)
 
@@ -233,13 +243,26 @@ def build_interactions(molecule, cluster='4', config='0',
     return result
 
 
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
+
 if __name__ == '__main__':
-    molecule = 'H2O'
+    parser = argparse.ArgumentParser(
+        description='Compute many-body interactions for Ne or HF tetramer'
+    )
+    parser.add_argument(
+        '--mol', required=True, choices=['Ne', 'HF'],
+        help='Molecule: Ne or HF'
+    )
+    args = parser.parse_args()
+
+    molecule = args.mol
     cluster  = '4'
     config   = '0'
     here     = Path(__file__).resolve().parent
 
-    print('Computing many-body interactions...')
+    print(f'Computing {molecule} tetramer many-body interactions...')
     result = build_interactions(molecule, cluster, config)
 
     # --- Sample checks ---
@@ -248,13 +271,23 @@ if __name__ == '__main__':
         d = result[molecule][cluster][config][method][basis]
         print(f'\n{method}:')
         for pair in PAIRS:
-            print(f"  2b_{pair}  no_vmfc={d['2b'][pair]['no_vmfc']:.6f}"
-                  f"  vmfc={d['2b'][pair]['vmfc']:.6f}")
+            print(f"  2b_{pair}  no_vmfc={d['2b'][pair]['no_vmfc']:+.6e}"
+                  f"  vmfc={d['2b'][pair]['vmfc']:+.6e}")
         for tri in TRIMERS:
-            print(f"  3b_{tri} no_vmfc={d['3b'][tri]['no_vmfc']:.6f}"
-                  f"  vmfc={d['3b'][tri]['vmfc']:.6f}")
-        print(f"  4b       no_vmfc={d['4b']['no_vmfc']:.6f}"
-              f"  vmfc={d['4b']['vmfc']:.6f}")
+            print(f"  3b_{tri} no_vmfc={d['3b'][tri]['no_vmfc']:+.6e}"
+                  f"  vmfc={d['3b'][tri]['vmfc']:+.6e}")
+        print(f"  4b       no_vmfc={d['4b']['no_vmfc']:+.6e}"
+              f"  vmfc={d['4b']['vmfc']:+.6e}")
+
+    # --- Sanity check for Ne: all 2b pairs should be equal (identical monomers) ---
+    if molecule == 'Ne':
+        print('\nNe symmetry check — all 2b pairs should be equal:')
+        for method in ['SCF', 'MP2', 'CCSD_T']:
+            d = result[molecule][cluster][config][method][basis]
+            vals = [d['2b'][p]['vmfc'] for p in PAIRS]
+            spread = max(vals) - min(vals)
+            status = '✅' if spread < 1e-10 else f'⚠️  spread={spread:.2e}'
+            print(f'  {method}: max spread across pairs = {spread:.2e}  {status}')
 
     # --- Pickle ---
     out_path = here / f'many_body_interactions_{molecule}_{cluster}.pickle'
