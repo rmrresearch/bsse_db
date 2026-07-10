@@ -21,6 +21,7 @@ input.txt
 **/.vscode/
 examples/example.py
 data/H2O/2/
+data/H2O/2_new/
 data/H2O/3/
 data/H2O/4/
 data/H2O/H2O_trimers/
@@ -37,6 +38,7 @@ data/Ne/Ne_trimer_energies.json
 data/Ne/Ne_trimers.tar
 data/Ne/optimal_Ne_tetramer.tar
 data/HF/2/
+data/HF/2_new/
 data/HF/3/
 data/Ne/3/
 data/HF/Ne_trimer_4_misplaced/
